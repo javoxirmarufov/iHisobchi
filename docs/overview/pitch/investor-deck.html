@@ -1,0 +1,493 @@
+<title>iHisobchi — презентация для инвесторов</title>
+<style>
+:root{
+  --ground:#EEF2F0; --slide:#FFFFFF; --raised:#E4EAE7;
+  --ink:#0E1512; --muted:#55635D; --faint:#8A9791;
+  --rule:#CFD8D3;
+  --seal:#A32E3C; --seal-bg:#F6E7E9;
+  --verd:#17635A; --verd-bg:#DEEDE9;
+  --amber:#8A5A0C; --amber-bg:#F6EBD6;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#080D0B; --slide:#0F1614; --raised:#161F1C;
+    --ink:#E9EFEB; --muted:#93A29B; --faint:#6B7873;
+    --rule:#212C28;
+    --seal:#E4919A; --seal-bg:#2B1519;
+    --verd:#5FC4AE; --verd-bg:#0E2723;
+    --amber:#DFB157; --amber-bg:#2A2113;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#080D0B; --slide:#0F1614; --raised:#161F1C;
+  --ink:#E9EFEB; --muted:#93A29B; --faint:#6B7873;
+  --rule:#212C28;
+  --seal:#E4919A; --seal-bg:#2B1519;
+  --verd:#5FC4AE; --verd-bg:#0E2723;
+  --amber:#DFB157; --amber-bg:#2A2113;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.deck{scroll-snap-type:y proximity}
+.s{scroll-snap-align:start;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:64px 26px 80px;position:relative;border-bottom:1px solid var(--rule)}
+@media (min-width:900px){.s{padding:72px 72px 88px}}
+.in{max-width:1080px;margin:0 auto;width:100%}
+.no{position:absolute;top:26px;right:26px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  color:var(--faint)}
+@media (min-width:900px){.no{top:34px;right:40px}}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--seal);margin-bottom:18px}
+h1{font-family:var(--serif);font-size:clamp(40px,7.6vw,78px);line-height:1.02;margin:0 0 20px;
+  font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+h2{font-family:var(--serif);font-size:clamp(28px,4.6vw,46px);line-height:1.1;margin:0 0 22px;
+  font-weight:600;letter-spacing:-.015em;text-wrap:balance;max-width:20ch}
+h2.wide{max-width:26ch}
+.lede{font-size:clamp(18px,2.2vw,22px);color:var(--muted);max-width:58ch;margin:0 0 34px;line-height:1.5}
+.lede strong{color:var(--ink);font-weight:650}
+p{margin:0 0 14px;max-width:62ch}
+strong{font-weight:670}
+.kicker{font-size:clamp(19px,2.5vw,25px);line-height:1.4;max-width:42ch;font-weight:500}
+.kicker em{font-style:normal;color:var(--seal);font-weight:670}
+
+/* сетки */
+.g{display:grid;gap:16px}
+.g2{grid-template-columns:1fr}
+.g3{grid-template-columns:1fr}
+.g4{grid-template-columns:repeat(2,1fr)}
+@media (min-width:720px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}}
+
+.card{background:var(--slide);border:1px solid var(--rule);padding:20px 22px}
+.card h3{margin:0 0 8px;font-size:16px;font-weight:680;letter-spacing:-.005em}
+.card p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.5}
+.card.accent{border-left:3px solid var(--seal)}
+.card.good{border-left:3px solid var(--verd)}
+.card.warn{border-left:3px solid var(--amber)}
+
+/* числа */
+.stat{background:var(--slide);border:1px solid var(--rule);padding:20px 22px}
+.stat .n{font-family:var(--mono);font-size:clamp(28px,4.2vw,40px);font-weight:600;line-height:1;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;display:block;margin-bottom:9px}
+.stat .l{font-size:13.5px;color:var(--muted);line-height:1.4;display:block}
+.stat.hero .n{color:var(--seal)}
+.stat.good .n{color:var(--verd)}
+
+/* список-фактов */
+ul.f{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:13px}
+ul.f li{padding-left:26px;position:relative;max-width:62ch;font-size:16.5px}
+ul.f li::before{content:"";position:absolute;left:0;top:.62em;width:12px;height:1.5px;background:var(--seal)}
+ul.f li strong{color:var(--ink)}
+
+table{border-collapse:collapse;width:100%;font-size:14.5px;background:var(--slide);
+  font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto;border:1px solid var(--rule)}
+th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--faint);font-weight:600;padding:11px 14px;border-bottom:1px solid var(--rule);
+  background:var(--raised);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);white-space:nowrap;font-weight:600}
+
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;padding:3px 8px;font-weight:600;white-space:nowrap}
+.tag.live{color:var(--verd);background:var(--verd-bg)}
+.tag.next{color:var(--seal);background:var(--seal-bg)}
+.tag.warn{color:var(--amber);background:var(--amber-bg)}
+.tag.todo{color:var(--faint);background:var(--raised)}
+
+/* схема «до/после» */
+.flow{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:840px){.flow{grid-template-columns:1fr auto 1fr;align-items:center}}
+.stack{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:var(--mono);font-size:11.5px;padding:6px 10px;border:1px solid var(--rule);
+  background:var(--slide);color:var(--muted)}
+.arrow{font-family:var(--mono);color:var(--seal);font-size:24px;text-align:center;font-weight:600}
+.one{background:var(--slide);border:1px solid var(--seal);padding:18px 20px}
+.one .t{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--seal);margin-bottom:9px}
+
+.note{font-size:13.5px;color:var(--faint);max-width:70ch;margin-top:26px;line-height:1.5}
+.note a{color:var(--muted)}
+a{color:var(--seal);text-underline-offset:2px}
+a:focus-visible{outline:2px solid var(--seal);outline-offset:3px}
+.hr{height:1px;background:var(--rule);margin:28px 0;border:0}
+.fill{background:var(--amber-bg);border:1px dashed var(--amber);padding:16px 18px;font-size:14.5px;
+  color:var(--ink)}
+.fill b{color:var(--amber)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.s{min-height:auto;page-break-after:always;border:0}}
+</style>
+
+<div class="deck">
+
+<!-- 1 -->
+<section class="s"><span class="no">01</span><div class="in">
+  <div class="eyebrow">Презентация для инвесторов · август 2026</div>
+  <h1>iHisobchi</h1>
+  <p class="lede"><strong>Операционная система бизнеса Узбекистана.</strong> Документы, сделки,
+  деньги, склад, кадры и налоговая — в одном контуре, которым управляет ИИ, знающий этот бизнес.</p>
+  <div class="g g4">
+    <div class="stat hero"><span class="n">73 103</span><span class="l">документа проведено</span></div>
+    <div class="stat hero"><span class="n">85 875</span><span class="l">сделок в движке</span></div>
+    <div class="stat hero"><span class="n">252</span><span class="l">модуля бизнес-логики</span></div>
+    <div class="stat hero"><span class="n">18</span><span class="l">поверхностей продукта</span></div>
+  </div>
+</div></section>
+
+<!-- 2 -->
+<section class="s"><span class="no">02</span><div class="in">
+  <div class="eyebrow">Проблема</div>
+  <h2>Чтобы прожить один рабочий день, бизнес заходит в девять систем</h2>
+  <div class="flow">
+    <div>
+      <div class="stack">
+        <span class="chip">Didox — ЭДО</span><span class="chip">E-IMZO — подпись</span>
+        <span class="chip">my.soliq.uz — налоговая</span><span class="chip">Клиент-банк</span>
+        <span class="chip">1С / МойСклад</span><span class="chip">AmoCRM / Bitrix</span>
+        <span class="chip">Кабинет кассы</span><span class="chip">Excel</span>
+        <span class="chip">Телефон бухгалтеру</span>
+      </div>
+      <p class="note" style="margin-top:16px">Ни одна из них не знает о существовании остальных.
+      Связующее звено — человек: он переносит одни и те же данные по три-четыре раза.</p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="one">
+      <div class="t">И всё это устроено как запрет</div>
+      <p style="margin:0;font-size:15px">Жёсткие формы, фиксированные сценарии, никакой автономности,
+      никакого ИИ. Программа не помогает — она требует, чтобы человек подстроился под неё.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 3 -->
+<section class="s"><span class="no">03</span><div class="in">
+  <div class="eyebrow">Цена проблемы</div>
+  <h2 class="wide">Дело не в потерянных часах. Дело в трёх дырах, через которые уходят деньги</h2>
+  <div class="g g3">
+    <div class="card accent"><h3>Незакрытые сделки</h3><p>Договор подписан, товар отгружен, акт закрыт —
+    оплаты нет. Никто не заметил, потому что никто не сводит договоры с выпиской. Через год это
+    дебиторка, которую уже не собрать.</p></div>
+    <div class="card accent"><h3>Слепота владельца</h3><p>Учредитель видит бизнес раз в квартал, в отчёте
+    из терминов, которые он не обязан понимать. К моменту, когда дивиденды оказались меньше
+    ожидаемых, разбираться поздно.</p></div>
+    <div class="card accent"><h3>Паника в момент риска</h3><p>Пришло требование от налоговой. Владелец не
+    знает, насколько это серьёзно, к кому идти и сколько это стоит. Первая же аутсорсинговая фирма
+    может назвать любую цифру.</p></div>
+  </div>
+  <div class="hr"></div>
+  <p class="kicker">В нашей же базе прямо сейчас <em>388,9 млрд сум</em> подтверждённых, но
+  неоплаченных обязательств — у 60 из 80 организаций.</p>
+</div></section>
+
+<!-- 4 -->
+<section class="s"><span class="no">04</span><div class="in">
+  <div class="eyebrow">Почему сейчас</div>
+  <h2>Три катализатора, которые совпали</h2>
+  <div class="g g3">
+    <div class="card good"><h3>Государство обязало</h3><p>Счёт-фактуры, ТТН, акты и договоры — только
+    электронно, через ЭДО и с подписью E-IMZO. Цифровизация не выбор бизнеса, а требование закона:
+    рынок оцифрован принудительно и целиком.</p></div>
+    <div class="card good"><h3>Открытый банкинг — до 01.09.2026</h3><p>ПП-359 обязывает внедрить
+    стандартизированный доступ к банковским данным. Сегодня публичного банковского API в стране нет
+    ни у кого. Через месяц правила меняются для всех сразу.</p></div>
+    <div class="card good"><h3>Коммерция взорвалась</h3><p>Электронная торговля выросла <strong>в 22 раза
+    за пять лет</strong>; число торговых площадок — с 36 до 115 за два года. Спрос на автоматизацию
+    создан рынком, а не нашей рекламой.</p></div>
+  </div>
+  <p class="note">Источники: <a href="https://lex.uz/ru/docs/7864260" target="_blank" rel="noopener">ПП-359 от 27.11.2025</a> ·
+  <a href="https://daryo.uz/ru/2026/03/22/uzbekistan-elektronnaya-kommerciya-marketplejs/" target="_blank" rel="noopener">Daryo</a> ·
+  <a href="https://buxgalter.uz/publish/doc/text171838_kak_opredelitsya_s_operatorom_esf_sravnitelnaya_tablica" target="_blank" rel="noopener">BUXGALTER.UZ</a></p>
+</div></section>
+
+<!-- 5 -->
+<section class="s"><span class="no">05</span><div class="in">
+  <div class="eyebrow">Решение</div>
+  <h2>Мы не одиннадцатый инструмент. Мы слой, который связывает десять</h2>
+  <p class="lede">Где-то интегрируемся с тем, чем клиент уже пользуется — 1С, МойСклад, AmoCRM,
+  Bitrix24, его касса, его банк. Где-то заменяем это своим модулем. Но всегда так, чтобы у бизнеса
+  была <strong>одна точка входа и одна картина мира</strong>.</p>
+  <div class="g g3">
+    <div class="card"><h3>Уровень инструмента</h3><p>Счёт-фактура за 2 минуты вместо 40 на портале.
+    Голосом, с телефона, с электронной подписью.</p></div>
+    <div class="card"><h3>Уровень контура</h3><p>Документ не живёт сам по себе — он часть сделки.
+    Система видит всю цепочку и говорит владельцу, чей сейчас ход.</p></div>
+    <div class="card accent"><h3>Уровень оркестратора</h3><p>Оплата сама закрывает сделку, чек кассы сам
+    ложится в учёт, письмо налоговой само приходит в мессенджер.</p></div>
+  </div>
+</div></section>
+
+<!-- 6 -->
+<section class="s"><span class="no">06</span><div class="in">
+  <div class="eyebrow">Что построено</div>
+  <h2>Поверхность продукта, которую обычно строит команда 40–60 инженеров</h2>
+  <div class="g g4">
+    <div class="stat"><span class="n">252</span><span class="l">модуля бизнес-логики</span></div>
+    <div class="stat"><span class="n">18</span><span class="l">поверхностей: боты, приложение, витрины, API</span></div>
+    <div class="stat"><span class="n">24</span><span class="l">типа документов государственного ЭДО</span></div>
+    <div class="stat"><span class="n">67</span><span class="l">способностей, доступных ИИ-агенту</span></div>
+    <div class="stat"><span class="n">126</span><span class="l">экранов веб-приложения</span></div>
+    <div class="stat"><span class="n">236</span><span class="l">миграций базы, 195 таблиц в проде</span></div>
+    <div class="stat"><span class="n">~824k</span><span class="l">строк кода без тестов</span></div>
+    <div class="stat"><span class="n">~439k</span><span class="l">строк тестового кода</span></div>
+  </div>
+  <div class="hr"></div>
+  <p class="kicker">Полный контур ЭДО Узбекистана, ИИ-агент, живой голос, интеграции с 1С, МойСклад,
+  AmoCRM, Bitrix24, кассами, банком и налоговой, маркетплейс с документами и
+  <em>«Пульс бизнеса»</em> — всё это уже работает у клиентов.</p>
+</div></section>
+
+<!-- 7 -->
+<section class="s"><span class="no">07</span><div class="in">
+  <div class="eyebrow">Защита позиции</div>
+  <h2>Три вещи, которые не закрыть интеграциями</h2>
+  <p class="lede">Возражение «мы соединим свои программы интеграциями» не работает: эти свойства
+  возникают только тогда, когда данные <strong>с самого начала живут в одном контуре</strong>.</p>
+  <ul class="f">
+    <li><strong>Сделка целиком.</strong> Договор, оплата, доверенность, счёт-фактура, акт и накладная —
+    одна сущность с состоянием и ответом «чей сейчас ход». Интеграция передаёт записи, а не смысл.
+    У нас 85 875 сделок, из них <strong>73 % закрыты</strong>.</li>
+    <li><strong>Владелец видит правду.</strong> Детектор двойных платежей, дробления сумм и оборота без
+    документов работает только потому, что видит одновременно деньги, документы, склад и кассу.
+    Ни одна отдельная программа этого не видит.</li>
+    <li><strong>ИИ, который знает бизнес.</strong> «Выстави Артели счёт на то же, что в прошлый раз, но по
+    новой цене» — ассистент, подключённый к одной программе из семи, такого ответа не построит.</li>
+  </ul>
+  <div class="hr"></div>
+  <p class="note">Скопировать любой модуль по отдельности можно. Скопировать связку — значит построить
+  всю платформу.</p>
+</div></section>
+
+<!-- 8 -->
+<section class="s"><span class="no">08</span><div class="in">
+  <div class="eyebrow">Главная ставка</div>
+  <h2>Владелец разговаривает. Бизнес работает</h2>
+  <p class="lede">Не голосовой ввод и не команды ассистенту. <strong>Управляющий</strong> — ИИ, который
+  знает товары и цены этой компании, её контрагентов и их платёжную дисциплину, её склад, долги и
+  обязательства.</p>
+  <div class="g g2">
+    <div class="card"><h3>Почему это возможно только у нас</h3><p>Голос стоит не поверх продукта, а внутри
+    его ядра: он вызывает те же проверенные операции, что и кнопки интерфейса. Каждая новая функция
+    продукта сразу становится голосовой — мы не пишем её дважды.</p></div>
+    <div class="card accent"><h3>Куда это идёт</h3><p><strong>99 % операционной работы делает агент.
+    1 % — там, где нужно решение человека — он приносит владельцу.</strong> Пришла оплата → счёт-фактура
+    сформирована, подписана, отправлена, сделка закрыта. Владелец видит квитанцию, а не вопрос.</p></div>
+  </div>
+  <div class="hr"></div>
+  <p class="kicker">Тридцать лет управление бизнесом уменьшало количество кликов. Мы убираем
+  <em>необходимость знать, куда кликать</em>.</p>
+</div></section>
+
+<!-- 9 -->
+<section class="s"><span class="no">09</span><div class="in">
+  <div class="eyebrow">Чего нет ни у кого</div>
+  <h2>Функции, аналогов которым на рынке мы не нашли</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Что</th><th>Почему этого нет у других</th><th>Статус</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Официальная рассылка коммерческих предложений</strong></td>
+      <td>У операторов ЭДО документ отправляется по одному вручную. У нас — до 20 000 получателей одним
+      действием, каждому отдельный подписанный документ в его рабочий кабинет</td><td><span class="tag live">в проде</span></td></tr>
+      <tr><td><strong>Голосовой оркестратор</strong></td><td>Исполняет операции разговором, а не ищет раздел меню</td>
+      <td><span class="tag live">в проде</span></td></tr>
+      <tr><td><strong>«Пульс бизнеса»</strong></td><td>Рентген компании для владельца, включая операции,
+      которые от него прячут</td><td><span class="tag live">в проде</span></td></tr>
+      <tr><td><strong>Подпись 24/7 без своего ПК</strong></td><td>Свой сервер одной командой или
+      изолированная ячейка. Обычно подпись возможна только за одним компьютером</td><td><span class="tag live">в проде</span></td></tr>
+      <tr><td><strong>Маркетплейс, где заказ становится документами</strong></td><td>У всех заказ кончается
+      корзиной, у нас — подписанной счёт-фактурой</td><td><span class="tag live">бета</span></td></tr>
+      <tr><td><strong>Живой эфир, из которого выходит сделка</strong></td><td>Живая торговля есть у многих;
+      заканчивающаяся договором и счётом — ни у кого</td><td><span class="tag next">строим</span></td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- 10 -->
+<section class="s"><span class="no">10</span><div class="in">
+  <div class="eyebrow">Тракшн — честно</div>
+  <h2>Инфраструктура доказана. Дистрибуция — следующая задача</h2>
+  <div class="g g2">
+    <div>
+      <p style="margin-bottom:14px"><strong style="color:var(--verd)">Что доказано</strong></p>
+      <div class="g g2" style="gap:12px">
+        <div class="stat good"><span class="n">73 103</span><span class="l">документа прошло через систему</span></div>
+        <div class="stat good"><span class="n">73 %</span><span class="l">сделок закрывается</span></div>
+        <div class="stat good"><span class="n">96 217</span><span class="l">входящих документов в зеркале</span></div>
+        <div class="stat good"><span class="n">10 522</span><span class="l">контрагента в графе</span></div>
+      </div>
+    </div>
+    <div>
+      <p style="margin-bottom:14px"><strong style="color:var(--amber)">Что не доказано</strong></p>
+      <div class="g g2" style="gap:12px">
+        <div class="stat"><span class="n">80</span><span class="l">организаций всего</span></div>
+        <div class="stat"><span class="n">57</span><span class="l">создавали документы за 30 дней</span></div>
+        <div class="stat"><span class="n">19</span><span class="l">пользователей за последнюю неделю</span></div>
+        <div class="stat"><span class="n">0</span><span class="l">выручки: платёжного контура ещё нет</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hr"></div>
+  <p class="kicker">Мы говорим это первыми, потому что это и есть <em>предмет инвестиции</em>:
+  продукт построен, деньги нужны на то, чтобы им начали пользоваться.</p>
+</div></section>
+
+<!-- 11 -->
+<section class="s"><span class="no">11</span><div class="in">
+  <div class="eyebrow">Бизнес-модель</div>
+  <h2>Восемь источников — и ни одного процента со сделки</h2>
+  <p class="lede">Мы не берём комиссию с оборота, не держим деньги клиента и потому не имеем конфликта
+  интересов. Зарабатываем на том, что <strong>сами делаем для клиента</strong>.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Источник</th><th>Модель</th><th>Состояние</th></tr></thead>
+    <tbody>
+      <tr><td>Подписка</td><td class="num">250 / 490 / 990 тыс. сум в месяц</td><td><span class="tag warn">нужен биллинг</span></td></tr>
+      <tr><td>Продвижение в маркетплейсе</td><td>Оплата за тысячу показов</td><td><span class="tag next">строим</span></td></tr>
+      <tr><td>Кабинет бухгалтерской фирмы</td><td>Плата за обслуживаемого клиента</td><td><span class="tag next">основа есть</span></td></tr>
+      <tr><td>Справка о деловой активности</td><td>Плата за выдачу — по решению самого бизнеса</td><td><span class="tag next">данные есть</span></td></tr>
+      <tr><td>Корпоративный контур</td><td>Аренда сервера или установка у клиента, цена по проекту</td><td><span class="tag next">возможен</span></td></tr>
+      <tr><td>Склад и фулфилмент</td><td>Хранение, обработка товара, отгрузка</td><td><span class="tag todo">горизонт</span></td></tr>
+      <tr><td>Биржи услуг: бухгалтеры и брокеры</td><td>Платит партнёр, получающий клиента</td><td><span class="tag todo">горизонт</span></td></tr>
+      <tr><td>Внедрение и партнёрская сеть</td><td>Запуск «под ключ», сертификация интеграторов</td><td><span class="tag next">можно начинать</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><strong>Три из восьми не требуют новой разработки</strong> — кабинет бухгалтерской фирмы,
+  справка и внедрение опираются на то, что уже построено и уже лежит в базе.</p>
+</div></section>
+
+<!-- 12 -->
+<section class="s"><span class="no">12</span><div class="in">
+  <div class="eyebrow">Рынок</div>
+  <h2>Более 1,2 млн субъектов малого предпринимательства — и все обязаны вести ЭДО</h2>
+  <div class="g g4">
+    <div class="stat hero"><span class="n">1,2 млн+</span><span class="l">субъектов малого предпринимательства в стране</span></div>
+    <div class="stat hero"><span class="n">×22</span><span class="l">рост электронной коммерции за пять лет</span></div>
+    <div class="stat hero"><span class="n">115</span><span class="l">торговых площадок против 36 два года назад</span></div>
+    <div class="stat hero"><span class="n">80</span><span class="l">наших организаций сегодня</span></div>
+  </div>
+  <div class="hr"></div>
+  <p class="kicker">Доля рынка, которую мы занимаем, измеряется <em>сотыми долями процента</em>.
+  Это не слабость позиции — это размер незанятого поля.</p>
+  <p class="note">Источник по числу субъектов: <a href="https://stat.uz/ru/press-tsentr/novosti-goskomstata/68102-zbekistonda-1-2-mlndan-orti-kichik-tadbirkorlik-subektlari-faoliyat-yuritmo-da-3" target="_blank" rel="noopener">Агентство статистики РУз, 01.04.2026</a>.
+  Категории статистики не совпадают с нашими сегментами — цифра приведена как рамка рынка, а не как расчёт TAM.</p>
+</div></section>
+
+<!-- 13 -->
+<section class="s"><span class="no">13</span><div class="in">
+  <div class="eyebrow">Конкуренция</div>
+  <h2>Рынок плотный по частям и пустой по целому</h2>
+  <div class="g g2">
+    <div class="card"><h3>15 операторов ЭДО</h3><p>Soliqservis, Faktura.uz, Didox, E-docs, L-Factura и ещё
+    десять. Все решают одну задачу — доставить документ. Никто не занимается тем, что происходит
+    <strong>вокруг</strong> него. Мы работаем поверх этого слоя и с ними не конкурируем.</p></div>
+    <div class="card"><h3>15+ программ учёта и торговли</h3><p>BILLZ, SmartUp, МойСклад, Bito ERP, Regos,
+    HIPPO и другие. Каждая закрывает свой участок: касса, склад, CRM, закупки.</p></div>
+  </div>
+  <div class="hr"></div>
+  <p class="kicker">Решения, объединяющего <em>ЭДО + склад + CRM + банк + налоговую</em> в одном контуре,
+  на рынке нет. Мы конкурируем не с программой, а со сборкой из семи-девяти программ.</p>
+</div></section>
+
+<!-- 14 -->
+<section class="s"><span class="no">14</span><div class="in">
+  <div class="eyebrow">Ближайшие катализаторы</div>
+  <h2>Что превращает построенное в выручку</h2>
+  <div class="g g2">
+    <div class="card accent"><h3>Автосчёт-фактура по оплате</h3><p>Оплата пришла ночью → счёт-фактура
+    выставлена, подписана и отправлена сама. Каждый кирпич уже работает — новое здесь только правило
+    запуска и разрешение владельца.</p></div>
+    <div class="card accent"><h3>Кабинет бухгалтерской фирмы</h3><p>Один аутсорсер приводит сорок компаний
+    по собственной воле. Сильнейший канал роста, не являющийся рекламой.</p></div>
+    <div class="card accent"><h3>Живой эфир и видео в маркетплейсе</h3><p>Конверсия прямых эфиров 9–30 %
+    против 2–3 % у обычной карточки. Здесь же — первая настоящая выручка площадки.</p></div>
+    <div class="card accent"><h3>Открытый банкинг</h3><p>С 01.09.2026 доступ к банковским данным
+    стандартизируется. Слой абстракции провайдера закладывается заранее.</p></div>
+  </div>
+  <div class="hr"></div>
+  <p class="kicker">Дальше — <em>физический контур</em>: умный склад, растаможка через биржу брокеров и
+  доставка день в день. Платформа выходит за пределы документов и берёт на себя сам товар.</p>
+</div></section>
+
+<!-- 15 -->
+<section class="s"><span class="no">15</span><div class="in">
+  <div class="eyebrow">Как это построено</div>
+  <h2>Платформа масштаба крупной компании, собранная с ИИ</h2>
+  <p class="lede">Объём, который обычно требует 40–60 инженеров и пары лет, построен практически в
+  одиночку — с ИИ как основным инструментом разработки. Это не курьёз, а <strong>структурное
+  преимущество по стоимости и скорости</strong>.</p>
+  <div class="g g3">
+    <div class="card good"><h3>Инженерная дисциплина</h3><p>Предохранители на девяти внешних API,
+    идемпотентность подписи, 108 выключателей функций, ночная проверка секретов, зависимостей и
+    образов.</p></div>
+    <div class="card good"><h3>Проверяемая документация</h3><p>Обзор на 4 000 строк, где каждое число
+    сверяется с кодом автоматически. Новый человек входит в продукт за день, а не за квартал.</p></div>
+    <div class="card warn"><h3>Риск концентрации — признаём</h3><p>Ключевая зависимость от одного
+    человека. Снимается наймом на инвестиционные деньги; документация и тесты сделаны так, чтобы
+    передача была возможной.</p></div>
+  </div>
+</div></section>
+
+<!-- 16 -->
+<section class="s"><span class="no">16</span><div class="in">
+  <div class="eyebrow">Риски</div>
+  <h2>Что может пойти не так — и что мы с этим делаем</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Риск</th><th>Что делаем</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Пользователи не приходят.</strong> Продукт широк, аудитория ранняя</td>
+      <td>Приоритет №1 — не новые модули, а доведение до регулярной работы: путь до первого документа,
+      подключение денег, платное внедрение</td></tr>
+      <tr><td><strong>Нечем собирать деньги.</strong> Платёжного контура нет</td>
+      <td>Первая задача коммерческой части; тарифы определены, интерфейс готов</td></tr>
+      <tr><td><strong>Зависимость от Didox и государственных систем</strong></td>
+      <td>Предохранители и спасение работы на путях отказа уже в проде; роуминг между операторами
+      снижает привязку</td></tr>
+      <tr><td><strong>Юридический контур не закрыт.</strong> Вычитка по закону о персональных данных не завершена</td>
+      <td>Открытые вопросы перечислены поимённо в документации; вычитка — обязательный шаг до широкого запуска</td></tr>
+      <tr><td><strong>Гипотезы могут не сработать</strong> (маркетплейс, склад)</td>
+      <td>У рискованных направлений заданы стоп-условия: не набрало к контрольной дате — замораживаем и
+      возвращаем людей в ядро</td></tr>
+      <tr><td><strong>Концентрация на одном человеке</strong></td>
+      <td>Наём и передача знаний — первая статья расходов инвестиции</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- 17 -->
+<section class="s"><span class="no">17</span><div class="in">
+  <div class="eyebrow">Инвестиция</div>
+  <h2>Что мы просим и на что это пойдёт</h2>
+  <div class="fill">
+    <b>Заполнить перед показом инвестору:</b> сумма раунда, оценка, доля, горизонт до следующего
+    раунда, состав команды сегодня. Эти цифры — решение основателя, и я намеренно не подставлял их
+    сам.
+  </div>
+  <div class="hr"></div>
+  <p style="margin-bottom:16px"><strong>Куда идут деньги — исходя из того, что показывают приборы:</strong></p>
+  <div class="g g3">
+    <div class="card"><h3>Дистрибуция и внедрение</h3><p>Полевая команда, которая доводит клиента до
+    регулярной работы. Узкое место — здесь, а не в разработке.</p></div>
+    <div class="card"><h3>Команда разработки</h3><p>Снятие зависимости от одного человека; параллельная
+    работа над коммерческим контуром и катализаторами.</p></div>
+    <div class="card"><h3>Коммерческий контур</h3><p>Биллинг, тарифы, кабинет бухгалтерской фирмы,
+    продвижение в маркетплейсе — то, что превращает продукт в выручку.</p></div>
+  </div>
+</div></section>
+
+<!-- 18 -->
+<section class="s"><span class="no">18</span><div class="in">
+  <div class="eyebrow">Итог</div>
+  <h1 style="font-size:clamp(30px,5.4vw,56px)">Мы строим не бухгалтерскую программу.<br>Мы строим среду,
+  в которой бизнес Узбекистана работает сам</h1>
+  <p class="lede" style="margin-top:26px">Товар продан → документы оформились сами → деньги пришли и
+  разнеслись сами → сделка закрылась сама → отчёт собрался и сдан. Владельцу остаётся смотреть,
+  проверять и принимать решения — то, ради чего он бизнес и открывал.</p>
+  <div class="hr"></div>
+  <p class="note">Полный обзор продукта — 10 документов, 4 000 строк, каждое число сверяется с кодом
+  автоматически: <code>docs/overview/</code>. Данные на 14 августа 2026.</p>
+</div></section>
+
+</div>

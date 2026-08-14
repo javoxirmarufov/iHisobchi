@@ -1,0 +1,27 @@
+target-version = "py312"
+line-length = 120
+
+# Excluded from BOTH lint and format:
+#  - admin-agent/  : separately released Windows E-IMZO desktop app (PyInstaller);
+#                    "не трогать admin-agent/" without on-hardware testing.
+#  - alembic/versions/ : applied migrations are write-once historical records —
+#                    never edit them (incl. whitespace) per the migration rules.
+#  - docs/analysis/  : архив исследований — одноразовые мерилки и референсные
+#                    прототипы, приложенные к планам как доказательство цифр.
+#                    Их ценность в том, что они В ТОЧНОСТИ те, на которых
+#                    получен результат; ruff --fix переписал бы их (сортировка
+#                    импортов, удаление «неиспользуемых») и сломал бы это
+#                    свойство. Не импортируются продакшн-кодом.
+extend-exclude = ["admin-agent", "alembic/versions", "docs/analysis"]
+
+[lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[lint.per-file-ignores]
+"tests/*" = ["E402"]
+"alembic/*" = ["E402"]
+"conftest.py" = ["E402"]
+
+[format]
+quote-style = "double"

@@ -1,0 +1,98 @@
+name: CI
+
+# DISABLED 2026-07-10 via `gh workflow disable`: GitHub-hosted billing is
+# blocked. Keep only manual dispatch here until billing returns; active PR/main
+# guards now live in ci-selfhosted.yml.
+#
+# ──────────────────────────────────────────────────────────────────────────
+# LEGACY GitHub-hosted lightweight gate. It is retained for manual diagnostics
+# only while self-hosted CI is the source of truth.
+#
+# The full expensive suite (lint, pytest, Docker build, Trivy, Playwright,
+# Cypress, Lighthouse, migration round-trip) lives in `ci-heavy.yml` and runs
+# ONLY on manual dispatch. Trigger it before a real prod deploy:
+#     gh workflow run ci-heavy.yml --ref <branch>
+#   or  Actions tab → "CI (heavy — manual)" → Run workflow.
+#
+# Day-to-day correctness is gated LOCALLY, for free, before the code ever
+# leaves your machine:
+#     • pre-commit hooks (ruff, ruff-format, bandit, gitleaks, detect-secrets)
+#       run on every `git commit`  →  `pre-commit install` once.
+#     • `make ci` (ruff + pytest)  →  run before `git push`.
+#
+# Rationale: the repo is private and GitHub-hosted billing is blocked, so the
+# automatic gates moved to self-hosted workflows.
+# ──────────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+  # Auto triggers intentionally disabled until GitHub-hosted billing returns.
+  # pull_request:
+  #   branches: [main]
+  #   paths-ignore:
+  #     - "**.md"
+  #     - "docs/**"
+  #     - "docs/plans/**"
+  #     - "LICENSE"
+
+# A new push to the same ref cancels the previous still-running checks, so we
+# never pay for stale runs when you push twice in a row.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  docs-migration-head:
+    # CI-4 — fail if the migration head documented in CLAUDE.md / AGENTS.md drifts
+    # from the real Alembic head. Pure shell, ~8s, no Python/pip install.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Compare documented migration head vs Alembic head
+        run: scripts/check_migration_head_doc.sh
+
+  secret-scan:
+    # gitleaks — the one check we keep cloud-side even though pre-commit also
+    # runs it locally, because a committed secret is irreversible (history
+    # rewrite + key rotation). Cheap (~10s) and worth the backstop.
+    #
+    # Needs `pull-requests: read` so the action can list the PR's commits;
+    # without it the action dies with a 403 "Resource not accessible by
+    # integration" (that was the old red — NOT a real leak). Comments disabled
+    # so we never need write scope.
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: "false"
+          GITLEAKS_ENABLE_SUMMARY: "false"
+
+  i18n-parity:
+    # spine S6 i18n regression wall. Two stdlib-only guards (no pip install,
+    # ~5s total) gate the catalogs so they never drift back out of parity:
+    #   1. scripts/i18n_check.py        — ru/uz key-set parity (bot + mini-app).
+    #   2. scripts/i18n_used_keys.py --check — fails on any NEW t('foo.bar') the
+    #      code references but ru.json doesn't define, vs the committed baseline
+    #      scripts/i18n_missing_baseline.json (so the known pre-existing gap is
+    #      allow-listed and only true regressions go red).
+    # Both run under `make i18n-check`, the same target `make ci` invokes
+    # locally — single source of truth for the command.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: i18n parity + used-key guard
+        run: make i18n-check

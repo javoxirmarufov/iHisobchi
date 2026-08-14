@@ -1,0 +1,25 @@
+# Секреты — никогда
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+
+# ОС и редакторы
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

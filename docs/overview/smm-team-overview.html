@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iHisobchi — Обзор для SMM-команды</title>
+<style>
+:root{
+  --ground:#EEF2F0; --slide:#FFFFFF; --raised:#E4EAE7;
+  --ink:#0E1512; --muted:#55635D; --faint:#8A9791;
+  --rule:#CFD8D3;
+  --seal:#A32E3C; --seal-bg:#F6E7E9;
+  --verd:#17635A; --verd-bg:#DEEDE9;
+  --amber:#8A5A0C; --amber-bg:#F6EBD6;
+  --cyan:#0D7377; --cyan-bg:#E0F7F5;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#080D0B; --slide:#0F1614; --raised:#161F1C;
+    --ink:#E9EFEB; --muted:#93A29B; --faint:#6B7873;
+    --rule:#212C28;
+    --seal:#E4919A; --seal-bg:#2B1519;
+    --verd:#5FC4AE; --verd-bg:#0E2723;
+    --amber:#DFB157; --amber-bg:#2A2113;
+    --cyan:#5FD4D8; --cyan-bg:#0E2A2B;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#080D0B; --slide:#0F1614; --raised:#161F1C;
+  --ink:#E9EFEB; --muted:#93A29B; --faint:#6B7873;
+  --rule:#212C28;
+  --seal:#E4919A; --seal-bg:#2B1519;
+  --verd:#5FC4AE; --verd-bg:#0E2723;
+  --amber:#DFB157; --amber-bg:#2A2113;
+  --cyan:#5FD4D8; --cyan-bg:#0E2A2B;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.deck{scroll-snap-type:y proximity}
+.s{scroll-snap-align:start;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:64px 26px 80px;position:relative;border-bottom:1px solid var(--rule)}
+@media (min-width:900px){.s{padding:72px 72px 88px}}
+.in{max-width:1080px;margin:0 auto;width:100%}
+.no{position:absolute;top:26px;right:26px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  color:var(--faint)}
+@media (min-width:900px){.no{top:34px;right:40px}}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--seal);margin-bottom:18px}
+h1{font-family:var(--serif);font-size:clamp(36px,6.5vw,68px);line-height:1.05;margin:0 0 20px;
+  font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+h2{font-family:var(--serif);font-size:clamp(26px,4.2vw,42px);line-height:1.12;margin:0 0 22px;
+  font-weight:600;letter-spacing:-.015em;text-wrap:balance;max-width:22ch}
+.lede{font-size:clamp(17px,2.1vw,21px);color:var(--muted);max-width:58ch;margin:0 0 28px;line-height:1.5}
+.lede strong{color:var(--ink);font-weight:650}
+p{margin:0 0 14px;max-width:62ch}
+strong{font-weight:670}
+.g{display:grid;gap:16px}
+.g2{grid-template-columns:1fr}
+.g3{grid-template-columns:1fr}
+.g4{grid-template-columns:repeat(2,1fr)}
+@media (min-width:720px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}}
+.card{background:var(--slide);border:1px solid var(--rule);padding:20px 22px;border-radius:4px}
+.card h3{margin:0 0 8px;font-size:16px;font-weight:680;letter-spacing:-.005em}
+.card p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.5}
+.card.accent{border-left:3px solid var(--seal)}
+.card.good{border-left:3px solid var(--verd)}
+.card.cyan{border-left:3px solid var(--cyan)}
+.stat{background:var(--slide);border:1px solid var(--rule);padding:18px 20px;border-radius:4px}
+.stat .n{font-family:var(--mono);font-size:clamp(26px,3.8vw,36px);font-weight:600;line-height:1;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;display:block;margin-bottom:8px}
+.stat .l{font-size:13px;color:var(--muted);line-height:1.35;display:block}
+.stat.hero .n{color:var(--seal)}
+.stat.good .n{color:var(--verd)}
+.stat.cyan .n{color:var(--cyan)}
+ul.f{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+ul.f li{padding-left:24px;position:relative;max-width:62ch;font-size:16px}
+ul.f li::before{content:"";position:absolute;left:0;top:.62em;width:12px;height:1.5px;background:var(--seal)}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;padding:3px 8px;font-weight:600;white-space:nowrap;border-radius:3px}
+.tag.live{color:var(--verd);background:var(--verd-bg)}
+.tag.next{color:var(--seal);background:var(--seal-bg)}
+.flow{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:840px){.flow{grid-template-columns:1fr auto 1fr;align-items:center}}
+.stack{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:var(--mono);font-size:11.5px;padding:6px 10px;border:1px solid var(--rule);
+  background:var(--slide);color:var(--muted);border-radius:3px}
+.arrow{font-family:var(--mono);color:var(--seal);font-size:24px;text-align:center;font-weight:600}
+.one{background:var(--slide);border:1px solid var(--seal);padding:18px 20px;border-radius:4px}
+.one .t{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--seal);margin-bottom:9px}
+.note{font-size:13.5px;color:var(--faint);max-width:70ch;margin-top:22px;line-height:1.5}
+a{color:var(--seal);text-underline-offset:2px}
+.hr{height:1px;background:var(--rule);margin:26px 0;border:0}
+pre{background:var(--raised);border:1px solid var(--rule);padding:16px 18px;overflow-x:auto;
+  font-family:var(--mono);font-size:13px;line-height:1.45;border-radius:4px;color:var(--ink)}
+.hook{font-size:15.5px;padding:10px 14px;background:var(--raised);border-left:3px solid var(--cyan);
+  margin-bottom:8px;border-radius:0 4px 4px 0}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.s{min-height:auto;page-break-after:always;border:0}}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 01 Hero -->
+<section class="s"><span class="no">01</span><div class="in">
+  <div class="eyebrow">Обзор для SMM-команды · август 2026</div>
+  <h1>iHisobchi</h1>
+  <p class="lede"><strong>Бизнес, который слушает.</strong> Говори — и он работает.<br>
+  Один контур вместо 7–9 программ. Документы, сделки, деньги, склад, налоговая, кадры и маркетплейс — под управлением ИИ-агента, который знает именно ваш бизнес.</p>
+  <div class="g g4">
+    <div class="stat hero"><span class="n">73k+</span><span class="l">документов</span></div>
+    <div class="stat hero"><span class="n">85k+</span><span class="l">сделок (73% закрыты)</span></div>
+    <div class="stat good"><span class="n">18</span><span class="l">точек входа</span></div>
+    <div class="stat cyan"><span class="n">250+</span><span class="l">модулей</span></div>
+  </div>
+  <p class="note" style="margin-top:28px">Live: <a href="https://t.me/ihisobchi_bot" target="_blank">@ihisobchi_bot</a> · <a href="https://app.ihisobchi.uz" target="_blank">app.ihisobchi.uz</a></p>
+</div></section>
+
+<!-- 02 Problem Solution -->
+<section class="s"><span class="no">02</span><div class="in">
+  <div class="eyebrow">Проблема → Решение</div>
+  <h2>От хаоса 7–9 программ к одному оркестратору</h2>
+  <div class="flow">
+    <div>
+      <div class="stack">
+        <span class="chip">Didox</span><span class="chip">E-IMZO</span><span class="chip">Клиент-банк</span>
+        <span class="chip">1С / МойСклад</span><span class="chip">Excel</span><span class="chip">my.soliq.uz</span>
+        <span class="chip">Telegram</span>
+      </div>
+      <p class="note" style="margin-top:14px">Человек = интеграция. Данные копируются 3–4 раза → ошибки, забытые оплаты, слепота владельца.</p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="one">
+      <div class="t">С iHisobchi</div>
+      <p style="margin:0;font-size:15px">Документ за 30–120 секунд (голос / фото / Smart Paste). Сразу часть сделки. Система сама говорит «чей ход». Пульс на человеческом языке. Письма налоговой в Telegram с AI-объяснением.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 03 Personas -->
+<section class="s"><span class="no">03</span><div class="in">
+  <div class="eyebrow">Целевая аудитория</div>
+  <h2>Для кого мы супер-полезны</h2>
+  <div class="g g2">
+    <div class="card good"><h3>ИП / микробизнес (~600k)</h3><p>Бухгалтер в кармане. Счёт-фактура голосом с телефона. Без ПК и без бухгалтера.</p></div>
+    <div class="card good"><h3>Малый бизнес / ООО (~200k)</h3><p>Освобождение бухгалтера от рутины. Автодокументы, автосверка, автоприём.</p></div>
+    <div class="card cyan"><h3>Мультибизнесмен</h3><p>Все компании в одном приложении. Одна лента событий, переключение в один тап.</p></div>
+    <div class="card cyan"><h3>Учредитель / инвестор</h3><p>Пульс бизнеса: рентген без бухгалтерского жаргона + «требуют внимания».</p></div>
+    <div class="card accent"><h3>Оптовик / производитель (~50k)</h3><p>Массовые СФ + уникальная рассылка КП через ЭДО (до 20k получателей).</p></div>
+    <div class="card accent"><h3>Розница + касса / Бухфирмы</h3><p>Чеки ОНК в учёте. Мультиклиентский кабинет (один агент на 40+ клиентов).</p></div>
+  </div>
+</div></section>
+
+<!-- 04 Fishki -->
+<section class="s"><span class="no">04</span><div class="in">
+  <div class="eyebrow">Killer Features</div>
+  <h2>Главные фишки для промо</h2>
+  <div class="g g2">
+    <div class="card accent"><h3>🎤 Голосовой ИИ-оркестратор</h3><p>Главная ставка. «Выстави Артели счёт на те же ноутбуки по новой цене» → делает. HITL: ИИ предлагает, человек подтверждает.</p></div>
+    <div class="card accent"><h3>🔗 Движок сделок</h3><p>85k+ сделок, 73% закрыты. Автоматически собирает цепочку и показывает «чей сейчас ход».</p></div>
+    <div class="card good"><h3>❤️ Пульс бизнеса</h3><p>Одна кнопка — рентген владельца + детектор аномалий (двойные платежи, дробление, оборот без документов).</p></div>
+    <div class="card good"><h3>📢 Массовая рассылка КП через ЭДО</h3><p>Уникально на рынке. До 20 000 получателей. КП приходит как юридический документ.</p></div>
+    <div class="card cyan"><h3>✍️ 4 способа ЭЦП</h3><p>Agent · Web-sign · Сервер 24/7 · Демо. Подпись с телефона или без включённого ПК.</p></div>
+    <div class="card cyan"><h3>🏛️ Налоговая в Telegram</h3><p>Письма ГНК + чеки ОНК + AI-объяснение «что хотят и до какого срока».</p></div>
+    <div class="card"><h3>🛒 UmagShop + QR-Hisob</h3><p>Заказ с витрины / QR = готовый договор + счёт + сделка. Без сайта.</p></div>
+    <div class="card"><h3>⚖️ AI-юрист</h3><p>Претензии и иски на реальных нормах РУз + факты из ваших сделок.</p></div>
+  </div>
+</div></section>
+
+<!-- 05 Modules -->
+<section class="s"><span class="no">05</span><div class="in">
+  <div class="eyebrow">Архитектура</div>
+  <h2>Модули как слои операционной системы</h2>
+  <pre>ИИ-ОРКЕСТРАТОР (Голос + Агент)
+├── Core: Документы + ЭЦП + Сделки
+├── Intelligence: Пульс + AI-юрист + AI Studio
+├── Money: Банк + Касса + Налоговая (Soliq)
+├── Ops: Склад / ИКПУ + Контрагенты + HR
+├── Growth: UmagShop + QR + Nasiya + (iSMM)
+└── Connect: 1С / МойСклад / CRM + 18 поверхностей</pre>
+  <p class="note">18 точек входа: Telegram Free/Pro, Mini App, Web PWA, голос, маркетплейс, QR, MCP, Partner API, Chrome-расширение, E-IMZO Agent и др.</p>
+</div></section>
+
+<!-- 06 Numbers -->
+<section class="s"><span class="no">06</span><div class="in">
+  <div class="eyebrow">Social Proof</div>
+  <h2>Цифры, которые убеждают</h2>
+  <div class="g g4">
+    <div class="stat hero"><span class="n">73 000+</span><span class="l">документов проведено</span></div>
+    <div class="stat hero"><span class="n">85 869</span><span class="l">сделок в движке</span></div>
+    <div class="stat good"><span class="n">73%</span><span class="l">сделок закрыто</span></div>
+    <div class="stat good"><span class="n">96 000+</span><span class="l">входящих зеркалировано</span></div>
+    <div class="stat cyan"><span class="n">70 000+</span><span class="l">банковских транзакций</span></div>
+    <div class="stat cyan"><span class="n">250+</span><span class="l">модулей бизнес-логики</span></div>
+    <div class="stat"><span class="n">18</span><span class="l">точек входа</span></div>
+    <div class="stat"><span class="n">Production</span><span class="l">реальные клиенты + юр. значимость</span></div>
+  </div>
+</div></section>
+
+<!-- 07 Playbook -->
+<section class="s"><span class="no">07</span><div class="in">
+  <div class="eyebrow">SMM Playbook</div>
+  <h2>Как раскручивать</h2>
+  <p class="lede">Контент-столпы: Голосовая магия · Время и свобода · Контроль владельца · Уникальность Узбекистана · Доверие</p>
+  <div style="margin:20px 0 28px">
+    <div class="hook">«Счёт-фактура за 30 секунд. Голосом.»</div>
+    <div class="hook">«Сколько программ у вас открыто прямо сейчас?»</div>
+    <div class="hook">«Бизнес, который тебя слушает»</div>
+    <div class="hook">«КП на 300 компаний одним тапом — официально через ЭДО»</div>
+    <div class="hook">«Письмо от налоговой пришло, пока я был на рынке»</div>
+  </div>
+  <div class="g g3">
+    <div class="card"><h3>Reels / Shorts</h3><p>Голос создаёт СФ за 30 сек. Before/After дня. Демо подписи с телефона.</p></div>
+    <div class="card"><h3>Карусели</h3><p>7–9 программ vs 1 ОС. Persona cards. 8 фишек. Карта модулей.</p></div>
+    <div class="card"><h3>Stories</h3><p>Алерты Пульса. Уведомление ГНК. «Чей ход» по сделке.</p></div>
+  </div>
+  <p class="note">Визуальный стиль: Linear + Notion + Stripe + Telegram Premium + dark neon (cyan / magenta). Glassmorphism, крупные цифры, waveform.</p>
+</div></section>
+
+<!-- 08 CTA -->
+<section class="s"><span class="no">08</span><div class="in">
+  <div class="eyebrow">Call to Action</div>
+  <h2>Как начать прямо сейчас</h2>
+  <div class="g g2">
+    <div class="card good">
+      <h3>Бесплатный вход</h3>
+      <p style="margin-bottom:12px">Telegram-бот + демо-режим без паролей и ключей.</p>
+      <p><a href="https://t.me/ihisobchi_bot" target="_blank">@ihisobchi_bot</a></p>
+    </div>
+    <div class="card cyan">
+      <h3>Полноценное приложение</h3>
+      <p style="margin-bottom:12px">Mini App + Web PWA. 126 экранов.</p>
+      <p><a href="https://app.ihisobchi.uz" target="_blank">app.ihisobchi.uz</a></p>
+    </div>
+  </div>
+  <div class="hr"></div>
+  <p class="lede">Первые документы — бесплатно. Production с реальными клиентами и юридически значимым документооборотом по законодательству РУз.</p>
+  <p class="note">Материал подготовлен по реальному коду и продакшену (docs/overview, live metrics август 2026). Для внутреннего использования SMM-команды.</p>
+</div></section>
+
+</div>
+</body>
+</html>

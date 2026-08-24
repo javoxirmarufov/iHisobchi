@@ -1,822 +1,860 @@
-# 3. Дорожная карта
+# 3. Roadmap
 
-> Часть 3 из 9. Назад: [экосистема](01-ecosystem.md) · [модули](02-modules.md). Далее: [голосовой оркестратор](04-voice-orchestrator.md) · [безопасность](05-security.md) · [первый день](06-first-day.md) · [подпись](07-signing.md) · [с нами и без нас](08-with-and-without.md) · [бизнес-модель](09-business-model.md).
+> Part 3 of 9. Back: [ecosystem](01-ecosystem.md) · [modules](02-modules.md). Next: [voice orchestrator](04-voice-orchestrator.md) · [security](05-security.md) · [first day](06-first-day.md) · [signing](07-signing.md) · [with us and without us](08-with-and-without.md) · [business model](09-business-model.md).
 
 ---
 
-## 3.1. Куда мы идём
+## 3.1. Where We Are Going
 
-Всё, что построено, — это фундамент под одну идею:
+Everything built so far is the foundation for a single idea:
 
-> **Бизнес должен работать как швейцарские часы — автономно, без сбоев,
-> а владельцу остаётся наблюдать и принимать решения.**
+> **A business should run like a Swiss watch — autonomously, without failures —
+> leaving the owner to observe and to make decisions.**
 
-Сегодня iHisobchi убирает рутину. Завтра — убирает саму необходимость думать о
-рутине. Разница между этими двумя состояниями не в количестве функций, а в
-**одном шаге**: система уже видит всю цепочку сделки целиком и умеет создавать
-каждый её документ. Осталось разрешить ей делать это самой — там, где обе
-стороны этого захотели.
+Today iHisobchi removes the routine. Tomorrow it removes the need to think about
+the routine at all. The difference between those two states is not a number of
+features but **one step**: the system already sees the whole chain of a deal and
+already knows how to create every document in it. What remains is to let it do so
+by itself — where both sides have asked for that.
 
-Ниже — одиннадцать горизонтов. Они не последовательные этапы: часть уже строится
-параллельно, у части готова инфраструктура и ждёт включения.
+Below are eleven horizons. They are not sequential stages: some are already being
+built in parallel, and for others the infrastructure is ready and waiting to be
+switched on.
 
-### Чем занимаемся в первую очередь
+### What we are working on first
 
-Горизонты — это картина цели, а не очередь работ. Порядок работ определяется
-сегодняшним ограничением, а оно у нас не в скорости постройки: платформа широка,
-а пользуются ей пока неравномерно (см.
-[текущие цифры](01-ecosystem.md#19-где-мы-сейчас-масштаб-и-зрелость)).
+The horizons are a picture of the destination, not a work queue. The order of
+work is set by today's constraint, and our constraint is not build speed: the
+platform is broad, but usage is still uneven (see
+[the current figures](01-ecosystem.md#19-where-we-stand-scale-and-maturity)).
 
-| Очередь | Что делаем | Почему именно это |
+| Queue | What we are doing | Why this specifically |
 |---|---|---|
-| **Сейчас** | Доведение построенного до регулярного использования: путь до первого подписанного документа, подключение денег (банк/касса), закрытие сделок, приборы, показывающие реальную частоту использования | Модуль, которым не пользуются, не создаёт ценности независимо от того, насколько он хорош |
-| **Сейчас** | Автосчёт-фактура по факту оплаты (§3.2.1) и голосовой оркестратор вглубь модулей | Ближайшие шаги, дающие эффект без новых больших контуров |
-| **Следующее** | Кабинет бухгалтерской фирмы, биржа услуг, автономные сделки | Требуют доверия и объёма, которые накапливаются на предыдущем шаге |
-| **Потом** | Открытый банкинг, перевозчики, налоговая отчётность, мобильные приложения | Зависят от внешних сторон: регулятора, партнёров, спроса |
+| **Now** | Turning what is built into regular use: the path to the first signed document, connecting the money (bank/till), closing deals, and instruments that show real usage frequency | A module nobody uses creates no value, however good it is |
+| **Now** | The automatic e-invoice on payment (§3.2.1) and the voice orchestrator reaching deeper into the modules | The nearest steps that pay off without new large subsystems |
+| **Next** | The accounting-firm workspace, the services exchange, autonomous deals | These need the trust and the volume that accumulate at the previous step |
+| **Later** | Open banking, carriers, tax filing, mobile apps | These depend on outside parties: the regulator, partners, demand |
 
-У рискованных направлений есть **стоп-условия**: если UmagShop не набирает
-живых продавцов и заказов к контрольной дате — направление замораживается, а
-люди возвращаются в ядро. Лучше честно остановить гипотезу, чем годами
-поддерживать витрину ради строчки в презентации.
+Risky directions carry **stop conditions**: if UmagShop does not attract live
+sellers and orders by its checkpoint date, the direction is frozen and the people
+go back to the core. Better to halt a hypothesis honestly than to maintain a
+storefront for years for the sake of a line in a presentation.
 
 ---
 
-## 3.2. Горизонт I. Автономные сделки
+## 3.2. Horizon I — Autonomous Deals
 
-> Самый близкий и самый сильный шаг. Всё необходимое уже построено.
+> The nearest and the most powerful step. Everything it needs is already built.
 
-### Что это
+### What it is
 
-Сегодня система показывает, **чей ход**, и делает документ в один тап. Завтра —
-делает его сама, когда обе стороны сделки этого захотели.
+Today the system shows **whose move it is** and produces a document in one tap.
+Tomorrow it produces that document itself, once both sides of the deal have asked
+for it.
 
-**Сценарий:**
+**The scenario:**
 
-1. Продавец и покупатель — оба клиенты iHisobchi. Оба включили режим
-   «автоматические сделки».
-2. Стороны один раз подписывают договор.
-3. Покупатель отправляет оплату на счёт поставщика.
-4. **Дальше не делает никто ничего.** Система видит платёж в выписке,
-   сопоставляет его с договором, формирует доверенность, счёт-фактуру, ТТН и
-   акт, подписывает ЭЦП с обеих сторон, отправляет через Didox, отслеживает
-   приёмку и закрывает сделку.
-5. Владелец видит уведомление: «Сделка с ООО "X" на 45 млн закрыта. Все
-   документы подписаны».
+1. Seller and buyer are both iHisobchi clients. Both have enabled "automatic
+   deals".
+2. The parties sign a contract once.
+3. The buyer sends the payment to the supplier's account.
+4. **From then on nobody does anything.** The system sees the payment in the
+   statement, matches it to the contract, produces the power of attorney, the
+   e-invoice, the waybill and the act, signs them with both parties' digital
+   signatures, sends them through Didox, tracks acceptance and closes the deal.
+5. The owner sees a notification: "The deal with X LLC for 45 million is closed.
+   All documents signed."
 
-**Один договор — и весь дальнейший документооборот идёт сам.**
+**One contract — and all the paperwork that follows takes care of itself.**
 
-### Почему это реалистично
+### Why this is realistic
 
-Каждый кирпич уже в проде:
+Every brick is already in production:
 
-| Что нужно | Состояние |
+| What is needed | State |
 |---|---|
-| Видеть всю цепочку сделки и её состояние | ✅ [Движок сделок](02-modules.md#b-сделки--движок-незакрытых-циклов), 85 869 сделок |
-| Сопоставлять платёж с договором | ✅ Скоринг платежей, единый леджер денег |
-| Создавать каждый документ программно | ✅ [Автодокументы](02-modules.md#p-автодокументы): СФ по доверенности, акт из СФ, ТТН из СФ |
-| Подписывать без участия человека | ✅ [Сервер подписи 24/7](02-modules.md#a3-подпись-эцп--четыре-режима-) |
-| Гарантировать, что не подпишется лишнее | ✅ Идемпотентность, сверка после таймаута, durable-леджер операций |
-| Мгновенно всё остановить | ✅ Kill-switch на каждый конвейер |
+| Seeing the whole chain of a deal and its state | ✅ [The deals engine](02-modules.md#b-deals--the-open-cycle-engine), 85,869 deals |
+| Matching a payment to a contract | ✅ Payment scoring, the single money ledger |
+| Creating every document programmatically | ✅ [Automatic documents](02-modules.md#p-automatic-documents): an invoice from a power of attorney, an act from an invoice, a waybill from an invoice |
+| Signing without a human present | ✅ [The 24/7 signing server](02-modules.md#a3-digital-signature--four-modes-) |
+| Guaranteeing that nothing extra gets signed | ✅ Idempotency, reconciliation after a timeout, the durable operations ledger |
+| Stopping everything instantly | ✅ A kill switch on every pipeline |
 
-**Не хватает ровно одного:** взаимного согласия двух сторон, выраженного явно и
-отзываемого в один тап, и режима, в котором HITL-подтверждение заменяется
-предварительным согласием на класс операций внутри конкретного договора.
+**Exactly one thing is missing:** mutual consent from both sides, expressed
+explicitly and revocable in one tap, plus a mode in which the human-in-the-loop
+confirmation is replaced by advance consent to a class of operations inside a
+specific contract.
 
-### Чем это ценно
+### Why it matters
 
-Для продавца, у которого поток однотипных отгрузок постоянному клиенту, это
-разница между «бухгалтер тратит день в неделю» и «бухгалтер не тратит ничего».
-Для рынка — это первый в стране контур, где B2B-сделка от договора до закрытия
-проходит без ручного оформления.
+For a supplier with a steady flow of identical shipments to a regular customer,
+this is the difference between "the bookkeeper spends a day a week on it" and
+"the bookkeeper spends nothing". For the market, it is the country's first loop
+in which a B2B deal runs from contract to closure with no manual paperwork at
+all.
 
-### 🎯 Что делаем
+### 🎯 What we are building
 
-- Явное двустороннее согласие на автоматизацию в рамках конкретного договора,
-  с журналом и отзывом в один тап.
-- Границы автономии: лимит суммы, список контрагентов, типы документов, срок
-  действия согласия.
-- Отчёт постфактум вместо подтверждения заранее: владелец видит квитанцию, а не
-  вопрос.
-- Обучение движка на потоке: чем больше проходит сделок, тем увереннее
-  сопоставление и тем шире класс автоматизируемых случаев.
+- Explicit two-sided consent to automation within a specific contract, with an
+  audit trail and one-tap revocation.
+- Boundaries of autonomy: an amount limit, a list of counterparties, document
+  types, an expiry date on the consent.
+- A report after the fact instead of a confirmation before it: the owner sees a
+  receipt, not a question.
+- Learning from the flow: the more deals pass through, the more confident the
+  matching and the wider the class of cases that can be automated.
 
-### 3.2.1. Первый шаг к этому — «Автосчёт-фактура по оплате» 🎯
+### 3.2.1. The first step towards it — "automatic e-invoice on payment" 🎯
 
-Полная автономность требует согласия двух сторон. Но есть сценарий, который
-работает **при согласии одной** — продавца, — и потому идёт раньше всего
-остального.
+Full autonomy requires consent from two sides. But there is a scenario that works
+**with consent from one** — the seller — and so it comes before everything else.
 
-**Ситуация, знакомая каждому поставщику.** Договор заключён, товар отгружен,
-счёт выставлен. Счёт-фактуру выставлять **пока нельзя** — деньги не пришли, а
-выставленная раньше срока СФ создаёт налоговое обязательство под неполученную
-оплату. Значит, надо сидеть и ждать зачисления. А зачисление приходит в 23:40 в
-пятницу, или когда поставщик за рулём, или когда у него просто нет интернета.
-Клиент при этом ждёт документ — ему закрывать свой период.
+**A situation every supplier knows.** The contract is agreed, the goods are
+shipped, the invoice for payment is issued. The e-invoice **cannot be issued
+yet** — the money has not arrived, and an e-invoice issued ahead of time creates
+a tax liability against payment that was never received. So you sit and wait for
+the credit. And the credit arrives at 23:40 on a Friday, or while the supplier is
+driving, or when they simply have no internet. Meanwhile the customer is waiting
+for the document — they have their own period to close.
 
-**Как это будет работать.** Продавец один раз включает режим на конкретной
-сделке или на контрагенте. Дальше:
+**How it will work.** The seller enables the mode once, on a specific deal or on a
+counterparty. From then on:
 
 ```
-Оплата зачислена на счёт
-        │  система узнаёт платёж и находит его договор
+Payment credited to the account
+        │  the system recognises the payment and finds its contract
         ▼
-Счёт-фактура сформирована по позициям договора
+The e-invoice is assembled from the contract's line items
         ▼
-Подписана ЭЦП  →  Отправлена контрагенту в Didox
+Signed with the digital signature  →  Sent to the counterparty in Didox
         ▼
-Владельцу — квитанция: «СФ №145 на 18 млн отправлена в Артель, оплата получена»
+A receipt for the owner: "Invoice No. 145 for 18 million sent to Artel, payment received"
 ```
 
-Всё — пока владелец спит, едет или находится вне сети. Утром он видит
-результат, а не задачу.
+All of it while the owner is asleep, driving or out of signal. In the morning
+they see a result, not a task.
 
-**Почему это ближайший шаг, а не мечта.** Каждый кирпич уже работает: система
-распознаёт зачисление в выписке и связывает его с договором (движок сделок,
-скоринг платежей), умеет собрать счёт-фактуру из позиций договора (авто-СФ),
-умеет подписать без человека («Сервер подписи 24/7») и умеет отправить.
-Новое здесь — **правило запуска**: «оплата по этому договору → выставить и
-отправить», и явное разрешение владельца на него.
+**Why this is the next step and not a dream.** Every brick already works: the
+system recognises a credit in the statement and ties it to a contract (the deals
+engine, payment scoring), knows how to assemble an e-invoice from a contract's
+line items (the auto-invoice pipeline), knows how to sign without a human (the
+24/7 signing server) and knows how to send. What is new here is the **trigger
+rule** — "a payment against this contract → issue and send" — and the owner's
+explicit permission for it.
 
-**Границы, которые закладываем сразу:** только по договорам, где продавец
-включил режим; сумма СФ ограничена суммой договора и фактическим платежом;
-частичная оплата не запускает полный документ без правила; при любом
-несовпадении — не выставляем, а спрашиваем; отзыв режима мгновенный, включая
-уже поставленные в очередь операции.
-
----
-
-## 3.3. Горизонт II. Биржа бухгалтерских и аутсорсинговых услуг
-
-> Спрос и предложение встречаются внутри платформы.
-
-### Проблема, которая стоит бизнесу очень дорого
-
-Пришло требование от налоговой. Или обнаружился долг. Или нужно срочно сдать
-отчёт, а бухгалтер уволился. **Владелец в панике и не знает трёх вещей:**
-насколько это серьёзно, к кому идти, и сколько это должно стоить.
-
-Он идёт в первую попавшуюся аутсорсинговую или аудиторскую фирму. Ему называют
-любую цифру — он не может её проверить. Ему рассказывают про миллиардные риски —
-он не может это оспорить. Найти действительно грамотного бухгалтера или
-аутсорсера в Узбекистане сложно, а сравнить нескольких — почти невозможно.
-
-### Наше решение: маркетплейс услуг
-
-**Владелец описывает проблему и отправляет её анонимно** в открытый доступ для
-фирм-партнёров платформы. Партнёры видят суть задачи — но не видят, чья это
-компания.
-
-**В ответ приходят несколько коммерческих предложений**: как именно фирма
-предлагает решить задачу, в какой срок и за сколько.
-
-**Владелец выбирает.** Не потому что попал в первую попавшуюся фирму, а потому
-что сравнил три-четыре предложения от проверенных партнёров и понял по ним
-реальный объём своей проблемы.
-
-Дальше — договор с выбранным партнёром, подписание ЭЦП и ведение работы **внутри
-той же системы**, где лежат документы, по которым эта работа ведётся. Мы здесь
-оркестратор: не оказываем услугу, а сводим спрос с предложением и обеспечиваем
-контур доверия.
-
-### Почему это взорвёт рынок
-
-- Владелец впервые получает **рыночную цену** на бухгалтерскую услугу, а не
-  цену первого встречного.
-- Анонимность на этапе запроса убирает возможность «подстроить» цену под
-  конкретную компанию.
-- Партнёры получают поток клиентов с уже оцифрованными документами — им не
-  нужно вытаскивать данные из клиента, они видят их сразу.
-- Платформа получает то, что не покупается рекламой: **сеть**, где обе стороны
-  заинтересованы приводить друг друга.
-
-### 🎯 Что делаем
-
-- Реестр партнёров-фирм с профилем, специализацией и подтверждённой историей.
-- Анонимная заявка: описание задачи, тип, срочность, объём — без реквизитов.
-- Коммерческие предложения в ответ, с ценой и сроком, сравнимые по одной форме.
-- Выбор, договор, подписание и ведение работы внутри системы.
-- Репутация партнёра — по фактически закрытым задачам, а не по отзывам, которые
-  можно написать.
+**Boundaries built in from the start:** only for contracts where the seller has
+enabled the mode; the invoice amount is capped by the contract value and the
+actual payment; a partial payment does not trigger a full document without a
+rule; on any mismatch we ask rather than issue; and revocation takes effect
+immediately, including operations already queued.
 
 ---
 
-## 3.4. Горизонт III. Кабинет бухгалтерской фирмы
+## 3.3. Horizon II — An Exchange for Accounting and Outsourcing Services
 
-> Мультиклиентский режим. Сильнейший рычаг роста, не являющийся рекламой.
+> Supply and demand meet inside the platform.
 
-Одна аутсорсинговая фирма ведёт 20–50 компаний. Сегодня, чтобы работать в
-iHisobchi, ей приходится переключаться между аккаунтами.
+### A problem that costs businesses dearly
 
-**Что даём:** единый кабинет, где все клиенты фирмы в одном списке; пакетные
-операции по нескольким компаниям сразу; общий календарь сроков; раздельный
-биллинг; управление ста ключами ЭЦП из одного места (техническая основа —
-[мульти-ИНН для агента подписи](02-modules.md#a3-подпись-эцп--четыре-режима-) —
-уже работает).
+A demand arrives from the tax office. Or a debt surfaces. Or a report is due
+urgently and the bookkeeper has just resigned. **The owner is in a panic and does
+not know three things:** how serious this is, who to turn to, and what it ought to
+cost.
 
-**Экономика очевидна:** один аутсорсер приводит 40 компаний по собственной воле,
-потому что ему так удобнее работать. Ни рубля рекламы.
+They walk into the first outsourcing or audit firm they find. They are quoted any
+number at all — they cannot verify it. They are told about billion-som risks —
+they cannot dispute it. Finding a genuinely competent bookkeeper or outsourcer in
+Uzbekistan is hard, and comparing several of them is close to impossible.
+
+### Our answer: a services marketplace
+
+**The owner describes the problem and posts it anonymously** to the platform's
+partner firms. Partners see the substance of the task — but not whose company it
+is.
+
+**Several proposals come back**: exactly how the firm proposes to solve it, in
+what timeframe and for how much.
+
+**The owner chooses.** Not because they walked into the first firm they found,
+but because they compared three or four proposals from vetted partners and, from
+those, understood the real size of their problem.
+
+Then comes a contract with the chosen partner, a digital signature, and the work
+itself conducted **inside the same system** that holds the documents the work is
+about. Our role here is the orchestrator: we do not provide the service, we bring
+demand and supply together and provide the loop of trust.
+
+### Why this will shake up the market
+
+- For the first time the owner gets a **market price** for an accounting service
+  rather than the price of the first person they met.
+- Anonymity at the request stage removes the ability to tailor a price to a
+  particular company.
+- Partners get a stream of clients whose documents are already digitised — they
+  do not have to extract the data from the client, they can see it immediately.
+- The platform gets what advertising cannot buy: a **network** in which both
+  sides have an interest in bringing each other in.
+
+### 🎯 What we are building
+
+- A register of partner firms with a profile, a specialism and a verified track
+  record.
+- An anonymous request: description of the task, its type, urgency and size —
+  with no identifying details.
+- Proposals in response, with a price and a deadline, comparable because they
+  share one form.
+- Selection, contract, signing and the conduct of the work, all inside the
+  system.
+- Partner reputation based on tasks actually completed, not on reviews that can
+  be written to order.
 
 ---
 
-## 3.5. Горизонт IV. Коммерция под ключ — UmagShop
+## 3.4. Horizon III — The Accounting Firm Workspace
 
-> Инфраструктура построена; достраиваем то, что превращает витрину в канал продаж.
+> Multi-client mode. The strongest growth lever that is not advertising.
 
-### Замысел
+One outsourcing firm keeps the books of 20–50 companies. Today, to work in
+iHisobchi, it has to switch between accounts.
 
-Владельцу нужно, чтобы **товар был в наличии — и всё**. Дальше он только смотрит,
-как идут процессы, и отдаёт посылку курьеру, когда тот приезжает. Договор,
-счёт-фактура, доверенность, приёмка, закрытие сделки — оформляются сами.
+**What we will give it:** a single workspace with all the firm's clients in one
+list; batch operations across several companies at once; a shared calendar of
+deadlines; separate billing; management of a hundred signature keys from one
+place (the technical foundation —
+[multi-TIN support for the signing agent](02-modules.md#a3-digital-signature--four-modes-) —
+already works).
 
-Именно этого нет ни на одном маркетплейсе страны: там продажа заканчивается
-корзиной, а бухгалтерия начинается заново и вручную.
+**The economics are obvious:** one outsourcer brings in 40 companies of its own
+accord, because that is how it prefers to work. Not a som of advertising spend.
 
-### 3.5.1. 🎯 Живой эфир 24/7 — торговля, которую видно
+---
 
-> Ближайшая разработка. Отдельный раздел маркетплейса.
+## 3.5. Horizon IV — Turnkey Commerce: UmagShop
 
-**Что это.** Круглосуточная прямая трансляция внутри UmagShop, где показывают
-товары и услуги продавцов площадки. Покупатель не листает карточки — он
-**смотрит, спрашивает и покупает прямо в эфире**:
+> The infrastructure is built; we are finishing what turns a storefront into a
+> sales channel.
 
-- **«Покажите ближе»** — попросить рассмотреть товар, развернуть, показать
-  фактуру ткани, шов, маркировку на упаковке, работу устройства;
-- **задать вопрос в чат** — про партию, сроки, минимальный объём, скидку от
-  количества;
-- **оформить заказ, не выходя из трансляции** — карточка товара живёт рядом с
-  видео, заказ собирается в один тап.
+### The intent
 
-**Кто отвечает — в два этапа.**
+What the owner needs is for **the goods to be in stock — and nothing more**.
+After that they simply watch the processes run and hand the parcel to the courier
+when it arrives. The contract, the e-invoice, the power of attorney, acceptance
+and closure all take care of themselves.
 
-*Сначала — человек.* Эфир ведёт наш ведущий: показывает товар, отвечает на
-вопросы, помогает оформить заказ. Это не временная затычка, а способ **научиться
-на живых диалогах**: какие вопросы задают, где покупатель сомневается, что
-решает сделку. Из этих же диалогов вырастает следующий этап.
+That is precisely what no marketplace in the country offers: there, a sale ends
+at the shopping basket and the bookkeeping starts again, by hand.
 
-*Потом — наш ИИ-агент.* Он ведёт эфир и диалог с покупателями сам: отвечает на
-вопросы по товару, подбирает позиции, считает сумму партии, собирает заказ. И
-это не разработка с нуля: **ИИ-консультант площадки уже работает** — он
-подбирает товары, выбирая их идентификаторы из реального каталога, а не называя
-по памяти, поэтому выдуманной цене физически некуда приземлиться. Живой эфир
-добавляет к нему голос и видео — а голосовой контур [у нас уже
-построен](04-voice-orchestrator.md).
+### 3.5.1. 🎯 24/7 live streaming — commerce you can watch
 
-**Почему это работает.** Мировой рынок живой торговли — 230 млрд долларов в 2026
-году с ростом 41 % в год; конверсия прямых эфиров **9–30 % против 2–3 % у
-обычной карточки товара**, а в консультационном формате — до 40–70 %. Причина не
-в развлечении: эфир **сжимает в один момент** то, что обычно растянуто на дни —
-изучение товара, оценку характеристик, вопросы и решение о покупке.
+> In near-term development. A separate section of the marketplace.
 
-**Почему это особенно попадает в Узбекистан.** Здесь торговля и так живёт в
-Instagram и Telegram: предприниматель снимает товар на телефон, отвечает в
-директе, договаривается голосом. Живой эфир — это привычная механика, но
-поставленная на площадку, где **сделка оформляется по закону**, а не заканчивается
-перепиской.
+**What it is.** A round-the-clock live broadcast inside UmagShop showing the
+goods and services of the marketplace's sellers. The buyer does not scroll
+through cards — they **watch, ask and buy live on air**:
 
-**И вот что делает это нашим, а не копией.** У всех живая торговля кончается
-корзиной. У нас — **подписанным договором и счётом**:
+- **"Show me closer"** — ask to inspect the item, turn it round, show the weave
+  of the fabric, the seam, the marking on the packaging, the device in
+  operation;
+- **ask a question in the chat** — about the batch, lead times, the minimum
+  order, a volume discount;
+- **place an order without leaving the broadcast** — the product card sits beside
+  the video and the order is assembled in one tap.
 
-> Оптовик показывает партию ткани. Покупатель просит развернуть рулон и
-> посмотреть кромку, уточняет в чате цену за 200 метров, получает ответ — и
-> оформляет заказ прямо в эфире. Через минуту у него в кабинете Didox лежат
-> **договор и счёт с ЭЦП**, а у продавца — сделка, которая дальше сама дойдёт до
-> счёт-фактуры и закрытия.
+**Who answers — in two stages.**
 
-Живой B2B-эфир, из которого выходит юридически оформленная сделка, — этого нет
-ни на одной площадке страны.
+*First, a human.* The stream is hosted by our presenter: showing the goods,
+answering questions, helping to place the order. This is not a stopgap but a way
+of **learning from live conversations**: which questions get asked, where the
+buyer hesitates, what decides the sale. The next stage grows out of those same
+conversations.
 
-**Что показывать в эфире:** новые поступления и распродажу остатков, работу
-оборудования, сборку мебели, печать тиража в типографии, тест-драйв
-инструмента, разбор партии по позициям, ответы на частые вопросы по товару.
-Услуги — так же: подрядчик показывает, как выполняет работу.
+*Then our AI agent.* It hosts the stream and talks to the buyers itself:
+answering questions about a product, selecting items, calculating the batch
+total, assembling the order. And this is not built from scratch: **the
+marketplace's AI assistant already works** — it selects products by picking their
+identifiers out of the real catalogue rather than naming them from memory, so an
+invented price has physically nowhere to land. Live streaming adds voice and
+video to it — and the voice loop is
+[already built](04-voice-orchestrator.md).
 
-### 3.5.2. 🎯 Короткие видео продавцов — и первая настоящая выручка площадки
+**Why it works.** The global live-commerce market is worth $230 billion in 2026
+and growing at 41% a year; live streams convert at **9–30% against 2–3% for an
+ordinary product card**, and in a consultative format at up to 40–70%. The reason
+is not entertainment: a live stream **compresses into one moment** what is
+normally stretched across days — studying the product, judging its specification,
+asking questions and deciding to buy.
 
-> Ближайшая разработка. Отдельный яркий раздел маркетплейса.
+**Why it fits Uzbekistan particularly well.** Trade here already lives in
+Instagram and Telegram: the entrepreneur films the goods on a phone, replies in
+the DMs, agrees terms by voice. Live streaming is that familiar mechanic, but
+placed on a marketplace where **the transaction is formalised in law** instead of
+ending in a chat thread.
 
-**Что это.** Лента коротких вертикальных роликов **до одной минуты**, где
-продавцы площадки сами рекламируют свои товары и услуги. Снял на телефон,
-загрузил, добавил ссылку на карточку — ролик крутится в ленте маркетплейса рядом
-с товарами, доступными к заказу.
+**And here is what makes it ours rather than a copy.** Everyone else's live
+commerce ends in a basket. Ours ends in a **signed contract and an invoice**:
 
-Формат выбран не случайно: это ровно то, что предприниматель в Узбекистане уже
-умеет снимать для Instagram и Telegram. Разница в том, что здесь **под роликом
-лежит настоящая карточка товара** с ценой, остатком и кнопкой заказа, а не
-подпись «цена в директе».
+> A wholesaler shows a batch of fabric. The buyer asks to unroll it and look at
+> the selvedge, checks the price for 200 metres in the chat, gets an answer — and
+> places the order live on air. A minute later a **contract and an invoice, both
+> digitally signed**, are sitting in their Didox account, and the seller has a
+> deal that will carry itself onward to the e-invoice and to closure.
 
-**Как продавец это использует:**
+A live B2B broadcast that produces a legally formed transaction exists on no
+other platform in the country.
 
-| Повод | Ролик |
+**What to show on air:** new arrivals and clearance stock, equipment in
+operation, furniture being assembled, a print run coming off the press, a tool
+being test-driven, a batch walked through item by item, answers to the common
+questions about a product. Services work the same way: the contractor shows how
+the work is done.
+
+### 3.5.2. 🎯 Short seller videos — and the marketplace's first real revenue
+
+> In near-term development. A separate, visually striking section of the
+> marketplace.
+
+**What it is.** A feed of short vertical clips of **up to one minute** in which
+the marketplace's sellers advertise their own goods and services. Film it on a
+phone, upload it, attach a link to the product card — and the clip plays in the
+marketplace feed next to goods that can actually be ordered.
+
+The format was not chosen at random: it is exactly what an Uzbek entrepreneur
+already knows how to film for Instagram and Telegram. The difference is that here
+**a real product card sits underneath the clip**, with a price, stock and an
+order button, instead of a caption reading "price in DMs".
+
+**How a seller uses it:**
+
+| The occasion | The clip |
 |---|---|
-| Пришло поступление | 30 секунд: коробки, распаковка, цена за партию |
-| Остаток к распродаже | «осталось 40 штук, до пятницы −30 %» |
-| Новая услуга | как работает, за сколько, кому подходит |
-| Отличие от дешёвого аналога | показать вживую, а не описывать текстом |
-| Производство | как делается — сильнейший аргумент для оптовика |
+| A delivery has arrived | 30 seconds: boxes, unpacking, the price for the batch |
+| Stock to clear | "40 left, 30% off until Friday" |
+| A new service | how it works, what it costs, who it suits |
+| The difference from a cheap equivalent | show it live rather than describing it |
+| Manufacturing | how it is made — the strongest argument there is for a wholesaler |
 
-**Здесь же появляется выручка площадки.** Сегодня UmagShop бесплатен и
-комиссии с оборота не берёт — площадка работает как канал привлечения. Платное
-продвижение меняет это: продавец платит за то, чтобы **его ролик увидели больше
-покупателей** — показ в верхних позициях ленты, в подборках, в тематических
-разделах, в эфире.
+**This is also where the marketplace's revenue appears.** Today UmagShop is free
+and takes no commission on turnover — the marketplace works as an acquisition
+channel. Paid promotion changes that: the seller pays to have **more buyers see
+their clip** — a slot at the top of the feed, in curated collections, in themed
+sections, on the live stream.
 
-Почему это честная модель для нас:
+Why this is an honest model for us:
 
-- **продавец платит за результат, который видит** — просмотры, переходы в
-  карточку, заказы, а не за абстрактное «размещение»;
-- **мы не берём процент со сделки** и потому не заинтересованы в том, чтобы
-  влезать в расчёты между сторонами;
-- **бюджет решает сам продавец** — от небольшого продвижения одного ролика до
-  постоянного присутствия в ленте;
-- **у нас есть чем таргетировать честно**: площадка знает, что бизнес покупает
-  и продаёт, поэтому ролик про упаковку показывается тем, кто закупает упаковку,
-  а не всем подряд.
+- **the seller pays for a result they can see** — views, taps through to the
+  card, orders — rather than for an abstract "placement";
+- **we take no percentage of the deal** and therefore have no interest in getting
+  between the two parties' money;
+- **the seller decides the budget** — from a small push behind one clip to a
+  permanent presence in the feed;
+- **we have something to target with honestly**: the marketplace knows what a
+  business buys and sells, so a clip about packaging is shown to firms that buy
+  packaging, not to everybody.
 
-**Качество как условие.** Раздел с видео задуман ярким — и это накладывает
-обязательство: ролики проходят ту же [ИИ-модерацию](02-modules.md#i-umagshop--маркетплейс-с-документами),
-что и карточки товара, с тем же правилом «любая неопределённость — ограничить, а
-не одобрить». Дешёвая мутная съёмка с чужим водяным знаком в ленту не попадёт:
-витрина, на которой стыдно, не продаёт ничего и никому.
+**Quality as a condition.** The video section is meant to be striking — and that
+imposes an obligation: clips pass through the same
+[AI moderation](02-modules.md#i-umagshop--a-marketplace-with-documents) as
+product listings, under the same rule that any uncertainty means restricting
+rather than approving. Cheap, blurry footage carrying somebody else's watermark
+will not reach the feed: a storefront you are ashamed of sells nothing to nobody.
 
-**Рыночные показатели, на которые мы опираемся** (открытые источники, август
-2026): объём мировой живой торговли —
+**The market figures we rely on** (public sources, August 2026): the size of the
+global live-commerce market —
 [Grand View Research](https://www.grandviewresearch.com/industry-analysis/live-commerce-market-report)
-и [Straits Research](https://straitsresearch.com/report/live-commerce-platforms-market);
-конверсия эфиров против обычных карточек —
+and [Straits Research](https://straitsresearch.com/report/live-commerce-platforms-market);
+stream conversion against ordinary product cards —
 [Getstream](https://getstream.io/blog/livestream-shopping-statistics/);
-доля живой торговли в электронной коммерции —
+live commerce's share of e-commerce —
 [eMarketer](https://www.emarketer.com/insights/livestreaming-trends-stats);
-рынок и каналы Узбекистана —
+the Uzbek market and its channels —
 [Daryo](https://daryo.uz/ru/2026/03/22/uzbekistan-elektronnaya-kommerciya-marketplejs/)
-и [Маркетинговая ассоциация Узбекистана](https://marketing.uz/news/association/digital-v-uzbekistane-2026-trendy-lovushki-i-tochki-rosta-dlya-biznesa.htm).
-Цифры внешние и меняются — перед использованием в коммерческих материалах
-проверять заново.
+and [the Marketing Association of Uzbekistan](https://marketing.uz/news/association/digital-v-uzbekistane-2026-trendy-lovushki-i-tochki-rosta-dlya-biznesa.htm).
+These figures are external and they move — re-check them before using them in
+commercial material.
 
-### 🎯 Интеграция служб доставки
+### 🎯 Integration with delivery services
 
-Сегодня способы доставки (самовывоз, свой курьер, **BTS Express**, **Узбекистон
-почтаси**, **Яндекс Доставка**, **EMU**) — это справочник: продавец оформляет
-отправку как привык и вписывает трек-номер руками.
+Today the delivery options (self-collection, own courier, **BTS Express**,
+**Uzbekiston Pochtasi**, **Yandex Delivery**, **EMU**) are a reference list: the
+seller arranges the shipment the way they always have and types in the tracking
+number by hand.
 
-Что строим: **прямые интеграции с перевозчиками** — расчёт стоимости при
-оформлении заказа, автоматическая заявка на забор, трек-номер и статус доставки
-внутри карточки заказа, уведомления покупателю. Продавцу не нужно ходить на сайт
-службы доставки: заказ уходит перевозчику сам, ИИ подбирает подходящую службу по
-маршруту, срокам и цене.
+What we are building: **direct integrations with carriers** — a cost calculation
+while the order is being placed, an automatic collection request, the tracking
+number and delivery status inside the order card, notifications to the buyer. The
+seller does not have to visit the carrier's website: the order goes to the
+carrier by itself, and the AI picks a suitable service by route, deadline and
+price.
 
-### 🎯 Остальное по площадке
+### 🎯 The rest of the marketplace
 
-| Что | Зачем |
+| What | Why |
 |---|---|
-| **Личный кабинет покупателя** | История заказов, повторный заказ, избранное |
-| **Чат покупатель ↔ продавец** | Уточнить до заказа, а не после |
-| **Рейтинг по закрытым сделкам** | B2B-репутация, которую **нельзя накрутить**: считается по фактически закрытым сделкам с подписанными документами, а не по отзывам |
-| **ИИ-закупщик** | «найди мне 200 упаковок с доставкой в Самарканд до пятницы» → подборка с ценами, рейтингом и сроками |
-| **Оплата внутри площадки** | Сейчас только банк-в-банк по счёту |
-| **Платные опции** | Свой поддомен, собственный домен, расширенные лимиты |
+| **A buyer account** | Order history, reordering, favourites |
+| **Buyer ↔ seller chat** | Clarify before the order rather than after it |
+| **A rating based on closed deals** | B2B reputation that **cannot be gamed**: computed from deals actually closed with signed documents, not from reviews |
+| **An AI buyer** | "find me 200 packages delivered to Samarkand by Friday" → a shortlist with prices, ratings and lead times |
+| **Payment inside the marketplace** | Currently bank-to-bank against an invoice only |
+| **Paid options** | A custom subdomain, a custom domain, extended limits |
 
 ---
 
-## 3.6. Горизонт V. Деньги — открытый банкинг
+## 3.6. Horizon V — Money and Open Banking
 
-### Что меняется на рынке
+### What is changing in the market
 
-**Постановление Президента ПП-359 от 27.11.2025** обязывает внедрить систему
-**«Открытый банкинг» до 1 сентября 2026 года**: стандартизированный обмен
-данными между банками, платёжными организациями и финтех-участниками по согласию
-клиента. ЦБ РУз назначен уполномоченным органом, создан венчурный фонд на $50
-млн с целью 200 финтех-компаний к 2030 году.
+**Presidential decree PP-359 of 27 November 2025** mandates the launch of an
+**"open banking" system by 1 September 2026**: standardised data exchange between
+banks, payment institutions and fintech participants with the customer's consent.
+The Central Bank of Uzbekistan is the designated authority, and a $50 million
+venture fund has been created with a target of 200 fintech companies by 2030.
 
-До этого момента публичного банковского API в стране нет ни у одного банка. То,
-что банки называют «API для бизнеса» (эквайринг, приём платежей картой и QR), —
-**не доступ к расчётному счёту**.
+Until that point no bank in the country offers a public banking API. What banks
+call "an API for business" (acquiring, accepting card and QR payments) is **not
+access to a settlement account**.
 
-### Наша позиция
+### Our position
 
-Модуль банка — критический для всей системы: на нём стоят Сделки, Пульс, сверка
-с налоговой и вся отчётность. Поэтому:
+The banking module is critical to the whole system: Deals, Business Pulse, tax
+reconciliation and every report stand on it. Therefore:
 
-1. **Уже работаем** с прямым клиент-банк подключением и импортом выписок из
-   любого формата — это даёт покрытие уже сегодня.
-2. **Следующий шаг — единая интеграция через `Dibank`.** По нашему собственному
-   исследованию рынка это де-факто национальный стандарт клиент-банк API с
-   охватом порядка двух десятков банков из 35, работающих в стране. Одна
-   интеграция → выписки, платёжные поручения, зарплатные реестры и остатки почти
-   по всему рынку. Существенно: это тот же вендор, что и Didox, с которым у нас
-   уже рабочая интеграция. Точный охват и условия подтверждаем договором, а не
-   оценкой.
-3. **Слой абстракции провайдера — спроектирован, но ещё не написан.** Сегодня в
-   коде живёт конкретный клиент Bank24; общий интерфейс под нескольких
-   провайдеров закладывается вместе со вторым источником, чтобы не строить
-   абстракцию по одному примеру.
+1. **We already work** with a direct bank-client connection and statement import
+   from any format — that gives us coverage today.
+2. **The next step is a single integration through `Dibank`.** By our own market
+   study this is the de facto national standard for bank-client APIs, covering
+   roughly twenty of the 35 banks operating in the country. One integration →
+   statements, payment orders, payroll registers and balances across almost the
+   whole market. Materially: it is the same vendor as Didox, with whom we already
+   have a working integration. Exact coverage and terms will be confirmed by a
+   contract, not by an estimate.
+3. **The provider abstraction layer is designed but not yet written.** Today the
+   code holds a concrete Bank24 client; a common interface over several providers
+   will be laid down together with the second source, so that the abstraction is
+   not built from a single example.
 
-### Что это даст бизнесу
+### What it gives a business
 
-- Поступление денег **сразу** видно в Telegram, с привязкой к договору и счёту —
-  продавцу больше не нужно звонить бухгалтеру.
-- Платёжное поручение отправляется из той же системы, где лежит счёт.
-- Пульс, сделки и налоговая сверка получают полную и непрерывную картину денег.
+- Incoming money is visible in Telegram **immediately**, tied to its contract and
+  invoice — the salesperson no longer has to phone the bookkeeper.
+- A payment order is sent from the same system that holds the invoice.
+- Business Pulse, deals and tax reconciliation get a complete and continuous
+  picture of the money.
 
 ---
+## 3.7. Horizon VI — A Module for Every Type of Business
 
-## 3.7. Горизонт VI. Модули под каждый тип бизнеса
+> From "a document system" to "an orchestrator of all the tools a business
+> uses".
 
-> От «системы документов» к «оркестратору всех инструментов бизнеса».
+The project's full intent: every business has its own set of daily tools. Trade
+means a CRM, a warehouse, bookkeeping, promotion and a bank. Services mean
+requests, acts, HR and a bank. Manufacturing means bills of material, a
+warehouse, logistics.
 
-Замысел проекта в полном объёме: у каждого бизнеса свой набор ежедневных
-инструментов. Торговля — это CRM, склад, бухгалтерия, продвижение и банк.
-Услуги — это заявки, акты, кадры и банк. Производство — это техкарты, склад,
-логистика.
+**Our job is to assemble that orchestrator for each type of business**, where
+every one of its tools is either integrated (if the client already uses it) or
+built by us out of the same modules. And above all of it, one AI agent that knows
+this business's products, prices, customers, debts and obligations.
 
-**Наша задача — для каждого типа бизнеса собрать такой оркестратор**, где все
-его инструменты либо интегрированы (если клиент уже ими пользуется), либо
-построены нами теми же модулями. И над всем — один ИИ-агент, который знает
-товары, цены, клиентов, долги и обязательства этого бизнеса.
+### 🎯 Our own CRM
 
-### 🎯 Собственная CRM
+Today we integrate with AmoCRM and Bitrix24. Next comes our own customer loop,
+built into the same deals and documents: a pipeline, tasks, contact history,
+automatic reminders. The value is that a CRM here is not a separate contact
+database but **the same deal**, which already has a contract, a payment and
+documents.
 
-Сегодня мы интегрируемся с AmoCRM и Bitrix24. Дальше — собственный контур
-работы с клиентами, встроенный в те же сделки и документы: воронка, задачи,
-история контактов, автоматические напоминания. Ценность в том, что CRM здесь не
-отдельная база контактов, а **та же сделка**, у которой уже есть договор, оплата
-и документы.
+### 🎯 The social loop — social networks in one place
 
-### 🎯 SMM-контур — соцсети в одном месте
+Promotion is the daily work of a trading business, and today it lives entirely
+outside the accounting system. The intent: connect the business's social accounts
+to the platform and publish from one place — with product cards that **already
+exist in the catalogue**, prices that are **already current**, and copy written
+by an AI that knows the range.
 
-Продвижение — ежедневная работа торгового бизнеса, и сегодня она живёт полностью
-за пределами учётной системы. Замысел: подключить соцсети бизнеса к платформе и
-публиковать из одного места — с карточками товаров, которые **уже есть в
-каталоге**, ценами, которые **уже актуальны**, и текстами, которые пишет ИИ,
-знающий ассортимент.
+The seller does not carry photos and prices from the system into Instagram by
+hand — they pick the items and press "publish".
 
-Продавец не переносит фото и цены из системы в Instagram руками — он выбирает
-позиции и нажимает «опубликовать».
+> **This direction grew from a line in a table into a horizon of its own.**
+> Publishing from the catalogue turned out to be the smaller part of it: the
+> point is to carry the buyer from the advertisement to a paid invoice without
+> letting them leave the social network. See
+> **[iSMM — sales and promotion on social media](02-modules.md#s-ismm--sales-and-promotion-on-social-media)**.
 
-> **Это направление выросло из строчки в таблице в отдельный горизонт.**
-> Публикация из каталога оказалась меньшей его частью: главное — довести
-> покупателя от рекламы до оплаченного счёта, не выпуская его из соцсети. См.
-> **[3.12. Горизонт XI. Социальная коммерция — iSMM](#312-горизонт-xi-социальная-коммерция--ismm)**.
+### 🎯 The rest of the platform
 
-### 🎯 Остальное по платформе
-
-| Что | Состояние |
+| What | State |
 |---|---|
-| **Узбекская речь в голосовом ассистенте** | Архитектура заранее построена под второго провайдера речи; ждёт подключения Gemini Live |
-| **Тарифы и биллинг** | Интерфейс тарифов готов; подключение платёжного контура и лимитов — следующий шаг |
-| **Кадры: табель и зарплатный контур** | Кадровое делопроизводство построено; отметка времени по QR и связка с расчётом — следующий шаг |
-| **Контрагент отвечает у нас** | Наши клиенты уже шлют документы партнёрам через Didox. Сделать так, чтобы партнёр мог принять, подписать и ответить **у нас** — самый дешёвый канал роста из существующих |
+| **Uzbek speech in the voice assistant** | The architecture was built in advance for a second speech provider; awaiting the Gemini Live connection |
+| **Plans and billing** | The plan interface is ready; connecting the payment loop and the limits is the next step |
+| **HR: timesheets and the payroll loop** | HR record-keeping is built; QR clock-in and the link to payroll calculation are the next step |
+| **The counterparty replies inside our system** | Our clients already send documents to their partners through Didox. Making it possible for the partner to accept, sign and reply **here** is the cheapest growth channel that exists |
 
 ---
 
-## 3.8. Горизонт VII. Мобильные приложения iOS и Android
+## 3.8. Horizon VII — Mobile Applications: iOS and Android
 
-> Приложение в кармане — не «ещё одна платформа», а канал, которого у нас
-> сегодня физически нет.
+> An app in your pocket is not "one more platform" but a channel we physically do
+> not have today.
 
-### Что у бизнеса на телефоне сегодня
+### What a business has on its phone today
 
-| Поверхность | Что даёт | Где упирается |
+| Surface | What it gives | Where it runs out |
 |---|---|---|
-| **Telegram Mini App** | Полное приложение внутри мессенджера: 117 экранов, живые обновления | Работает только у того, кто пользуется Telegram, и только внутри его WebView |
-| **Веб-приложение `app.ihisobchi.uz`** | Тот же интерфейс в браузере, вход по телефону + SMS или e-mail + пароль, устанавливается на домашний экран (PWA-манифест, standalone-режим, свои иконки) | Нет офлайна, нет собственных пуш-уведомлений, нет доступа к биометрии |
+| **The Telegram Mini App** | A complete application inside the messenger: 117 screens, live updates | Only works for someone who uses Telegram, and only inside its WebView |
+| **The web app `app.ihisobchi.uz`** | The same interface in a browser, sign-in by phone + SMS or e-mail + password, installable to the home screen (PWA manifest, standalone mode, its own icons) | No offline mode, no push notifications of our own, no access to biometrics |
 
-То есть **приложение у клиента на экране уже есть** — но это веб-обёртка, и три
-вещи ей недоступны принципиально.
+In other words, **the client already has an app on their screen** — but it is a
+web wrapper, and three things are fundamentally out of its reach.
 
-### Зачем нужны нативные приложения
+### Why native apps are needed
 
-**1. Свой канал уведомлений.** Сегодня единственный способ достучаться до
-клиента — Telegram-бот. Кто не пользуется Telegram или отключил уведомления от
-ботов, не узнает ни о поступлении денег, ни о письме налоговой, ни о заказе с
-витрины. Нативный пуш снимает зависимость от чужого мессенджера в самом
-чувствительном месте продукта.
+**1. A notification channel of our own.** Today the only way to reach a client is
+the Telegram bot. Anyone who does not use Telegram, or who has muted bot
+notifications, will never learn that money arrived, that a letter came from the
+tax office, or that an order was placed on their storefront. A native push
+removes a dependency on somebody else's messenger at the product's most sensitive
+point.
 
-**2. Присутствие в App Store и Google Play.** Для бизнеса, который выбирает
-учётную систему, наличие приложения в сторе — сигнал зрелости. Плюс это
-бесплатный канал привлечения: человек ищет «hisobchi», «hisob-faktura», «ЭСФ» и
-находит нас, не зная о Telegram-боте.
+**2. A presence in the App Store and Google Play.** For a business choosing an
+accounting system, having an app in the store is a signal of maturity. It is also
+a free acquisition channel: someone searches for "hisobchi", "hisob-faktura" or
+"ESF" and finds us without ever knowing about the Telegram bot.
 
-**3. Камера и сканер по-настоящему.** Мы уже активно используем камеру —
-инвентаризация со сканированием штрихкодов, добавление товара по штрихкоду,
-распознавание первички и прайсов по фото, распознавание паспорта в рассрочке,
-голосовой ввод. В WebView каждая из этих функций работает с оговорками и
-зависит от версии системы. Нативный доступ к камере — это скорость сканирования,
-стабильная работа автофокуса и поточный режим «сканирую пачку подряд».
+**3. The camera and the scanner, properly.** We already lean on the camera
+heavily — stocktaking with barcode scanning, adding a product by barcode,
+recognising source documents and price lists from a photo, recognising a passport
+for an instalment sale, voice input. Inside a WebView every one of those works
+with caveats and depends on the OS version. Native camera access means scanning
+speed, dependable autofocus, and a continuous "scan a whole batch in a row" mode.
 
-**4. Офлайн.** Сегодня без сети приложение просто не открывается — сервис-воркера
-нет. А ключевые сценарии происходят там, где связь плохая: склад, инвентаризация,
-выездной продавец, точка на рынке. Офлайн-очередь операций («отсканировал 200
-позиций без сети — при появлении связи всё улетело») — то, ради чего склад
-переходит на приложение.
+**4. Offline.** Today the app simply does not open without a network — there is
+no service worker. Yet the key scenarios happen where the signal is poor: a
+warehouse, a stocktake, a field salesperson, a stall in a market. An offline
+operations queue ("I scanned 200 items with no signal — the moment it came back
+everything flew off") is exactly what makes a warehouse move to an app.
 
-**5. Биометрия как второй фактор.** Face ID или отпечаток вместо повторного ввода
-пароля при подтверждении подписи и отправки документа. Это одновременно и
-удобнее, и строже: подтверждение операции привязано к устройству и человеку.
+**5. Biometrics as a second factor.** Face ID or a fingerprint instead of typing
+the password again to confirm a signature or the sending of a document. It is
+both more convenient and stricter: confirming an operation is tied to a device
+and a person.
 
-**6. Фоновая работа.** Догрузка выписки, синхронизация касс, обновление сделок —
-пока приложение закрыто, с уважением к тихим часам.
+**6. Background work.** Fetching the statement, syncing tills, refreshing deals —
+while the app is closed, and with respect for quiet hours.
 
-### Почему это дешёвый шаг, а не новый продукт
+### Why this is a cheap step rather than a new product
 
-Главное уже построено, и построено правильно:
+The important part is already built, and built correctly:
 
-| Что нужно нативному приложению | Состояние |
+| What a native app needs | State |
 |---|---|
-| Полноценный интерфейс всех разделов | ✅ SPA на 117 маршрутов — это и есть приложение |
-| Бэкенд, не завязанный на Telegram | ✅ HTTP + SSE; веб-режим авторизации (телефон + SMS-OTP, e-mail + пароль, JWT-сессии) работает вне мессенджера |
-| Подпись ЭЦП вне Telegram | ✅ Web-sign открыт, managed-подпись работает круглосуточно |
-| Манифест, иконки, тема, standalone | ✅ Уже есть |
-| Загрузка файлов и документов | ✅ Одноразовые тикеты скачивания уже реализованы для нативных загрузок |
+| A full interface for every section | ✅ An SPA with 117 routes — that is the app |
+| A backend not tied to Telegram | ✅ HTTP + SSE; the web authentication mode (phone + SMS OTP, e-mail + password, JWT sessions) works outside the messenger |
+| Digital signing outside Telegram | ✅ Web signing is available, managed signing runs round the clock |
+| Manifest, icons, theme, standalone mode | ✅ Already there |
+| File and document downloads | ✅ One-time download tickets are already implemented for native downloads |
 
-**Заново переписывать продукт не нужно** — интерфейс, API и авторизация уже
-существуют и работают вне Telegram. Но и «просто обёртка» — упрощение: офлайн-
-очередь операций, разрешение конфликтов при синхронизации, привязка к
-устройству, реестр пуш-токенов и удалённый отзыв доступа требуют новых
-контрактов на стороне сервера и отдельного разбора по безопасности. Мы считаем
-это **средней по объёму работой на существующем фундаменте**, а не новым
-продуктом.
+**The product does not need rewriting** — the interface, the API and the
+authentication already exist and work outside Telegram. But calling it "just a
+wrapper" would be a simplification too: the offline operations queue, conflict
+resolution on sync, device binding, a push-token registry and remote revocation
+of access all require new server-side contracts and a security review of their
+own. We regard this as **a medium-sized piece of work on an existing
+foundation**, not a new product.
 
-### Три ступени
+### Three stages
 
-**Ступень 1 — довести PWA (дёшево, без сторов).**
-Сервис-воркер: офлайн-оболочка, кэш справочников, очередь операций при потере
-сети. Веб-пуш там, где платформа его поддерживает. Это закрывает офлайн и часть
-уведомлений **без единой публикации в стор** и проверяется на реальных клиентах
-раньше, чем начнётся работа над сторами.
+**Stage 1 — finish the PWA (cheap, no app stores).**
+A service worker: an offline shell, cached reference data, an operations queue
+for when the network drops. Web push where the platform supports it. That closes
+offline use and part of the notification problem **without a single store
+submission**, and it can be tested on real clients before any work on the stores
+begins.
 
-**Ступень 2 — гибридная оболочка и публикация.**
-Один и тот же код интерфейса в нативном контейнере: нативные пуш-уведомления,
-камера, биометрия, работа с файлами, deep-link в разделы. Публикация в App Store
-и Google Play, поддержка обновлений. Одна кодовая база на веб, Telegram и оба
-стора — интерфейс не разъезжается между платформами, а исправление приезжает
-везде сразу.
+**Stage 2 — a hybrid shell and publication.**
+The same interface code inside a native container: native push notifications, the
+camera, biometrics, file handling, deep links into sections. Publication to the
+App Store and Google Play with update support. One codebase for the web, Telegram
+and both stores — the interface cannot drift apart between platforms, and a fix
+lands everywhere at once.
 
-**Ступень 3 — нативное там, где оболочки мало.**
-Поточный сканер штрихкодов для инвентаризации, офлайн-склад с локальной базой,
-интеграция с мобильными средствами электронной подписи. Делается точечно и
-только под подтверждённый сценарий, а не «потому что нативно лучше».
+**Stage 3 — native where a shell is not enough.**
+A continuous barcode scanner for stocktaking, an offline warehouse with a local
+database, integration with mobile digital-signature tools. Done selectively and
+only for a confirmed scenario, never "because native is better".
 
-### Чего мы при этом не делаем
+### What we are not doing along the way
 
-**Telegram не перестаёт быть первой поверхностью.** Рынок Узбекистана живёт в
-Telegram, и путь «начал пользоваться, не устанавливая ничего» — наше
-конкурентное преимущество, а не временное решение. Мобильное приложение
-**добавляет** канал для тех, кому нужен склад в руках, уведомления без
-мессенджера и вход без Telegram-аккаунта, — но не отбирает у остальных
-возможность работать там, где они уже есть.
+**Telegram does not stop being the first surface.** The Uzbek market lives in
+Telegram, and the path of "started using it without installing anything" is a
+competitive advantage, not a stopgap. A mobile app **adds** a channel for those
+who need a warehouse in their hand, notifications without a messenger and a way
+in without a Telegram account — but it does not take away anyone else's ability
+to work where they already are.
 
 ---
 
-## 3.9. Горизонт VIII. Налоговая отчётность, которая готовится сама
+## 3.9. Horizon VIII — Tax Reporting That Prepares Itself
 
-> Замыкающее звено полной автономности.
+> The closing link of full autonomy.
 
-### Что это
+### What it is
 
-Квартальный отчёт, отчёт по НДС и остальная обязательная отчётность —
-сегодня это ручная работа: собрать обороты, свести с документами, перепроверить,
-заполнить формы в кабинете налоговой, отправить, не пропустить срок.
+The quarterly return, the VAT return and the rest of the mandatory reporting are
+manual work today: gather the turnover, reconcile it against the documents,
+double-check, fill in the forms in the tax portal, submit, and do not miss the
+deadline.
 
-Замысел: **система готовит отчёт сама, из фактических данных, которые у неё уже
-есть.**
+The intent: **the system prepares the return itself, from actual data it already
+holds.**
 
 ```
-Наступает срок отчёта
+The filing deadline approaches
         │
         ▼
-Агент собирает основание: сколько получено на счёт, сколько
-пробито по кассе, сколько выставлено и подписано счёт-фактур,
-какие входящие приняты, какие операции прошли за период
+The agent gathers the basis: how much was received into the account,
+how much was rung up on the till, how many e-invoices were issued and
+signed, which incoming documents were accepted, what happened in the period
         ▼
-Формирует отчёт — и показывает владельцу С ДОКАЗАТЕЛЬСТВАМИ:
-каждая цифра разворачивается до документов, из которых она сложилась
+It composes the return — and shows it to the owner WITH THE EVIDENCE:
+every figure expands into the documents it was built from
         ▼
-Владелец смотрит → подтверждает, либо просит изменить
-(в том числе голосом: «убери эту сделку, она аннулирована»)
+The owner looks → confirms, or asks for a change
+(including by voice: "drop that deal, it was cancelled")
         ▼
-Отправка в налоговую
+Submission to the tax office
 ```
 
-### Почему это осуществимо именно у нас
+### Why this is achievable specifically here
 
-Отчёт нельзя собрать из воздуха — для него нужны первичные данные, сведённые и
-проверенные. Именно они у нас уже есть и уже сверены между собой:
+A return cannot be assembled out of thin air — it needs source data, reconciled
+and verified. That is exactly what we already have, and it is already reconciled:
 
-- **счёт-фактуры** — исходящие и входящие, с их статусами подписи;
-- **деньги** — банковская выписка и фискальные чеки онлайн-кассы в одном
-  леджере;
-- **сделки** — что закрыто, что нет, что оплачено без документа и наоборот;
-- **сверка** — механизм, который уже сегодня показывает «оборот без документов»
-  в «Пульсе бизнеса».
+- **e-invoices** — outgoing and incoming, with their signature statuses;
+- **money** — the bank statement and the fiscal cash-register receipts in one
+  ledger;
+- **deals** — what is closed, what is not, what was paid without a document and
+  the reverse;
+- **reconciliation** — the mechanism that already surfaces "turnover without
+  documents" in Business Pulse today.
 
-То есть **основание отчёта у нас уже посчитано** — как побочный продукт
-основной работы. Остаётся форма и канал отправки.
+In other words, **the basis of the return is already calculated on our side** —
+as a by-product of the ordinary work. What remains is the form and the submission
+channel.
 
-### Чего ждём от внешней стороны
+### What we are waiting on from outside
 
-Официального программного интерфейса налоговой для сдачи отчётности — по API
-или по протоколу MCP. Направление задано государством: тот же курс на открытые
-интерфейсы, что и в [банковской сфере](#36-горизонт-v-деньги--открытый-банкинг).
-До появления официального канала мы делаем ту часть, которая от нас зависит:
-готовим отчёт, показываем доказательства, даём подтвердить и выгрузить.
+An official programmatic interface from the tax authority for filing — over an
+API or over the MCP protocol. The direction has been set by the state: the same
+course towards open interfaces as in
+[banking](#36-horizon-v--money-and-open-banking). Until an official channel
+exists, we build the part that depends on us: prepare the return, show the
+evidence, and let the owner confirm and export it.
 
-**Мы не будем отправлять отчётность в госорган обходными путями.** Никакой
-эмуляции действий пользователя в чужом кабинете: юридически значимая отправка
-пойдёт только официальным каналом, когда он появится.
+**We will not submit filings to a government body by back doors.** No emulation
+of a user's actions inside someone else's portal: a legally significant
+submission will go only through an official channel, once one exists.
 
-### Чем это закрывает картину
+### How this completes the picture
 
-Вместе с [автономными сделками](#32-горизонт-i-автономные-сделки),
-[автосчётом по оплате](#321-первый-шаг-к-этому--автосчёт-фактура-по-оплате-)
-и [банком](#36-горизонт-v-деньги--открытый-банкинг) это замыкает полный круг:
+Together with [autonomous deals](#32-horizon-i--autonomous-deals), the
+[automatic invoice on payment](#321-the-first-step-towards-it--automatic-e-invoice-on-payment-)
+and [banking](#36-horizon-v--money-and-open-banking), this closes the full
+circle:
 
-> Товар продан → документы оформлены сами → деньги получены и разнесены сами →
-> сделка закрыта сама → отчёт собран и сдан.
+> Goods sold → documents filed automatically → money received and allocated
+> automatically → the deal closed automatically → the return assembled and
+> submitted.
 
-Бизнесу не остаётся операционной работы вообще. Только смотреть, проверять и
-принимать решения — то, ради чего его и открывали.
+The business is left with no operational work at all. Only watching, checking and
+deciding — which is what it was opened for in the first place.
+
+---
+## 3.10. Horizon IX — Support That Solves Rather Than Logs
+
+> 🔵 In development. In detail:
+> [08-with-and-without.md §8.7](08-with-and-without.md#87-support-our-position).
+
+A business entrusts us with its documents, its signatures and its money. In work
+like that, support is not a department off to one side but part of the product:
+"wait until Monday" can mean a missed shipment or a missed deadline to answer the
+tax office.
+
+We are building an **AI support agent** that answers on the substance and is able
+to act — rather than collecting the question and passing it to a human.
+
+- **It learns on real material.** Several years of user requests to the support
+  desks of various services, and public groups describing genuine problems with
+  e-documents, digital signatures, tax and bookkeeping — together with how those
+  problems ended.
+- **It reaches people only after evaluation.** Training, a run against difficult
+  cases, a check for invention, an assessment of answer quality. A bad answer in
+  support costs more than no answer at all.
+- **It works round the clock and at any volume** — hundreds of thousands of
+  requests, in the place where a machine has an advantage people cannot have.
+- **It acts on human confirmation:** it does not only advise but changes
+  settings, repairs state, lifts a block. For example: a client urgently needs to
+  sign a document but access is restricted because of an unpaid invoice — the
+  agent works it out and **opens a one-off passage** so the person can sign now,
+  while the payment question is settled separately.
+
+**The principle behind it:** solve the person's problem first, everything else
+second. We meet the user halfway before they have paid.
 
 ---
 
-## 3.10. Горизонт IX. Поддержка, которая решает, а не регистрирует
+## 3.11. Horizon X — The Physical Loop: Warehouse, Customs, Delivery
 
-> 🔵 В разработке. Подробно — [08-with-and-without.md §8.7](08-with-and-without.md#87-поддержка-наша-позиция).
+> 🎯 The next big step. Here the platform reaches beyond documents for the first
+> time and takes charge of the goods themselves.
 
-Бизнес доверяет нам документы, подписи и деньги. В такой работе поддержка — не
-служба сбоку, а часть продукта: «подождите до понедельника» может означать
-сорванную отгрузку или пропущенный срок ответа налоговой.
+### Why we want the physical world at all
 
-Строим **ИИ-агента поддержки**, который отвечает по существу и умеет действовать
-— а не собирает вопрос и передаёт человеку.
+Today we know everything about an item: that it was bought, at what price, under
+which document, how much of it is in stock, who it was sold to. But the item
+itself sits with the client, and everything that physically happens to it —
+customs clearance, storage, packing, dispatch — stays outside the system, in
+somebody else's hands, with no single picture of it.
 
-- **Учится на реальном материале.** Несколько лет обращений пользователей в
-  службы поддержки разных сервисов и публичные группы, где описаны настоящие
-  проблемы с ЭДО, ЭЦП, налоговой и учётом, — вместе с тем, чем эти проблемы
-  кончались.
-- **Выходит к людям только после оценки.** Обучение, прогон на сложных случаях,
-  проверка на выдумывание, оценка качества ответов. Плохой ответ в поддержке
-  дороже отсутствия ответа.
-- **Работает круглосуточно и на любом объёме** — сотни тысяч обращений там, где
-  у машины преимущество, которого у людей быть не может.
-- **Действует с подтверждения человека:** не только советует, но и меняет
-  настройки, чинит состояние, снимает блокировку. Пример: клиенту срочно нужно
-  подписать документ, а доступ ограничен из-за долга по счёту — агент разбирается
-  и **открывает разовый проход**, чтобы человек подписал сейчас, а вопрос оплаты
-  решается отдельно.
-
-**Принцип, который за этим стоит:** сначала решить проблему человека, потом всё
-остальное. Мы идём навстречу пользователю раньше, чем он заплатил.
-
----
-
-## 3.11. Горизонт X. Физический контур — склад, таможня, доставка
-
-> 🎯 Следующий большой шаг. Здесь платформа впервые выходит за пределы
-> документов и берёт на себя сам товар.
-
-### Зачем нам вообще физический мир
-
-Сегодня мы знаем о товаре всё: что он куплен, по какой цене, каким документом
-оформлен, сколько его на складе, кому продан. Но сам товар лежит у клиента, и
-всё, что с ним физически происходит — растаможка, хранение, упаковка, отправка —
-остаётся за пределами системы, в чужих руках и без единой картины.
-
-Замысел горизонта: **замкнуть цепочку от границы до покупателя**.
+The intent of this horizon: **close the chain from the border to the buyer**.
 
 ```
-Товар пришёл из-за рубежа
+Goods arrive from abroad
         ▼
-Растаможка через брокера, найденного здесь же   ← 3.11.2
+Customs clearance through a broker found right here    ← 3.11.2
         ▼
-Приёмка на наш умный склад                       ← 3.11.1
+Goods received into our smart warehouse                 ← 3.11.1
         ▼
-Распаковка · сортировка · карточки товара · маркировка
+Unpacking · sorting · product records · labelling
         ▼
-Продажа: UmagShop, свой магазин, любой другой канал
+Sale: UmagShop, your own shop, any other channel
         ▼
-Доставка в любую точку Узбекистана
+Delivery anywhere in Uzbekistan
         ▼
-Документы и деньги — как обычно, сами
+Documents and money — as usual, by themselves
 ```
 
-Владельцу не нужно ни покупать склад, ни держать кладовщиков, ни искать
-брокера, ни договариваться с перевозчиками. Ему нужно, **чтобы товар был** — всё
-остальное берёт на себя платформа.
+The owner does not have to buy a warehouse, employ storekeepers, find a broker or
+negotiate with carriers. What they have to do is **have the goods** — the platform
+takes on the rest.
 
-### 3.11.1. 🎯 Умный склад и фулфилмент
+### 3.11.1. 🎯 A smart warehouse and fulfilment
 
-**Что это.** Мы берём большой склад и делаем его умным: учёт, размещение,
-комплектация и отгрузка ведутся ИИ-агентом на тех же данных, что уже живут в
-системе — номенклатура, ИКПУ, остатки, заказы, документы.
+**What it is.** We take a large warehouse and make it smart: stock records,
+placement, picking and dispatch are run by an AI agent on the very data already
+living in the system — the catalogue, IKPU codes, stock levels, orders,
+documents.
 
-Клиент привозит товар (или он приезжает прямо с таможни) — и дальше:
+The client brings the goods in (or they arrive straight from customs), and from
+then on:
 
-| Услуга склада | Что делаем |
+| Warehouse service | What we do |
 |---|---|
-| **Хранение** | Товар лежит у нас, остатки видны в приложении в реальном времени |
-| **Приёмка и распаковка** | Разбираем поставку, сверяем с документами, находим расхождения |
-| **Сортировка** | Раскладываем по позициям, партиям, срокам годности |
-| **Карточки товара** | Создаём номенклатуру: фото, описание, характеристики, код ИКПУ — то, что обычно делают неделями вручную |
-| **Маркировка** | Наносим коды маркировки, если товар этого требует |
-| **Комплектация и отправка** | Собираем заказ, упаковываем, передаём перевозчику |
-| **Помощь в продаже** | Товар сразу попадает на витрину UmagShop, в живой эфир и в короткие видео |
+| **Storage** | The goods sit with us; stock levels are visible in the app in real time |
+| **Receiving and unpacking** | We take the delivery apart, reconcile it against the documents and find the discrepancies |
+| **Sorting** | We lay it out by item, by batch, by expiry date |
+| **Product records** | We create the catalogue entries: photo, description, specification, IKPU code — what usually takes weeks by hand |
+| **Labelling** | We apply marking codes where the goods require them |
+| **Picking and dispatch** | We assemble the order, pack it and hand it to the carrier |
+| **Help with selling** | The goods appear straight away on the UmagShop storefront, in the live stream and in the short videos |
 
-**Продавать можно куда угодно.** Это принципиально: склад не привязан к нашему
-маркетплейсу. Товар лежит у нас, а продаётся хоть в UmagShop, хоть в своём
-магазине, хоть в Instagram, хоть по звонку — отгрузку в любом случае делаем мы,
-через интегрированные службы доставки.
+**You can sell anywhere.** This matters: the warehouse is not tied to our
+marketplace. The goods sit with us and can be sold on UmagShop, in your own shop,
+on Instagram or over the phone — either way we handle the dispatch, through the
+integrated delivery services.
 
-**Цель по скорости — день в день в любую точку Узбекистана.** Для продавца это
-меняет разговор с покупателем: не «отправлю на неделе», а «завтра у вас».
+**The speed target is same-day, anywhere in Uzbekistan.** For a seller that
+changes the conversation with a buyer: not "I'll send it sometime this week" but
+"you'll have it tomorrow".
 
-**Почему это логично именно для нас.** Склад — единственное место, где
-физический товар встречается с документами. У нас документы уже есть: приёмка
-сверяется с входящей счёт-фактурой автоматически, отгрузка сразу порождает
-исходящую, остатки не надо вводить руками, коды ИКПУ уже подобраны. Обычный
-фулфилмент-оператор всего этого не видит — он работает с коробками, а не со
-сделками.
+**Why this is a logical move for us specifically.** The warehouse is the one place
+where physical goods meet documents. We already have the documents: receiving is
+reconciled against the incoming invoice automatically, a dispatch immediately
+produces an outgoing one, stock levels do not have to be typed in, and the IKPU
+codes are already matched. An ordinary fulfilment operator sees none of that — it
+works with boxes, not with deals.
 
-### 3.11.2. 🎯 Таможня и брокеры
+### 3.11.2. 🎯 Customs and brokers
 
-**Проблема.** Бизнес привёз товар — и упирается в растаможку. Найти брокера,
-понять справедливую цену, проверить, не обманывают ли, дождаться выпуска,
-узнать, что происходит прямо сейчас, — всё это происходит по телефону, в чужих
-чатах и вслепую.
+**The problem.** A business has brought goods in — and runs straight into customs
+clearance. Finding a broker, working out a fair price, checking whether you are
+being cheated, waiting for release, learning what is happening right now — all of
+it happens over the phone, in somebody else's chat threads, and blind.
 
-**Решение — та же механика, что и на [бирже бухгалтерских
-услуг](#33-горизонт-ii-биржа-бухгалтерских-и-аутсорсинговых-услуг):**
+**The answer is the same mechanic as on the
+[accounting services exchange](#33-horizon-ii--an-exchange-for-accounting-and-outsourcing-services):**
 
-1. **Брокерские фирмы входят в экосистему как партнёры** — наравне с
-   бухгалтерскими и аутсорсинговыми. Работают с владельцами бизнеса и с их
-   документооборотом, договоры на услуги подписываются автоматически.
-2. **Владелец создаёт запрос анонимно**: какой товар, какой объём, какие сроки.
-   Без реквизитов компании.
-3. **Брокеры видят запрос и присылают коммерческие предложения** — как именно
-   растаможат, за сколько, в какой срок.
-4. **Владелец сравнивает и выбирает.** Не первого попавшегося, а лучшего из
-   нескольких — впервые зная рыночную цену своей задачи.
-5. **Договор подписывается здесь же**, работа ведётся здесь же.
-6. **Статус виден в реальном времени** — на каком этапе груз, что сделано, что
-   осталось. Владелец не звонит и не спрашивает: он смотрит.
-7. **После выпуска товар едет туда, куда он скажет** — на наш склад (и сразу
-   попадает в §3.11.1), на его собственный склад или прямо покупателю.
+1. **Broker firms join the ecosystem as partners** — on the same footing as
+   accounting and outsourcing firms. They work with business owners and with
+   their documents, and service contracts are signed automatically.
+2. **The owner posts a request anonymously**: which goods, what volume, what
+   deadlines. With no company details attached.
+3. **Brokers see the request and send proposals** — exactly how they will clear
+   it, for how much, in what time.
+4. **The owner compares and chooses.** Not the first firm they came across but
+   the best of several — knowing, for the first time, the market price of their
+   own task.
+5. **The contract is signed right here**, and the work is conducted right here.
+6. **The status is visible in real time** — what stage the consignment is at,
+   what is done, what remains. The owner does not phone and ask: they look.
+7. **After release the goods go wherever they say** — to our warehouse (entering
+   §3.11.1 immediately), to their own warehouse, or straight to the buyer.
 
-**Что это даёт бизнесу.** Импортёру больше не нужно ни держать своего
-таможенного специалиста, ни покупать склад под растаможенный товар, ни искать
-перевозчика: запрос → предложения → выбор → и дальше всё идёт по одной ленте, в
-которой уже лежат его документы и деньги.
+**What it gives a business.** An importer no longer needs to keep a customs
+specialist on staff, buy a warehouse for cleared goods, or hunt for a carrier:
+request → proposals → choice — and from then on everything runs in one feed that
+already holds their documents and their money.
 
-### Откуда здесь доход
+### Where the revenue comes from here
 
-Этот горизонт — не только удобство, но и **выручка платформы**: хранение,
-обработка товара, отгрузка и комиссия за сведение с брокером. Подробно — в
+This horizon is not only convenience but **revenue for the platform**: storage,
+goods handling, dispatch and a fee for the broker introduction. In detail in
 [09-business-model.md](09-business-model.md).
 
 ---
 
-## 3.13. Что не меняется
+## 3.13. What Does Not Change
 
-Пять правил, которые остаются неизменными на любом горизонте. Они и есть
-причина, по которой бизнес может доверить системе свои деньги и документы.
+Five rules that hold on every horizon. They are the reason a business can entrust
+its money and its documents to the system at all.
 
-1. **ИИ предлагает — человек подтверждает.** Автономия расширяется только через
-   явное, отзываемое, ограниченное по сумме и сроку согласие владельца. Не через
-   «мы решили, что так удобнее».
-2. **Правда цифр.** Бухгалтерия не имеет права ошибаться в сумме, НДС, дате или
-   коде. Название по коду ИКПУ — всегда из государственного справочника.
-   Аномалии ищут детерминированные правила, а не языковая модель. Одна неверная
-   цифра дороже десяти новых функций.
-3. **Ничего не переходит само.** Закупочные цены не утекают на витрину,
-   персональные данные сотрудников не открываются вместе с бухгалтерским
-   разделом, письмо налоговой не отмечается прочитанным без явного действия
-   владельца.
-4. **Всё гасится за секунду.** Любая функция — за отдельным выключателем,
-   который работает без выкладки новой версии.
-5. **Узбекский — первый язык, а не перевод.** Оба языка равноправны везде: в
-   интерфейсе, в документах, в PDF, в голосе.
-
----
-
-## 3.14. Итог
-
-**Что уже есть:** 252 модуля, 18 поверхностей, 24 типа документов, 73 098
-проведённых документов, 85 869 сделок, полный контур ЭДО Узбекистана, ИИ-агент,
-живой голос, интеграции с 1С, МойСклад, AmoCRM, Bitrix24, кассами, банком и
-налоговой, маркетплейс с документами, и «Пульс бизнеса», который показывает
-владельцу правду о его компании.
-
-**Что впереди:** счёт-фактура, которая выставляется сама в момент поступления
-денег; сделки, которые закрываются без участия человека; биржа, где бизнес
-находит честного бухгалтера за час; коммерция, где заказ уезжает курьером без
-единого клика; живой эфир, из которого выходит подписанная сделка; склад,
-который принимает товар прямо с таможни; налоговая отчётность, которая
-собирается из фактов и ждёт только
-кивка владельца; приложения в App Store и Google Play со складом, работающим без
-сети; и **голос, которым всё это управляется**.
-
-Мы строим не бухгалтерскую программу. Мы строим **среду, в которой бизнес
-Узбекистана работает сам** — а владелец занимается тем, ради чего его начинал.
+1. **The AI proposes — a human confirms.** Autonomy is only ever widened through
+   the owner's explicit consent, revocable and bounded by amount and duration.
+   Never through "we decided it was more convenient this way".
+2. **The truth of the numbers.** Bookkeeping has no right to be wrong about an
+   amount, VAT, a date or a code. The name behind an IKPU code always comes from
+   the state catalogue. Anomalies are found by deterministic rules, not by a
+   language model. One wrong figure costs more than ten new features.
+3. **Nothing crosses on its own.** Purchase prices do not leak onto a storefront,
+   employees' personal data does not open up along with the accounting section, a
+   tax-office letter is not marked as read without an explicit act by the owner.
+4. **Everything can be killed in a second.** Every feature sits behind a switch of
+   its own that works without shipping a new version.
+5. **Uzbek is a first language, not a translation.** Both languages carry equal
+   weight everywhere: in the interface, in documents, in PDFs, in voice.
 
 ---
 
-*Назад к началу: [обзор экосистемы](README.md)*
+## 3.14. In Summary
+
+**What already exists:** 252 modules, 18 surfaces, 24 document types, 73,098
+documents processed, 85,869 deals, full coverage of Uzbekistan's e-document
+system, an AI agent, live voice, integrations with 1C, MoySklad, AmoCRM,
+Bitrix24, cash registers, a bank and the tax office, a marketplace with documents
+attached, and Business Pulse, which shows an owner the truth about their company.
+
+**What lies ahead:** an e-invoice that issues itself the moment the money lands;
+deals that close without a human; an exchange where a business finds an honest
+bookkeeper within an hour; commerce where an order leaves with a courier without
+a single click; a live broadcast that produces a signed transaction; a warehouse
+that takes goods straight from customs; tax filings assembled from facts and
+waiting only for the owner's nod; apps in the App Store and Google Play with a
+warehouse that works without a network; and **the voice that runs all of it**.
+
+We are not building an accounting program. We are building **an environment in
+which business in Uzbekistan runs itself** — while the owner gets on with what
+they started it for.
+
+---
+
+*Back to the beginning: [ecosystem overview](README.md)*

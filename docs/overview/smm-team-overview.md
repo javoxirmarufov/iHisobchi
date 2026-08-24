@@ -1,136 +1,148 @@
-# iHisobchi — Обзор продукта для SMM-команды
+# iHisobchi — Product Overview for the Social Media Team
 
-> Актуально на август 2026. По данным production и docs/overview.
+> Current as of August 2026. Based on production data and docs/overview.
 
 **One-liner:**  
-**«Бизнес, который слушает. Говори — и он работает.»**
+**"The business that listens. Speak — and it works."**
 
-Один контур вместо 7–9 программ. Документы + ЭЦП + сделки + деньги + склад + налоговая + кадры + маркетплейс. Управляется голосом через ИИ-агента, который знает именно *ваш* бизнес.
-
----
-
-## 1. Проблема → Решение
-
-**Без нас (хаос):**  
-Didox + E-IMZO (только с ПК + USB) + клиент-банк + 1С/МойСклад + Excel + my.soliq.uz + Telegram.  
-Человек = интеграция → ошибки, забытые оплаты, слепота владельца.
-
-**С нами:**  
-Один вход. Документ за 30–120 секунд (голос / фото / Smart Paste). Сразу часть сделки. «Чей ход». Пульс на человеческом языке. Письма налоговой в Telegram с AI-объяснением.
-
-**Визуал для дизайна:**  
-Лево — хаос иконок + красные стрелки.  
-Право — центральный мозг AI с cyan-спицами к модулям.
+One loop instead of 7–9 programs. Documents + digital signature + deals + money +
+inventory + tax + HR + marketplace. Run by voice, through an AI agent that knows
+*your* business specifically.
 
 ---
 
-## 2. Для кого супер-полезны (Persona Cards)
+## 1. Problem → Solution
 
-| Сегмент | Размер | Главная выгода | Хук для рекламы |
-|---------|--------|----------------|-----------------|
-| ИП / микробизнес | ~600k | Бухгалтер в кармане | «Счёт-фактура голосом с телефона. Без ПК» |
-| Малый бизнес / ООО | ~200k | Освобождение от рутины | «Автодокументы + автосверка» |
-| Мультибизнесмен | десятки тыс. | Все компании в одном | «Одна лента по всем ИНН» |
-| Учредитель | — | Правда без жаргона | «Пульс: рентген + требуют внимания» |
-| Оптовик / производитель | ~50k | Массовые СФ + КП | «КП на 300 компаний одним действием через ЭДО» |
-| Розница + касса | ~15k | Чеки сами в учёте | «Вечерняя сводка по кассе» |
-| Бухфирмы | тысячи | Мультиклиент | «Один агент на 40+ клиентов» |
+**Without us (chaos):**  
+Didox + E-IMZO (PC and USB key only) + bank client + 1C/MoySklad + Excel +
+my.soliq.uz + Telegram.  
+The human is the integration → errors, forgotten payments, an owner who cannot
+see.
+
+**With us:**  
+One way in. A document in 30–120 seconds (voice / photo / Smart Paste).
+Immediately part of a deal. "Whose move is it." Business Pulse in plain language.
+Tax-office letters in Telegram with an AI explanation.
+
+**Visual direction for design:**  
+Left — a chaos of icons with red arrows.  
+Right — a central AI brain with cyan spokes reaching out to the modules.
 
 ---
 
-## 3. Главные фишки (Killer Features)
+## 2. Who It Is Brilliant For (persona cards)
 
-1. **Голосовой ИИ-оркестратор** — главная ставка  
-   «Выстави Артели счёт на те же ноутбуки по новой цене» → делает. HITL safety.
+| Segment | Size | Main benefit | Advertising hook |
+|---------|------|--------------|------------------|
+| Sole traders / micro-business | ~600k | An accountant in your pocket | "An e-invoice by voice, from your phone. No PC" |
+| Small business / LLCs | ~200k | Freed from the routine | "Automatic documents + automatic reconciliation" |
+| Multi-business owners | tens of thousands | Every company in one place | "One feed across all your TINs" |
+| Founders | — | The truth without the jargon | "Pulse: an X-ray plus what needs attention" |
+| Wholesalers / manufacturers | ~50k | Bulk invoices and proposals | "A proposal to 300 companies in one action, through the e-document system" |
+| Retail with a till | ~15k | Receipts post themselves | "An evening summary of the till" |
+| Accounting firms | thousands | Multi-client | "One agent for 40+ clients" |
 
-2. **Движок сделок**  
-   85k+ сделок, 73% закрыты. «Чей сейчас ход?»
+---
 
-3. **Пульс бизнеса**  
-   Рентген владельца + детектор аномалий (двойные платежи, дробление, оборот без документов).
+## 3. Killer Features
 
-4. **Массовая официальная рассылка КП через ЭДО**  
-   Уникально. До 20 000 получателей. Юридически значимо.
+1. **The voice AI orchestrator** — the main bet  
+   "Invoice Artel for the same laptops at the new price" → it does it. With
+   human-in-the-loop safety.
 
-5. **4 способа ЭЦП**  
-   Agent / Web / 24/7 Server / Demo. Подпись с телефона / без ПК.
+2. **The deals engine**  
+   85k+ deals, 73% closed. "Whose move is it right now?"
 
-6. **Налоговая в кармане**  
-   Письма ГНК + чеки ОНК → Telegram + AI «что хотят и до какого срока».
+3. **Business Pulse**  
+   An X-ray for the owner plus an anomaly detector (duplicate payments,
+   structuring, turnover without documents).
+
+4. **Official mass-mailing of proposals through the e-document system**  
+   Unique. Up to 20,000 recipients. Legally significant.
+
+5. **Four ways to sign**  
+   Agent / Web / 24-7 Server / Demo. Sign from a phone, with no PC.
+
+6. **The tax office in your pocket**  
+   Letters from the tax committee and fiscal receipts → Telegram, plus an AI
+   "what do they want and by when".
 
 7. **UmagShop + QR-Hisob**  
-   Заказ = договор + счёт + сделка. Без сайта.
+   An order = a contract + an invoice + a deal. With no website.
 
-8. **AI-юрист на нормах РУз**  
-   Претензии и иски из реальных сделок.
+8. **An AI Lawyer built on Uzbek statutes**  
+   Claims and lawsuits drawn from real deals.
 
 ---
 
-## 4. Модули как слои ОС
+## 4. The Modules as Layers of an OS
 
 ```
-ИИ-ОРКЕСТРАТОР (Голос + Агент)
-├── Core: Документы + ЭЦП + Сделки
-├── Intelligence: Пульс + AI-юрист + AI Studio
-├── Money: Банк + Касса + Налоговая
-├── Ops: Склад/ИКПУ + Контрагенты + HR
+AI ORCHESTRATOR (Voice + Agent)
+├── Core: Documents + Digital signature + Deals
+├── Intelligence: Pulse + AI Lawyer + AI Studio
+├── Money: Bank + Till + Tax office
+├── Ops: Inventory/IKPU + Counterparties + HR
 ├── Growth: UmagShop + QR + Nasiya + (iSMM)
-└── Connect: 1С / МойСклад / CRM + 18 поверхностей
+└── Connect: 1C / MoySklad / CRM + 18 surfaces
 ```
 
 ---
 
-## 5. Цифры (social proof)
+## 5. The Numbers (social proof)
 
-- **73 000+** документов  
-- **85 869** сделок (73% закрыты)  
-- **96 000+** входящих  
-- **70 000+** банковских транзакций  
-- **250+** модулей  
-- **18** точек входа  
-- Production с реальными клиентами  
+- **73,000+** documents  
+- **85,869** deals (73% closed)  
+- **96,000+** incoming documents  
+- **70,000+** bank transactions  
+- **250+** modules  
+- **18** points of entry  
+- In production, with real clients  
 
-Бот: [@ihisobchi_bot](https://t.me/ihisobchi_bot)  
+Bot: [@ihisobchi_bot](https://t.me/ihisobchi_bot)  
 App: [app.ihisobchi.uz](https://app.ihisobchi.uz)
 
 ---
 
-## 6. SMM Playbook — как раскручивать
+## 6. Social Playbook — How to Promote It
 
-**Контент-столпы:**
-1. Голосовая магия
-2. Время и свобода (40 мин → 30 сек)
-3. Контроль владельца (Пульс + чей ход)
-4. Уникальность Узбекистана (КП через ЭДО, ИКПУ, Soliq в TG)
-5. Доверие и безопасность
+**Content pillars:**
+1. The magic of voice
+2. Time and freedom (40 minutes → 30 seconds)
+3. The owner in control (Pulse + whose move)
+4. What is uniquely Uzbek (proposals through the e-document system, IKPU codes,
+   Soliq in Telegram)
+5. Trust and security
 
-**Готовые хуки:**
-- «Счёт-фактура за 30 секунд. Голосом.»
-- «Сколько программ у вас открыто прямо сейчас?»
-- «Бизнес, который тебя слушает»
-- «Один чат вместо 9 программ»
-- «КП на 300 компаний одним тапом — официально через ЭДО»
-- «Письмо от налоговой пришло, пока я был на рынке»
+**Ready-made hooks:**
+- "An e-invoice in 30 seconds. By voice."
+- "How many programs do you have open right now?"
+- "The business that listens to you"
+- "One chat instead of nine programs"
+- "A proposal to 300 companies in one tap — officially, through the e-document
+  system"
+- "The letter from the tax office arrived while I was at the market"
 
-**Форматы:**
-- Reels: голос создаёт СФ
-- Карусели: Before/After, 7 фишек, persona cards
-- Stories: Пульс-алерты, уведомление ГНК
-- Сравнения: Didox vs iHisobchi
+**Formats:**
+- Reels: a voice creating an invoice
+- Carousels: before/after, the seven features, persona cards
+- Stories: Pulse alerts, a tax-committee notification
+- Comparisons: Didox vs iHisobchi
 
-**Визуальный стиль:** Linear + Notion + Stripe + Telegram Premium + dark neon (cyan/magenta).
+**Visual style:** Linear + Notion + Stripe + Telegram Premium + dark neon
+(cyan/magenta).
 
 ---
 
-## 7. CTA
+## 7. Call to Action
 
-- Бесплатно: [@ihisobchi_bot](https://t.me/ihisobchi_bot)
+- Free: [@ihisobchi_bot](https://t.me/ihisobchi_bot)
 - App: [app.ihisobchi.uz](https://app.ihisobchi.uz)
-- Демо-режим без ключей
+- Demo mode, no keys required
 
 ---
 
-**Готово к копированию в Notion / Figma / Canva / PPT.**  
-Все факты из production-кода и docs/overview.
+**Ready to copy into Notion / Figma / Canva / PowerPoint.**  
+Every fact comes from production code and docs/overview.
 
-Если нужен HTML-версия в стиле investor-deck или правки — скажите.
+If you need an HTML version in the investor-deck style, or any edits, just say.

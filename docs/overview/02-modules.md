@@ -1,1212 +1,1286 @@
-# 2. Модули и функции
+# 2. Modules and Features
 
-> Часть 2 из 9. Назад: [экосистема](01-ecosystem.md). Далее: [дорожная карта](03-roadmap.md) · [голосовой оркестратор](04-voice-orchestrator.md) · [безопасность](05-security.md) · [первый день](06-first-day.md) · [подпись](07-signing.md) · [с нами и без нас](08-with-and-without.md) · [бизнес-модель](09-business-model.md).
+> Part 2 of 9. Back: [ecosystem](01-ecosystem.md). Next: [roadmap](03-roadmap.md) · [voice orchestrator](04-voice-orchestrator.md) · [security](05-security.md) · [first day](06-first-day.md) · [signing](07-signing.md) · [with us and without us](08-with-and-without.md) · [business model](09-business-model.md).
 >
-> Статусы: ✅ в проде · 🟡 раскатка по клиентам · 🔵 в работе · 🎯 следующий шаг
+> Statuses: ✅ in production · 🟡 rolling out to clients · 🔵 in progress · 🎯 next step
 
-## Карта разделов
+## Map of Sections
 
-| | Модуль | Что закрывает |
+| | Module | What it covers |
 |---|---|---|
-| **A** | [Документооборот и ЭЦП](#a-документооборот-и-эцп) | Ядро: 24 типа документов Didox, подпись, входящие, шаблоны |
-| **B** | [Сделки](#b-сделки--движок-незакрытых-циклов) | Договор → оплата → доверенность → СФ → акт → закрытие |
-| **C** | [Пульс бизнеса](#c-пульс-бизнеса--рентген-для-владельца) | Владелец видит правду о своей компании |
-| **D** | [AI-юрист](#d-ai-юрист) | Претензии, иски, договоры, корпоративные документы |
-| **E** | [Банк и платежи](#e-банк-и-платежи) | Деньги: выписки, сверка, кэшфлоу, отчёты |
-| **F** | [Налоговая — Soliq](#f-налоговая--soliq) | Письма ГНК, онлайн-касса, фискальные чеки |
-| **G** | [Склад, товары, ИКПУ](#g-склад-товары-икпу) | Номенклатура, остатки, инвентаризация, коды Ташниф |
-| **H** | [Контрагенты](#h-контрагенты) | Карточки, ГНК-проверка, отслеживание переименований |
-| **I** | [UmagShop](#i-umagshop--маркетплейс-с-документами) | B2B-маркетплейс, где заказ становится сделкой |
-| **J** | [QR-Hisob и Ссылка-заказ](#j-qr-hisob-и-ссылка-заказ) | Продажа без сайта: QR на прилавке, ссылка в мессенджере |
-| **K** | [Nasiya](#k-nasiya--рассрочка) | Учёт продаж в рассрочку |
-| **L** | [Кадры](#l-кадры--hr) | Приём, приказы, штатное расписание, ЕНСТ |
-| **M** | [Интеграции](#m-интеграции) | 1С, МойСклад, AmoCRM, Bitrix24, кассы, почта |
-| **N** | [ИИ-поверхности](#n-ии-поверхности) | Ассистент, голос, AI Studio, распознавание |
-| **O** | [Отчёты и аналитика](#o-отчёты-и-аналитика) | Продажи, закупки, НДС, прогноз |
-| **P** | [Автодокументы](#p-автодокументы) | Документы, которые делаются сами |
-| **Q** | [Мультибизнес, роли, уведомления](#q-мультибизнес-роли-уведомления-аудит) | Несколько компаний, команда, события |
-| **R** | [Партнёрские каналы](#r-партнёрские-каналы) | MCP, Partner API, расширение браузера |
-| **S** | [iSMM](#s-ismm--продажи-и-продвижение-в-социальных-сетях) | Соцсети, реклама и checkout: реклама → договор → счёт → оплата |
+| **A** | [Document flow and digital signature](#a-document-flow-and-digital-signature) | The core: 24 Didox document types, signing, incoming mail, templates |
+| **B** | [Deals](#b-deals--the-open-cycle-engine) | Contract → payment → power of attorney → e-invoice → act → closure |
+| **C** | [Business Pulse](#c-business-pulse--an-x-ray-for-the-owner) | The owner sees the truth about their own company |
+| **D** | [AI Lawyer](#d-ai-lawyer) | Claims, lawsuits, contracts, corporate paperwork |
+| **E** | [Banking and payments](#e-banking-and-payments) | Money: statements, reconciliation, cash flow, reports |
+| **F** | [Tax office — Soliq](#f-tax-office--soliq) | Letters from the tax committee, fiscal cash register, receipts |
+| **G** | [Inventory, products, IKPU](#g-inventory-products-ikpu) | Catalogue, stock levels, stocktaking, Tasnif codes |
+| **H** | [Counterparties](#h-counterparties) | Records, tax-committee checks, tracking of renamed companies |
+| **I** | [UmagShop](#i-umagshop--a-marketplace-with-documents) | A B2B marketplace where an order turns into a deal |
+| **J** | [QR-Hisob and Deal Link](#j-qr-hisob-and-deal-link) | Selling without a website: a QR code on the counter, a link in a messenger |
+| **K** | [Nasiya](#k-nasiya--instalment-sales) | Accounting for instalment sales |
+| **L** | [People — HR](#l-people--hr) | Hiring, orders, staffing tables, ENST filings |
+| **M** | [Integrations](#m-integrations) | 1C, MoySklad, AmoCRM, Bitrix24, cash registers, e-mail |
+| **N** | [AI surfaces](#n-ai-surfaces) | Assistant, voice, AI Studio, recognition |
+| **O** | [Reports and analytics](#o-reports-and-analytics) | Sales, purchases, VAT, forecasting |
+| **P** | [Automatic documents](#p-automatic-documents) | Documents that create themselves |
+| **Q** | [Multi-business, roles, notifications](#q-multi-business-roles-notifications-audit) | Several companies, a team, events |
+| **R** | [Partner channels](#r-partner-channels) | MCP, Partner API, browser extension |
+| **S** | [iSMM](#s-ismm--sales-and-promotion-on-social-media) | Social media, advertising and checkout: an ad → a contract → an invoice → a payment |
 
 ---
 
-## A. Документооборот и ЭЦП
+## A. Document Flow and Digital Signature
 
-**Ядро продукта.** Через него прошло 73 098 документов.
+**The core of the product.** 73,098 documents have passed through it.
 
-### A.1. Типы документов ✅
+### A.1. Document types ✅
 
-Полный охват государственного ЭДО Узбекистана. Система читает и отображает
-**24 кода документов Didox**; из них **19 имеют собственный мастер создания**.
-В таблице ниже родственные коды сгруппированы в одну строку (например 006 и 062
-— два поколения доверенности):
+Full coverage of Uzbekistan's state e-document system. The platform reads and
+displays **24 Didox document codes**; **19 of them have a creation wizard of
+their own**. In the table below, related codes are grouped into a single row
+(006 and 062, for example, are two generations of the power of attorney):
 
-| Код | Документ | Где создаётся |
+| Code | Document | Where it is created |
 |---|---|---|
-| **002** | Счёт-фактура (ЭСФ) | Бот, Mini App, голос, API, из договора, из заказа |
-| **008 / 031** | Счёт-фактура ФАРМ (серии, наценка) | Бот, Mini App |
-| **021** | Счёт-фактура (исправленная / дополнительная) | Приём входящих |
-| **023** | Гибридная счёт-фактура | Бот, Mini App |
-| **041** | ТТН (товарно-транспортная накладная) | Бот, Mini App, авто-из-СФ |
-| **004** | ТТН старого образца | Чтение исторических |
-| **005** | Акт выполненных работ | Бот, Mini App, авто-из-СФ |
-| **006 / 062** | Доверенность | Бот, Mini App, авто-из-сделки |
-| **007** | Договор НК (по шаблону Didox) | Бот, Mini App |
-| **009 / 052** | Акт сверки | Бот, Mini App |
-| **010 / 070** | Многосторонний документ | Бот, Mini App |
-| **013** | Письмо НК | Бот, Mini App, «Письмо о долге» |
-| **014** | Акт НК | Приём входящих |
-| **054** | Акт приёма-передачи | Бот, Mini App |
-| **075** | Протокол общего собрания учредителей | Бот, Mini App |
-| **000** | Произвольный документ, публичная оферта, готовый договор файлом | Бот, Mini App |
+| **002** | E-invoice (ESF) | Bot, Mini App, voice, API, from a contract, from an order |
+| **008 / 031** | Pharma e-invoice (batch series, regulated mark-up) | Bot, Mini App |
+| **021** | E-invoice (corrected / supplementary) | Incoming-mail intake |
+| **023** | Hybrid e-invoice | Bot, Mini App |
+| **041** | Waybill (consignment note) | Bot, Mini App, auto-generated from an e-invoice |
+| **004** | Legacy waybill | Historical documents, read-only |
+| **005** | Certificate of completed work | Bot, Mini App, auto-generated from an e-invoice |
+| **006 / 062** | Power of attorney | Bot, Mini App, auto-generated from a deal |
+| **007** | Contract on the NK template (Didox standard form) | Bot, Mini App |
+| **009 / 052** | Reconciliation statement | Bot, Mini App |
+| **010 / 070** | Multilateral document | Bot, Mini App |
+| **013** | NK letter | Bot, Mini App, "Debt letter" |
+| **014** | NK act | Incoming-mail intake |
+| **054** | Handover act | Bot, Mini App |
+| **075** | Minutes of a general meeting of founders | Bot, Mini App |
+| **000** | Free-form document, public offer, a ready contract uploaded as a file | Bot, Mini App |
 
-Плюс собственные (не-Didox) визуальные документы: **Договор** и **Коммерческое
-предложение** — генерируются в PDF по шаблону, подписываются или отправляются
-как файл.
+Plus our own (non-Didox) visual documents: **Contract** and **Commercial
+proposal** — rendered to PDF from a template, then signed or sent as a file.
 
-### A.2. Способы создать документ ✅
+### A.2. Eight ways to create a document ✅
 
-Один документ — восемь способов родиться. Это и есть «оркестратор»: клиент
-выбирает удобный ему путь, а результат один.
+One document, eight ways to be born. This is what "orchestrator" means in
+practice: the client picks whichever path suits them, and the result is the
+same.
 
-1. **Мастер в Mini App** — пошаговая форма с подсказками, поиском товара по
-   складу, автоподстановкой контрагента.
-2. **Мастер в Telegram-боте** — тот же поток на кнопках, работает на любом
-   телефоне и при слабой сети.
-3. **Голосом** — «создай счёт-фактуру для Артель на 5 ноутбуков по 5 миллионов»
-   → готовый черновик.
-4. **Умная вставка (Smart Paste)** — скопировал список товаров откуда угодно,
-   вставил → система распознала позиции, количества, цены и даже покупателя.
-5. **Фотографией** — снял накладную или прайс → распознавание позиций.
-6. **Из другого документа** — СФ из договора, акт из СФ, ТТН из СФ, счёт из
-   заказа магазина.
-7. **Автоматически** — по доверенности, по подписанному договору, по заказу с
-   витрины (см. [Автодокументы](#p-автодокументы)).
-8. **Через API или ИИ-клиента** — Partner API, MCP-сервер.
+1. **The Mini App wizard** — a step-by-step form with hints, product lookup
+   against stock, and counterparty autofill.
+2. **The Telegram bot wizard** — the same flow on buttons, working on any phone
+   and on a weak connection.
+3. **By voice** — "create an invoice for Artel, five laptops at five million
+   each" → a finished draft.
+4. **Smart Paste** — copy a list of goods from anywhere, paste it in, and the
+   system recognises the line items, quantities, prices and even the buyer.
+5. **From a photo** — snap a delivery note or a price list and the line items
+   are extracted.
+6. **From another document** — an e-invoice from a contract, an act from an
+   e-invoice, a waybill from an e-invoice, an invoice from a shop order.
+7. **Automatically** — from a power of attorney, from a signed contract, from a
+   storefront order (see [Automatic documents](#p-automatic-documents)).
+8. **Through an API or an AI client** — the Partner API, the MCP server.
 
-### A.3. Подпись ЭЦП — четыре режима ✅
+### A.3. Digital signature — four modes ✅
 
-Ключевая боль рынка: E-IMZO работает только с компьютера, где физически
-воткнут USB-ключ. Мы закрыли это четырьмя путями:
+The market's central pain point: E-IMZO only works from a computer with the USB
+key physically plugged in. We closed that four different ways:
 
-| Режим | Как работает | Кому |
+| Mode | How it works | Who it is for |
 |---|---|---|
-| **E-IMZO Agent** | Windows-приложение на компьютере клиента держит ключ; бот шлёт задание по защищённому WebSocket; агент подписывает и возвращает результат | Компания с офисным ПК |
-| **Web-sign** | Подпись прямо из браузера через E-IMZO-плагин | Кто работает с ноутбука |
-| **Сервер подписи 24/7 (managed)** | Ключ клиента в изолированном контуре на нашей стороне, зашифрован sealed-box; подпись доступна круглосуточно без включённого ПК | Кому нужна автоматика без присутствия |
-| **Демо-режим** | Полный путь без реальной подписи | Знакомство с продуктом |
+| **E-IMZO Agent** | A Windows application on the client's computer holds the key; the bot sends a job over a secured WebSocket; the agent signs and returns the result | A company with an office PC |
+| **Web signing** | Signing straight from the browser through the E-IMZO plug-in | People who work from a laptop |
+| **24/7 signing server (managed)** | The client's key lives in an isolated environment on our side, encrypted in a sealed box; signing is available round the clock with no computer switched on | Anyone who needs automation without being present |
+| **Demo mode** | The full journey without a real signature | Getting to know the product |
 
-> **Подпись разобрана отдельным документом** — [07-signing.md](07-signing.md):
-> каждый из четырёх способов подробно, установка на свой сервер одной командой,
-> устройство ячейки «под ключ» и прямой ответ на вопрос «а оно не подпишет
-> что-нибудь без меня».
+> **Signing has a document of its own** — [07-signing.md](07-signing.md): each
+> of the four modes in detail, self-hosted installation in a single command, how
+> the turnkey vault cell is built, and a direct answer to the question "could it
+> sign something without me?"
 
-**Мульти-ИНН для аутсорсеров** ✅ — один агент подписи обслуживает несколько
-организаций: бухгалтерская фирма со ста ключами клиентов регистрирует чужой ИНН,
-доказав владение ключом подписанным челленджем.
+**Multi-TIN support for outsourcers** ✅ — one signing agent serves several
+organisations: an accounting firm holding a hundred client keys registers
+another company's TIN by proving key ownership with a signed challenge.
 
-**Надёжность подписи.** Каждый вызов подписи идёт с ключом идемпотентности; при
-обрыве сети система не повторяет подпись вслепую, а **сверяет фактическое
-состояние** документа в Didox. Это закрывает классический сценарий «первый POST
-прошёл, ответ не дошёл, пользователь нажал ещё раз → двойная подпись».
+**Signing reliability.** Every signing call carries an idempotency key; if the
+network drops, the system does not blindly retry — it **verifies the document's
+actual state** in Didox. That closes the classic scenario where the first POST
+succeeded, the response never arrived, the user pressed the button again, and
+the document ended up signed twice.
 
-**Durable-леджер операций** ✅ — подпись из Mini App становится записью в
-журнале операций с фоновым исполнителем: перезапуск сервиса посреди подписи не
-теряет операцию.
+**A durable operations ledger** ✅ — a signature initiated in the Mini App
+becomes a record in an operations journal with a background worker: restarting
+the service mid-signature does not lose the operation.
 
-### A.4. Входящие документы ✅
+### A.4. Incoming documents ✅
 
-- Зеркало всех входящих из Didox — **96 217 документов** в проде.
-- Приём или отказ в один тап, с ролевой проверкой (кто мы в этом документе).
-- **Массовый приём** — принять пачку входящих одним действием.
-- Предпросмотр PDF без скачивания.
-- **Детектор дублей СФ** — если поставщик выставил тот же документ дважды,
-  система это видит по каноническому хэшу списка товаров.
-- **Приём по белому списку в один тап** ✅ — для постоянных поставщиков система
-  сама узнаёт документ и присылает готовую карточку с предпросмотром: одна
-  кнопка на документ, одна на всю пачку. **Молчаливого автоприёма нет и не
-  будет** — это прямое требование к продукту: приём входящей СФ имеет налоговые
-  последствия, и решение остаётся за человеком.
-- **Раздел «Открытые документы»** ✅ — входящие доверенности, ждущие от нас
-  встречной счёт-фактуры. Пока мы не выставили СФ — строка висит и напоминает.
+- A mirror of everything incoming from Didox — **96,217 documents** in
+  production.
+- Accept or reject in one tap, with a role check (who are we in this document?).
+- **Bulk acceptance** — accept a batch of incoming documents in a single action.
+- PDF preview without downloading.
+- **Duplicate e-invoice detector** — if a supplier issues the same document
+  twice, the system spots it from a canonical hash of the line items.
+- **One-tap acceptance for a whitelist** ✅ — for regular suppliers the system
+  recognises the document itself and sends a ready card with a preview: one
+  button per document, one for the whole batch. **Silent auto-acceptance does
+  not exist and will not be added** — this is a direct product requirement:
+  accepting an incoming e-invoice has tax consequences, and the decision stays
+  with a human.
+- **The "Open documents" section** ✅ — incoming powers of attorney awaiting an
+  e-invoice from us. Until we issue that invoice, the row stays on the list and
+  keeps reminding.
 
-### A.5. Черновики и спасение работы ✅
+### A.5. Drafts and rescued work ✅
 
-Два вида черновиков, и это принципиально:
+There are two kinds of drafts, and the distinction matters:
 
-- **Черновики Didox** — документ уже создан на портале, но не подписан.
-  Редактирование, повторная подпись, удаление, PDF.
-- **«Не завершённые»** (локальные черновики) — наша собственная копия
-  недоделанного документа. Автосохранение на каждом шаге мастера.
+- **Didox drafts** — the document already exists on the portal but is not
+  signed. Editable, re-signable, deletable, printable to PDF.
+- **"Unfinished"** (local drafts) — our own copy of a half-made document.
+  Auto-saved at every step of the wizard.
 
-**Спасение на путях отказа.** Didox недоступен, сеть оборвалась, сессия истекла —
-мастер не выбрасывает введённое. Данные ложатся в локальный черновик с
-классификацией причины отказа, а фоновый воркер **сам напишет пользователю**,
-когда Didox снова заработает, и вернёт его точно в то место мастера, где он
-остановился.
+**A rescue path on every failure path.** Didox is unavailable, the network drops,
+the session expires — the wizard does not throw away what was typed. The data
+lands in a local draft together with a classification of why it failed, and a
+background worker **writes to the user itself** once Didox is working again,
+returning them to the exact step of the wizard where they stopped.
 
-Плюс **уборщики**: заброшенные неподписанные черновики Didox чистятся, чтобы не
-копить мусор в кабинете клиента.
+Plus **cleaners**: abandoned unsigned Didox drafts are removed so that clutter
+does not pile up in the client's portal account.
 
-### A.6. Шаблоны документов ✅
+### A.6. Document templates ✅
 
-Четыре уровня — от «взять готовое» до «мой бланк 1:1»:
+Four levels, from "take something ready-made" to "my own letterhead, exactly":
 
-1. **Публичная библиотека** — готовые договоры для всех пользователей.
-2. **Визуальные шаблоны** — дизайнерские PDF-бланки для договоров и КП, с
-   версиями, предпросмотром, корзиной и откатом.
-3. **Свои DOCX/XLSX-шаблоны 1:1** — клиент загружает свой файл, ИИ размечает
-   поля, дальше документ печатается ровно в его бланке.
-4. **Шаблоны Didox (тип 007)** — управление шаблонами договоров НК с
-   категориями.
+1. **A public library** — ready-made contracts available to every user.
+2. **Visual templates** — designed PDF layouts for contracts and commercial
+   proposals, with versions, preview, a recycle bin and rollback.
+3. **Your own DOCX/XLSX templates, 1:1** — the client uploads their file, the AI
+   marks up the fields, and from then on the document prints on exactly their
+   form.
+4. **Didox templates (type 007)** — management of NK contract templates with
+   categories.
 
-Отдельно: **фирменный бланк** (letterhead) — единая шапка делового документа на
-весь продукт, и **мастер шаблонов v2** ✅ с чек-листом полей и ручной
-корректировкой разметки в чате.
+Separately: a **letterhead** — one house header for business documents across
+the whole product — and the **template wizard v2** ✅ with a field checklist and
+manual mark-up correction from within the chat.
 
-### A.7. Нумерация, реестр, поиск ✅
+### A.7. Numbering, register, search ✅
 
-- **Нумерация по ИНН с сериями** — префикс, суффикс, разрядность, отдельная
-  серия на каждый тип документа. Номер резервируется за планом документа, чтобы
-  два параллельных мастера не сожгли один номер.
-- **Единый реестр** — все документы (исходящие, входящие, черновики) в одном
-  списке с фильтрами.
-- **Сквозной поиск** по номеру, контрагенту, сумме, содержимому.
-- **Экспорт** в Excel, скачивание PDF, доставка подписанного документа
-  **файлом прямо в личку Telegram** ✅.
-- **Сверка с Didox** — фоновый реконсилер и кнопка «Обновить синхронизацию»,
-  чтобы локальная картина не разъезжалась с порталом.
+- **Per-TIN numbering with series** — prefix, suffix, padding, a separate series
+  for each document type. The number is reserved against a document plan so that
+  two wizards running in parallel cannot burn the same one.
+- **A single register** — every document (outgoing, incoming, draft) in one list
+  with filters.
+- **Full-text search** by number, counterparty, amount and content.
+- **Export** to Excel, PDF download, and delivery of the signed document
+  **straight into a Telegram private chat as a file** ✅.
+- **Reconciliation with Didox** — a background reconciler plus a "Refresh sync"
+  button, so the local picture cannot drift away from the portal.
 
-### A.8. Вход в продукт: от нуля до первого документа ✅
+### A.8. Getting in: from zero to the first document ✅
 
-Отдельная работа, которую редко замечают, но именно она решает, останется
-клиент или нет. Полный путь по шагам, с местами, где люди отваливаются, —
+A piece of work that is rarely noticed and yet decides whether the client stays.
+The full journey step by step, including the places where people drop out, is in
 [06-first-day.md](06-first-day.md).
 
-- **Регистрация за минуты**: телефон → SMS-код → ИНН и пароль Didox → **все
-  реквизиты компании подтягиваются из государственного реестра сами**. Никаких
-  анкет на двадцать полей.
-- **Регистрация в Didox прямо из бота** ✅ — у кого ещё нет аккаунта ЭДО, тот
-  заводит его не выходя из iHisobchi (самостоятельная регистрация через API
-  Didox), а не идёт отдельно на портал. Есть и вариант с сопровождением.
-- **Демо-режим** ✅ — можно пройти весь путь создания и «подписания» документа на
-  безопасных выдуманных данных, до регистрации и до подключения ключа ЭЦП.
-  Человек сначала видит, как это работает, и только потом отдаёт свои пароли.
-- **Напоминания про ключ ЭЦП** — если бизнес заведён, но ключ так и не
-  подключён, система тактично возвращается к этому, а не бросает клиента на
-  полпути.
-- **Экран согласия** и выбор языка — до того, как обработан первый персональный
-  байт.
+- **Sign-up in minutes**: phone → SMS code → Didox TIN and password → **all
+  company details are pulled from the state register automatically**. No
+  twenty-field questionnaires.
+- **Didox registration from inside the bot** ✅ — anyone without an e-document
+  account creates one without leaving iHisobchi (self-service registration
+  through the Didox API), instead of going off to the portal separately. An
+  assisted option is available too.
+- **Demo mode** ✅ — you can walk the whole path of creating and "signing" a
+  document on safe, fictional data, before registering and before connecting a
+  signature key. People first see how it works, and only then hand over their
+  passwords.
+- **Reminders about the signature key** — if a business is set up but no key was
+  ever connected, the system comes back to it tactfully instead of abandoning
+  the client halfway.
+- **A consent screen** and language choice — before the first byte of personal
+  data is processed.
 
-### A.9. Официальная рассылка коммерческих предложений ✅
+### A.9. Official mass-mailing of commercial proposals ✅
 
-**Функция, аналога которой на рынке нет.** У операторов ЭДО можно отправить
-произвольный документ — по одному, вручную, каждому получателю отдельно.
-Отправить коммерческое предложение **сразу многим** нельзя нигде.
+**A feature with no equivalent on the market.** With an e-document operator you
+can send an arbitrary document — one at a time, by hand, to each recipient
+separately. Sending a commercial proposal **to many recipients at once** is not
+possible anywhere.
 
-**Что это даёт.** У поставщика осталась партия товара со скидкой до конца
-месяца и 300 контрагентов в базе. Обзвонить — несколько дней работы менеджера.
-Написать в мессенджер — несерьёзно для оптовой сделки. Разослать по почте —
-спам без юридического статуса. У нас это **одно действие**, и предложение
-приходит получателю официальным документом в его рабочий кабинет ЭДО.
+**What it gives you.** A supplier has a discounted batch of goods left over
+until the end of the month and 300 counterparties in their database. Phoning
+them all is several days of a sales manager's time. Messaging them is not
+serious enough for a wholesale deal. Mailing them by e-mail is spam with no
+legal standing. Here it is **one action**, and the proposal arrives as an
+official document in the recipient's own e-document workspace.
 
-| Как устроено | |
+| How it works | |
 |---|---|
-| **Список получателей** | Текстом в чат или файлом: `.txt`, `.csv`, `.tsv`, `.xlsx`, `.docx`, `.pdf`. Система сама находит ИНН (9 цифр) и ПИНФЛ (14 цифр) и убирает дубликаты; «грязный» список разбирает ИИ |
-| **Опознание** | Каждый ИНН проверяется в государственном реестре — владелец видит список **компаний**, а не столбец цифр, и может убрать лишних |
-| **Отправка** | По каждому получателю создаётся отдельный документ, подписывается вашей ЭЦП и уходит через ЭДО |
-| **Масштаб** | До **20 000** получателей в кампании |
-| **Прогресс** | Одно сообщение обновляется по ходу: отправлено / доставлено / отказ |
-| **Надёжность** | Состояние каждого получателя хранится: кампания переживает перезапуск и **не рассылает дубли** |
-| **Темп** | Ограничен намеренно — чтобы не перегрузить ЭДО и не выглядеть спамом |
-| **Защита** | Одна активная кампания на организацию |
+| **Recipient list** | Pasted into the chat as text, or uploaded as a file: `.txt`, `.csv`, `.tsv`, `.xlsx`, `.docx`, `.pdf`. The system finds the TINs (9 digits) and PINFLs (14 digits) itself and removes duplicates; a messy list is parsed by the AI |
+| **Identification** | Every TIN is checked against the state register — the owner sees a list of **companies**, not a column of digits, and can strike out the ones that do not belong |
+| **Sending** | A separate document is created for each recipient, signed with your digital signature and delivered through the e-document system |
+| **Scale** | Up to **20,000** recipients per campaign |
+| **Progress** | A single message updates as it goes: sent / delivered / rejected |
+| **Reliability** | Each recipient's state is stored: a campaign survives a restart and **never sends duplicates** |
+| **Pace** | Deliberately throttled — so as not to overload the e-document system or look like spam |
+| **Safeguard** | One active campaign per organisation |
 
-Подписание идёт последовательно по каждому ИНН — канал ЭЦП физически один, и
-попытка распараллелить дала бы гонки вместо скорости.
+Signing runs sequentially, TIN by TIN: the signature channel is physically
+singular, and trying to parallelise it would produce race conditions rather than
+speed.
 
-**Применений столько, сколько поводов обратиться к рынку:** распродать остаток,
-объявить новый прайс, предложить услугу, найти подрядчика, позвать в тендер,
-сообщить об изменении условий. Подробный разбор и сравнение с рынком —
-[08-with-and-without.md §8.6](08-with-and-without.md#86-рассылка-коммерческих-предложений--то-чего-нет-ни-у-кого).
+**There are as many uses as there are reasons to address the market:** clear
+remaining stock, announce a new price list, offer a service, look for a
+contractor, invite firms to a tender, notify counterparties of changed terms. A
+detailed breakdown and comparison with the market is in
+[08-with-and-without.md §8.6](08-with-and-without.md#86-mass-mailing-of-commercial-proposals--what-nobody-else-has).
 
 ---
 
-## B. Сделки — движок незакрытых циклов
+## B. Deals — the Open-Cycle Engine
 
-> ✅ В проде · **85 869 сделок** в системе
+> ✅ In production · **85,869 deals** in the system
 
-**Это то, за что бухгалтеры полюбят продукт.** Модуль отвечает на вопрос,
-который в обычном учёте требует ручной сверки трёх систем: **какие сделки не
-закрыты и чей сейчас ход?**
+**This is what bookkeepers will love the product for.** The module answers a
+question that ordinary accounting can only settle by reconciling three systems
+by hand: **which deals are not closed, and whose move is it?**
 
-### B.1. Как это работает
+### B.1. How it works
 
-Система сама собирает цепочку из ваших же документов и денег:
+The system assembles the chain out of your own documents and money:
 
 ```
-Договор → Оплата → Доверенность → Счёт-фактура → Акт / ТТН → Закрыто
+Contract → Payment → Power of attorney → E-invoice → Act / Waybill → Closed
 ```
 
-Движок анализирует всё, что у бизнеса есть — исходящие и входящие документы
-Didox, банковскую выписку, чеки кассы, заказы магазина — и **сам связывает их в
-сделки**. Договор на сумму X от такого-то числа ищет платёж на ту же сумму от
-того же ИНН; доверенность ищет свою счёт-фактуру; ТТН ищет свою поставку.
+The engine analyses everything the business has — outgoing and incoming Didox
+documents, the bank statement, cash-register receipts, shop orders — and
+**links them into deals on its own**. A contract for amount X dated a given day
+looks for a payment of the same amount from the same TIN; a power of attorney
+looks for its invoice; a waybill looks for its delivery.
 
-Сопоставление идёт **ярусами** — от точного совпадения реквизитов до
-вероятностного скоринга; неоднозначные случаи ранжирует ИИ, но связь
-подтверждает человек одним тапом.
+Matching runs in **tiers** — from an exact match on the reference details to
+probabilistic scoring; ambiguous cases are ranked by the AI, but the link is
+confirmed by a human with a single tap.
 
-### B.2. Состояния и «чей ход»
+### B.2. States and "whose move"
 
-Каждая сделка имеет вычисленное состояние и **следующее действие**:
+Every deal carries a computed state and a **next action**:
 
-| Состояние | Что видит владелец |
+| State | What the owner sees |
 |---|---|
-| `contract_pending` | Договор не подписан партнёром |
-| `awaiting_payment` | Договор подписан, оплаты нет |
-| `payment_partial` | Оплата частичная |
-| `awaiting_poa` | Оплата есть, доверенности нет |
-| `poa_to_accept` | Доверенность пришла — примите её |
-| `poa_received` | Пора выставлять счёт-фактуру |
-| `invoice_pending` | СФ отправлена, партнёр не подписал |
-| `contract_to_sign` | Входящий договор ждёт вашей подписи |
-| `poa_needed` | Вы подписали договор — пора слать доверенность |
-| `invoice_to_accept` | Входящая СФ ждёт вашей подписи |
+| `contract_pending` | The partner has not signed the contract |
+| `awaiting_payment` | Contract signed, no payment |
+| `payment_partial` | Partial payment received |
+| `awaiting_poa` | Payment received, no power of attorney |
+| `poa_to_accept` | A power of attorney has arrived — accept it |
+| `poa_received` | Time to issue the e-invoice |
+| `invoice_pending` | Invoice sent, the partner has not signed it |
+| `contract_to_sign` | An incoming contract is waiting for your signature |
+| `poa_needed` | You signed the contract — time to send a power of attorney |
+| `invoice_to_accept` | An incoming invoice is waiting for your signature |
 
-Лента разделена на **«Требует вас»** и «Ждём партнёра» — и это разделение живёт
-в машине состояний, а не в интерфейсе, чтобы карточка не могла разойтись с
-логикой.
+The feed is split into **"Needs you"** and "Waiting on the partner" — and that
+split lives in the state machine rather than in the interface, so a card can
+never disagree with the logic behind it.
 
-### B.3. Что можно сделать прямо из карточки сделки ✅
+### B.3. What you can do straight from a deal card ✅
 
-- **Подписать входящий договор** — не выходя из карточки.
-- **Принять доверенность**, а из неё сразу **выставить счёт-фактуру** с
-  предзаполненными позициями.
-- **Создать доверенность из договора** — одной кнопкой.
-- **Выставить СФ из договора** с автоподстановкой позиций и сумм.
-- **Сгенерировать ТТН** после счёт-фактуры.
-- **Напомнить партнёру** — пуш, ссылка, письмо.
-- **Составить «Письмо о долге»** ✅ — юридически оформленное требование оплаты
-  (Didox тип 013) с датой и номером договора, суммой и ссылкой на его пункты.
-  Отсюда прямой мост в [AI-юриста](#d-ai-юрист) для эскалации.
-- **Перепроверить сделку** — глубокая сверка одной сделки напрямую с Didox,
-  когда нужна гарантия, что картина верна.
-- **Закрыть вручную** — с фиксацией причины.
+- **Sign an incoming contract** — without leaving the card.
+- **Accept a power of attorney**, and from it immediately **issue an e-invoice**
+  with the line items pre-filled.
+- **Create a power of attorney from a contract** — one button.
+- **Issue an invoice from a contract**, with line items and amounts filled in
+  automatically.
+- **Generate a waybill** once the invoice exists.
+- **Remind the partner** — a push, a link, a letter.
+- **Draft a "debt letter"** ✅ — a legally formed demand for payment (Didox type
+  013) carrying the date and number of the contract, the amount and a reference
+  to the relevant clauses. From here there is a direct bridge to the
+  [AI Lawyer](#d-ai-lawyer) for escalation.
+- **Re-check a deal** — a deep reconciliation of a single deal directly against
+  Didox, when you need a guarantee that the picture is right.
+- **Close it manually** — with the reason recorded.
 
-### B.4. Почему это ценно
+### B.4. Why it matters
 
-Бухгалтер каждый месяц вручную сводит: что отгрузили, что оплатили, где нет
-акта, где висит доверенность. Это съедает дни и всё равно даёт ошибки. Здесь
-это делает движок, непрерывно, и показывает **список из десятка строк «нужно
-вас», а не тысячу строк «всё открытое»**.
+Every month the bookkeeper reconciles by hand: what was shipped, what was paid,
+where the act is missing, where a power of attorney is still hanging. It eats
+days and still produces errors. Here the engine does it continuously, and shows
+**a list of a dozen rows that "need you", rather than a thousand rows of
+"everything open"**.
 
 ---
 
-## C. Пульс бизнеса — рентген для владельца
+## C. Business Pulse — an X-Ray for the Owner
 
-> ✅ В проде
+> ✅ In production
 
-**Модуль для тех, кто владеет бизнесом, а не ведёт его.** Учредитель нажимает
-одну кнопку — ИИ сканирует всю систему и выдаёт понятный отчёт без единого
-бухгалтерского термина.
+**A module for people who own a business rather than run it.** The founder
+presses one button, the AI scans the entire system and produces a readable
+report without a single accounting term in it.
 
-### C.1. Зачем это нужно
+### C.1. Why it is needed
 
-Владелец видит бизнес через отчёт бухгалтера. Отчёт написан так, что понять его
-без подготовки нельзя — таблицы, термины, ссылки на статьи. Проблемы в нём не
-видны: ошибка на несколько миллионов, «подчищенная» операция, недостача,
-отгрузка без оплаты — всё это тонет в формулировках. Владелец узнаёт правду в
-конце года, когда получает дивиденды меньше ожидаемых. К этому моменту
-разбираться поздно, а часто — уже нечего спасать.
+An owner sees the business through the bookkeeper's report. That report is
+written so that it cannot be understood without training — tables, terminology,
+references to legal articles. Problems are invisible inside it: a multi-million
+error, a transaction quietly tidied away, a shortfall, a shipment that was never
+paid for — all of it drowns in the wording. The owner learns the truth at the end
+of the year, when the dividends come in lower than expected. By then it is too
+late to investigate, and often there is nothing left to save.
 
-У владельца нескольких компаний нет ни времени, ни ресурса перепроверять каждый
-платёж, каждый документ, каждую отгрузку. **Это делает за него Пульс.**
+The owner of several companies has neither the time nor the capacity to
+re-check every payment, every document, every shipment. **Business Pulse does it
+for them.**
 
-### C.2. Что сканирует
+### C.2. What it scans
 
-Одним нажатием — вся картина по бизнесу:
+One press, and the whole picture of the business:
 
-- **Деньги.** Сколько пришло, сколько ушло, куда именно, «запас денег» (на
-  сколько дней хватит при текущем темпе), чистый денежный поток.
-- **Продажи.** Что продано, кому, по какой цене, динамика.
-- **Сделки.** Что закрыто, что висит, где отгрузили и не получили деньги.
-- **Дебиторка.** Кто и сколько должен, с какого числа просрочка.
-- **Документы.** Все ли обязательные документы выпущены под движение денег.
-- **Склад.** Что осталось, что уходит быстрее, где ноль.
-- **Зарплата и налоги.** Дисциплина выплат, доля фонда оплаты труда — с
-  отраслевыми нормами, а не универсальными.
+- **Money.** How much came in, how much went out and where to, the "cash
+  runway" (how many days it lasts at the current burn), net cash flow.
+- **Sales.** What was sold, to whom, at what price, and the trend.
+- **Deals.** What is closed, what is hanging, where goods went out and money did
+  not come back.
+- **Receivables.** Who owes how much, and how long they have been late.
+- **Documents.** Whether every mandatory document exists behind the movement of
+  money.
+- **Inventory.** What is left, what moves fastest, where the count is zero.
+- **Payroll and taxes.** Payment discipline and the payroll share of turnover —
+  against industry norms rather than a universal number.
 
-### C.3. «Требуют внимания» — детектор странного
+### C.3. "Needs attention" — the oddity detector
 
-Отдельный блок, ради которого модуль и строился. **Правила детерминированные,
-без ИИ** — ложное обвинение в адрес бухгалтера дороже пропущенной находки, и
-тон везде «проверьте», а не «нарушение».
+A separate block, and the reason the module was built. **The rules are
+deterministic, with no AI involved** — falsely accusing a bookkeeper costs more
+than missing a finding — and the tone throughout is "check this", not
+"violation".
 
-| Что ловит | Пример из жизни |
+| What it catches | A real-world example |
 |---|---|
-| **Дублирующий платёж** | Один и тот же ИНН, одна и та же сумма, два раза за несколько дней. Оператор дважды нажал «отправить» — это возвращаемые деньги |
-| **Серия круглых сумм** | Несколько переводов ровно по миллиону одному контрагенту за две недели. Круглые числа редко совпадают с реальной строкой счёта |
-| **Крупный перевод физлицу без назначения** | Большая сумма на ПИНФЛ с пустым или бессодержательным назначением платежа. Для банка и для ГНК это красный флаг первой категории |
-| **Возможное дробление** | Много платежей ниже порога одному получателю за неделю, в сумме дающих крупную сделку — похоже на обход лимита или обязанности оформить документ |
-| **Оборот без документов** | Деньги прошли, счёт-фактуры нет. С выдержкой по времени, чтобы свежий аванс не обвинялся напрасно |
+| **Duplicate payment** | The same TIN, the same amount, twice within a few days. The operator pressed "send" twice — that is money you can get back |
+| **A run of round numbers** | Several transfers of exactly one million to the same counterparty within a fortnight. Round figures rarely coincide with a real invoice line |
+| **A large transfer to an individual with no stated purpose** | A large sum to a PINFL with an empty or meaningless payment reference. For a bank and for the tax committee this is a first-category red flag |
+| **Possible structuring** | Many payments just below a threshold to one recipient within a week, adding up to a large transaction — this looks like an attempt to stay under a limit or to avoid documenting a deal |
+| **Turnover without documents** | Money moved, no e-invoice exists. With a grace period, so that a fresh advance payment is not accused unfairly |
 
-Узбекская налоговая уже автоматически скринит бизнес по 59 критериям риска.
-**Показать владельцу те же флаги раньше, чем их увидит ГНК, — чистая ценность.**
+The Uzbek tax authority already screens businesses automatically against 59 risk
+criteria. **Showing the owner those same flags before the tax committee sees
+them is pure value.**
 
-### C.4. Формат выдачи
+### C.4. How results are delivered
 
-- **Мини-презентация** — A4-страница PDF/PNG с понятными блоками, которую
-  можно переслать партнёру или показать на встрече.
-- **Полный чек-ап** — расширенный разбор: таблица показателей с нормами по
-  отрасли, «что изменилось с прошлого раза», непрофильные поступления,
-  дисциплина зарплаты и налогов.
-- **ИИ-рассказ** — короткое человеческое объяснение цифр. Модель получает
-  **только посчитанные нами числа** и не имеет возможности выдумать своё.
-- **Еженедельный дайджест** в Telegram и живые сигналы по событиям (с
-  отключаемым опт-ином и тихими часами).
+- **A mini-presentation** — an A4 PDF/PNG page of readable blocks that can be
+  forwarded to a partner or shown in a meeting.
+- **A full check-up** — an extended breakdown: a table of indicators against
+  industry norms, "what changed since last time", non-core income, payroll and
+  tax discipline.
+- **An AI narrative** — a short, human explanation of the numbers. The model
+  receives **only the figures we calculated ourselves** and has no way of
+  inventing its own.
+- **A weekly digest** in Telegram plus live event alerts (opt-in, switchable off,
+  with quiet hours).
 
-### C.5. Пример
+### C.5. An example
 
-> Владелец нажимает «Сканировать». Через минуту:
-> «За август пришло 340 млн, ушло 410 млн. Запаса денег — 22 дня.
-> Продали на 290 млн, из них 96 млн ещё не оплачены; 41 млн просрочен больше
-> месяца — крупнейший должник ООО «X», 28 млн с 3 июля.
-> **Требуют внимания (3):** двойной платёж 12 млн на ИНН 3097… 8 и 10 августа;
-> четыре перевода по 9,5 млн одному получателю за неделю; оборот 54 млн без
-> счёт-фактур старше 30 дней.»
+> The owner presses "Scan". A minute later:
+> "In August, 340 million came in and 410 million went out. Cash runway: 22 days.
+> Sales were 290 million, of which 96 million is still unpaid; 41 million is more
+> than a month overdue — the largest debtor is X LLC, 28 million since 3 July.
+> **Needs attention (3):** a duplicate payment of 12 million to TIN 3097… on
+> 8 and 10 August; four transfers of 9.5 million to the same recipient within a
+> week; 54 million of turnover with no e-invoices, older than 30 days."
 
-Три строки, ради которых стоит открыть приложение.
-
----
-
-### C.6. Куда это идёт: та же картина, но наружу 🎯
-
-«Пульс» смотрит внутрь — он показывает владельцу правду о его компании. Ровно те
-же данные умеют отвечать и на внешний вопрос: **чем доказать банку, инвестору
-или крупному покупателю, что бизнес надёжен.**
-
-Отсюда — **справка о деловой активности**: сколько сделок проведено и на какую
-сумму, какая доля закрыта полностью, за сколько дней в среднем приходит оплата.
-Не рейтинг и не оценка платёжеспособности — подтверждённые факты, за каждым из
-которых стоит документ с электронной подписью в государственной системе.
-
-Выдаётся **только по решению самого владельца**, каждая выдача отзывается, а на
-самой справке честно указано, какую часть оборота компании мы видим. Подробно —
-[09-business-model.md §9.9](09-business-model.md#99-источник-7-справка-о-деловой-активности--по-решению-самого-бизнеса).
+Three lines that make opening the app worthwhile.
 
 ---
 
-## D. AI-юрист
+### C.6. Where this is heading: the same picture, facing outwards 🎯
 
-> ✅ В проде
+Business Pulse looks inwards — it shows the owner the truth about their company.
+The very same data can answer an outward-facing question: **what can you show a
+bank, an investor or a large buyer to prove the business is dependable?**
 
-**Юрист в штате стоит дорого; юрист по вызову приходит поздно.** Модуль
-закрывает 80 % юридических нужд малого бизнеса прямо внутри системы.
+Hence a **business-activity certificate**: how many deals were completed and for
+what total, what share closed in full, how many days a payment takes on average.
+Not a rating and not a solvency score — verified facts, each backed by a document
+carrying a digital signature inside a state system.
 
-### D.1. Что умеет
+It is issued **only by the owner's own decision**, every issue can be revoked,
+and the certificate states honestly what share of the company's turnover we can
+actually see. In detail:
+[09-business-model.md §9.9](09-business-model.md#99-stream-7-the-business-activity-certificate--issued-only-by-the-business-itself).
 
-**Свободный диалог.** Пользователь описывает ситуацию, ИИ уточняет детали и
-выдаёт готовый документ в HTML/PDF, который можно отредактировать, скачать и
-распечатать.
+---
 
-**Типы документов:**
+## D. AI Lawyer
 
-| Категория | Документы |
+> ✅ In production
+
+**A lawyer on staff is expensive; a lawyer on call arrives late.** This module
+covers 80% of a small business's legal needs from inside the system.
+
+### D.1. What it can do
+
+**Free-form dialogue.** The user describes the situation, the AI asks for the
+missing details and produces a finished document in HTML/PDF that can be edited,
+downloaded and printed.
+
+**Document types:**
+
+| Category | Documents |
 |---|---|
-| **Претензионная работа** | Претензия, письмо о долге, отзыв на претензию |
-| **Судебные** | Исковое заявление в экономический суд, заявление о судебном приказе, отзыв на исковое заявление, соглашение о рассрочке долга |
-| **Договоры** | Поставки, аренды, оказания услуг, подряда, долговая расписка, доверенность |
-| **Обращения** | Письма, заявления, акты |
-| **Корпоративные** | 🔵 устав, решение единственного участника, протокол — через отдельный структурированный процесс |
+| **Pre-trial claims** | Formal claim, debt letter, response to a claim |
+| **Litigation** | Statement of claim to the economic court, application for a court order, response to a statement of claim, debt-rescheduling agreement |
+| **Contracts** | Supply, lease, services, works, promissory note, power of attorney |
+| **Correspondence** | Letters, applications, acts |
+| **Corporate** | 🔵 articles of association, sole-member resolution, minutes — through a separate structured process |
 
-### D.2. Ключевой сценарий: неоплаченная поставка
+### D.2. The key scenario: an unpaid delivery
 
-Ради него модуль связан со [Сделками](#b-сделки--движок-незакрытых-циклов):
+This is why the module is wired to [Deals](#b-deals--the-open-cycle-engine):
 
-1. Система видит: договор подписан, акт закрыт, товар отгружен — **оплаты нет**.
-2. Присылает владельцу уведомление.
-3. Из уведомления — прямо в AI-юриста.
-4. Юрист **сам достаёт факты из вашей же базы**: номер и дата договора, его
-   пункты об оплате, номер и дата акта, сумма, срок просрочки, реквизиты сторон.
-5. Составляет досудебную претензию: со ссылкой на конкретные пункты договора,
-   с расчётом суммы и пени, с предупреждением об обращении в суд.
-6. Документ можно отправить контрагенту электронно — не выходя из системы.
+1. The system observes that the contract is signed, the act is completed and the
+   goods have shipped — **but no payment arrived**.
+2. It notifies the owner.
+3. From that notification, straight into the AI Lawyer.
+4. The lawyer **pulls the facts out of your own database**: the contract number
+   and date, its payment clauses, the act's number and date, the amount, how
+   long the payment is overdue, the parties' details.
+5. It drafts a pre-trial claim citing the specific contract clauses, with the
+   principal and late-payment interest calculated, and a warning that the matter
+   will go to court.
+6. The document can be sent to the counterparty electronically, without leaving
+   the system.
 
-Если оплата так и не пришла — тот же контур готовит **исковое заявление** или
-**заявление о судебном приказе** с уже посчитанной суммой требования.
+If the payment still does not arrive, the same loop prepares a **statement of
+claim** or an **application for a court order** with the amount already
+calculated.
 
-### D.3. Правовая база — не выдумки, а нормы
+### D.3. The legal basis — statutes, not inventions
 
-- **Справочник норм РУз** в базе с проверкой ссылок, которые пишет модель: если
-  ИИ сослался на несуществующую статью — ссылка не пройдёт.
-- **Актуальность.** Корпус норм пополняется из официальных источников (lex.uz);
-  первичным считается официальный узбекский текст, русский — перевод для
-  удобства. Новое постановление попадает в корпус и используется в работе.
-- **Кликабельные ссылки на нормы** прямо в сообщении бота.
-- **Детерминированный калькулятор** денежного требования: пени, проценты, сроки
-  считает код, а не языковая модель.
+- **A reference base of Uzbek law** in the database, with verification of the
+  citations the model writes: if the AI cites an article that does not exist, the
+  citation does not pass.
+- **Currency.** The corpus is topped up from official sources (lex.uz); the
+  official Uzbek text is authoritative, with Russian as a convenience
+  translation. A new decree enters the corpus and is used in practice.
+- **Clickable links to the statutes** directly inside the bot's message.
+- **A deterministic calculator** for the monetary claim: penalties, interest and
+  deadlines are computed by code, not by a language model.
 
-### D.4. Контекст вашего бизнеса ✅
+### D.4. The context of your business ✅
 
-С включённым контекстом юрист видит документы, контрагентов и сделки **вашей**
-компании — поэтому не спрашивает то, что уже знает, и не ошибается в реквизитах.
-Функция имеет отдельный выключатель: её можно погасить, оставив работать чат со
-справочником норм и вложениями.
+With context enabled, the lawyer sees **your** company's documents,
+counterparties and deals — so it does not ask what it already knows and does not
+get the reference details wrong. The feature has a switch of its own: it can be
+turned off while leaving the chat, the statute reference base and attachments
+working.
 
-**Вложения** ✅ — можно приложить чужой договор или требование: система извлечёт
-текст и будет работать с ним.
+**Attachments** ✅ — you can upload someone else's contract or demand letter: the
+system extracts the text and works with it.
 
-### D.5. Операционные задачи компании
+### D.5. A company's operational paperwork
 
-Отдельный большой класс задач, который съедает время собственника:
+A separate, sizeable class of tasks that eats an owner's time:
 
-- сменить название, реквизиты или адрес организации;
-- ввести нового учредителя с инвестицией;
-- изменить доли, увеличить уставный капитал;
-- принять новую редакцию устава.
+- changing the company's name, registration details or address;
+- admitting a new founder with an investment;
+- changing ownership shares, increasing the charter capital;
+- adopting a new version of the articles of association.
 
-Каждая из них — это пакет документов, который сегодня собирают вручную. Модуль
-**корпоративных изменений** 🔵 (готов, за выключенным флагом) строит это
-безопасно: сначала фиксирует подтверждённый владельцем состав участников, доли и
-намерение, привязывает заявку к версии профиля и версии правил (ЗРУ-1137 от
-21.04.2026), и только потом готовит документы. Свободная ИИ-генерация устава и
-протокола **намеренно запрещена** — цена ошибки в учредительном документе
-несопоставима с удобством.
+Each is a package of documents assembled by hand today. The **corporate changes**
+module 🔵 (built, behind a disabled flag) does it safely: it first records the
+owner-confirmed list of participants, their shares and the intent, binds the
+application to a profile version and a rules version (Law ZRU-1137 of
+21 April 2026), and only then prepares the documents. Free-form AI generation of
+articles of association and meeting minutes is **deliberately forbidden** — the
+cost of an error in a founding document is out of all proportion to the
+convenience.
 
 ---
 
-## E. Банк и платежи
+## E. Banking and Payments
 
-> ✅ В проде · **69 993 транзакции** разобрано
+> ✅ In production · **69,993 transactions** parsed
 
-### E.1. Зачем банк внутри учётной системы
+### E.1. Why a bank belongs inside an accounting system
 
-Банк — это не «ещё одна интеграция», а **источник правды о деньгах**. Без него
-не работают ни Сделки, ни Пульс, ни сверка с налоговой: система не может сказать
-«оплата пришла», если не видит выписку.
+The bank is not "one more integration" — it is the **source of truth about
+money**. Without it neither Deals nor Business Pulse nor tax reconciliation can
+work: the system cannot say "the payment arrived" if it cannot see the
+statement.
 
-И это же — самый частый вопрос рабочего дня. Продавец звонит бухгалтеру каждые
-полчаса: «деньги пришли?» Экспедитор ждёт отгрузки. Здесь ответ приходит **сам,
-пушем в Telegram**, с привязкой к конкретному договору и счёту.
+It is also the most frequently asked question of the working day. The salesperson
+rings the bookkeeper every half hour: "has the money come in?" The forwarder is
+waiting to ship. Here the answer arrives **on its own, as a Telegram push**,
+attached to the specific contract and invoice.
 
-### E.2. Что построено ✅
+### E.2. What is built ✅
 
-| Функция | Описание |
+| Feature | Description |
 |---|---|
-| **Прямое подключение банка** | Клиент Bank24.uz: живой баланс и выписка по счёту, отдельная сессия на каждую организацию |
-| **Мониторинг поступлений** | Пуш в Telegram при зачислении: сумма, отправитель, назначение, привязка к сделке |
-| **Импорт выписки файлом** | CSV, XLSX, HTML, PDF, DOCX, формат 1С — разбор в песочнице с минимальными правами, дедуп, автоматическая привязка к сделкам |
-| **Единый леджер денег** | Одно место, где каждый раздел системы спрашивает «заплатили ли?». Источники: банк, касса ОНК, МойСклад, заказы магазина |
-| **Скоринг платёж → сделка** | Одно ядро сопоставления с порогами уверенности; спорные случаи подтверждает человек |
-| **Сверка платежей и документов** | Кросс-проверка: деньги без документов и документы без денег |
-| **Отчёт о движении денег** | Приход/расход по категориям, с обучаемым словарём назначений платежа |
-| **«Анализы» — кэшфлоу** | Выписка → готовый Excel-регистр с разнесением по подразделениям, со словарём «счёт → подразделение», который система списывает из рабочей книги клиента |
-| **Отчёты по выписке** ✅ | Долгоживущий конвейер: загрузка → классификация → ревью человеком → правила → заморозка версии → XLSX по стандартному или собственному шаблону клиента |
-| **Покрытие данных** | Честный ответ «за какой период у нас вообще есть данные о деньгах» — чтобы вывод не строился на пробеле |
+| **Direct bank connection** | A Bank24.uz client: live balance and account statement, with a separate session per organisation |
+| **Incoming-payment monitoring** | A Telegram push on every credit: amount, sender, reference, and the deal it belongs to |
+| **Statement import from a file** | CSV, XLSX, HTML, PDF, DOCX and the 1C format — parsed in a minimum-privilege sandbox, deduplicated, matched to deals automatically |
+| **A single money ledger** | One place every part of the system asks "has this been paid?". Sources: the bank, the fiscal cash register, MoySklad, shop orders |
+| **Payment-to-deal scoring** | One matching core with confidence thresholds; disputed cases are confirmed by a human |
+| **Payment-vs-document reconciliation** | A cross-check in both directions: money without documents, and documents without money |
+| **Cash-movement report** | Income and spending by category, with a learned dictionary of payment references |
+| **"Analyses" — cash flow** | A statement in, a finished Excel register out, allocated across business units, using an "account → unit" dictionary the system copies from the client's own working file |
+| **Statement reports** ✅ | A long-running pipeline: upload → classification → human review → rules → version freeze → XLSX on a standard template or the client's own |
+| **Data coverage** | An honest answer to "what period do we actually have money data for" — so that no conclusion is built on top of a gap |
 
-### E.3. Про открытый банкинг
+### E.3. On open banking
 
-Постановление Президента **ПП-359 от 27.11.2025** обязывает внедрить систему
-«Открытый банкинг» **до 1 сентября 2026 года**. Это меняет рынок: сегодня
-публичного банковского API в стране нет ни у одного банка, доступ к счёту
-возможен только через клиент-банк.
+Presidential decree **PP-359 of 27 November 2025** mandates the launch of an
+"open banking" system **by 1 September 2026**. That changes the market: today no
+bank in the country offers a public banking API, and access to an account is
+only possible through a bank client.
 
-Сегодня у нас работает прямое подключение к Bank24 плюс импорт выписки из
-любого формата — этого хватает уже сейчас. Слой абстракции под нескольких
-банковских провайдеров пока не написан: он спроектирован в нашем собственном
-исследовании рынка и стоит в очереди работ к моменту, когда появится второй
-источник. Подробнее — [дорожная карта](03-roadmap.md#36-горизонт-v-деньги--открытый-банкинг).
-
----
-
-## F. Налоговая — Soliq
-
-> ✅ В проде · ранняя аудитория (6 подключённых организаций)
-
-Модуль закрывает две большие боли сразу: **письма от налоговой** и **чеки
-онлайн-кассы**.
-
-### F.1. Почтовый ящик налоговой ✅
-
-Сегодня бизнес обязан регулярно заходить в личный кабинет `my.soliq.uz` по ЭЦП и
-проверять, не пришло ли уведомление. Пропустил — пропустил срок ответа. У кого
-три организации — заходит трижды, с тремя ключами.
-
-Что делает модуль:
-
-- **Сам проверяет ящик** — раз в час лёгкая проба счётчика писем (только в
-  рабочем окне 08:00–21:00 по Ташкенту), полный обход только когда счётчик
-  сдвинулся. Свежесть — около часа вместо суток, а нагрузка на портал ниже
-  прежней.
-- **Присылает уведомление в Telegram** — новое письмо от ГНК приходит туда, где
-  владелец и так находится.
-- **Напоминает о сроке** — письмо, требующее ответа, напоминает о себе до
-  дедлайна, а не после.
-- **Юридически корректное открытие.** Пока владелец явно не подтвердил — письмо
-  показывается только метаданными, содержимое запечатано. Открытие делает ровно
-  один вызов «отметить прочитанным» на стороне ГНК и сверяет результат. Это не
-  техническая деталь: отметка о прочтении запускает юридические сроки, и система
-  не имеет права поставить её случайно.
-- **Объяснение письма ИИ** ✅ — что от вас хотят, к какому сроку, что будет,
-  если не ответить. Только по явному запросу.
-- **Черновик ответа** ✅ — подготовленный документ, но никогда не автоматическая
-  отправка в госорган.
-- **Безопасное хранение** — тема, текст, номер и имена файлов зашифрованы и не
-  попадают ни в логи, ни в мониторинг. Дедупликация — через криптографические
-  слепые индексы.
-
-**Для мультибизнесмена это меняет режим работы.** Три организации — одна лента
-уведомлений, переключение между компаниями в один тап, реакция на официальное
-письмо в тот же день, а не когда дошли руки зайти в кабинет.
-
-### F.2. Онлайн-касса и фискальные чеки ✅
-
-- **Синхронизация касс** — терминалы (точки продаж) и фискальные чеки
-  подтягиваются из кабинета Soliq. В проде — **394 чека** у пилотных клиентов.
-- **Автосинхронизация** ✅ — фоновое расписание с лизом и защитой от гонок;
-  ручное обновление за выбранный период.
-- **Продажи и возвраты разделены** — возврат не считается выручкой (отдельный
-  признак у чека, ошибка в этом месте искажает всю отчётность).
-- **История за прошлые месяцы** — догрузка периодов, которых не достаёт
-  скользящее окно.
-- **Вечерняя сводка по кассе** — сколько пробито за день, с персональным
-  отключением.
-- **Сверка чеков с Didox** — что пробито через кассу против того, что выставлено
-  документами.
-- **Эквайринг** — сверка карточной выручки на кассе с тем, что реально
-  перечислил эквайер.
-- **Детектор аномалий** — правила поверх локально закэшированных чеков.
-- **Чеки → в учёт** — фискальные чеки проецируются в общий леджер денег и
-  участвуют в сделках и Пульсе.
-
-### F.3. Мост «Касса → учёт» (Retail Bridge) 🟡
-
-Отдельный контур для розницы: чеки кассы собираются в **дневной документ
-розничных продаж** и публикуются в учётной системе клиента (1С).
-
-Главный принцип модуля: **мы не спрашиваем у бухгалтера учётную политику — мы
-списываем её из его же базы.** При подключении система читает последний
-«Отчёт о розничных продажах» клиента и предлагает: «Нашли ваш документ
-№ 0000-000156 от 26.12 — настройки берём оттуда?» Бухгалтер жмёт «да» и не
-отвечает ни на один вопрос про счета учёта.
-
-Побочный эффект — модуль одинаково работает с русской конфигурацией 1С, с
-узбекской и с самописной, потому что номера счетов нигде не зашиты в код.
-
-Адаптеры касс подключаемые: чеки ОНК из кабинета Soliq, касса yestask, и любая
-следующая — **без нашего кода**.
+What we have working today is a direct connection to Bank24 plus statement
+import from any format — that is enough for now. An abstraction layer over
+multiple banking providers has not been written yet: it is designed in our own
+market study and sits in the work queue for the moment a second source appears.
+In detail:
+[the roadmap](03-roadmap.md#36-horizon-v--money-and-open-banking).
 
 ---
 
-## G. Склад, товары, ИКПУ
+## F. Tax Office — Soliq
 
-> ✅ В проде · **5 697 товарных позиций** в каталогах клиентов
+> ✅ In production · early audience (6 connected organisations)
 
-| Функция | Описание |
+The module closes two large pain points at once: **letters from the tax office**
+and **fiscal cash-register receipts**.
+
+### F.1. The tax office mailbox ✅
+
+Today a business is obliged to log into its `my.soliq.uz` account regularly with
+a digital signature and check whether a notice has arrived. Miss it, and you miss
+the deadline to reply. Anyone with three companies logs in three times, with
+three keys.
+
+What the module does:
+
+- **Checks the mailbox for you** — an hourly lightweight probe of the message
+  counter (only within a working window of 08:00–21:00 Tashkent time), with a
+  full sweep only once the counter has moved. Freshness of about an hour instead
+  of a day, at a lower load on the portal than before.
+- **Sends a Telegram notification** — a new letter from the tax committee arrives
+  where the owner already is.
+- **Reminds you of the deadline** — a letter requiring a reply nags before the
+  due date, not after it.
+- **Legally correct opening.** Until the owner explicitly confirms, the letter is
+  shown as metadata only, with the contents sealed. Opening it issues exactly one
+  "mark as read" call on the tax committee's side and verifies the result. This
+  is not a technical nicety: the read receipt starts legal deadlines running, and
+  the system has no right to set it by accident.
+- **An AI explanation of the letter** ✅ — what is being asked of you, by when,
+  and what happens if you do not reply. Only on an explicit request.
+- **A draft reply** ✅ — a prepared document, but never automatic submission to a
+  government body.
+- **Secure storage** — subject, body, number and file names are encrypted and
+  never reach the logs or the monitoring stack. Deduplication runs through
+  cryptographic blind indexes.
+
+**For an owner of several companies this changes the working regime.** Three
+organisations, one notification feed, one tap to switch between companies, and a
+reaction to an official letter on the same day instead of whenever they get
+round to logging in.
+
+### F.2. Fiscal cash registers and receipts ✅
+
+- **Cash-register synchronisation** — terminals (points of sale) and fiscal
+  receipts are pulled from the Soliq account. In production: **394 receipts**
+  across pilot clients.
+- **Automatic sync** ✅ — a background schedule with leasing and race protection;
+  manual refresh over a chosen period.
+- **Sales and refunds kept apart** — a refund is not counted as revenue (a
+  separate attribute on the receipt; an error here distorts the whole set of
+  reports).
+- **History for earlier months** — back-filling periods the rolling window does
+  not reach.
+- **An evening till summary** — how much was rung up during the day, with a
+  personal opt-out.
+- **Receipt-to-Didox reconciliation** — what went through the till against what
+  was issued as documents.
+- **Card acquiring** — reconciling card revenue at the till against what the
+  acquirer actually transferred.
+- **An anomaly detector** — rules layered over locally cached receipts.
+- **Receipts into the books** — fiscal receipts are projected into the shared
+  money ledger and take part in deals and in Business Pulse.
+
+### F.3. The Till-to-Books Bridge (Retail Bridge) 🟡
+
+A separate loop for retail: cash-register receipts are gathered into a **daily
+retail sales document** and published into the client's accounting system (1C).
+
+The module's governing principle: **we do not ask the bookkeeper about their
+accounting policy — we copy it out of their own database.** On connection the
+system reads the client's most recent "Retail sales report" and offers: "We found
+your document No. 0000-000156 dated 26 December — shall we take the settings from
+there?" The bookkeeper presses "yes" and never answers a single question about
+ledger accounts.
+
+A side effect: the module works identically with a Russian 1C configuration, an
+Uzbek one and a bespoke one, because no account number is hard-coded anywhere.
+
+Cash-register adapters are pluggable: fiscal receipts from the Soliq account, the
+yestask till, and whatever comes next — **without any code from us**.
+
+---
+
+## G. Inventory, Products, IKPU
+
+> ✅ In production · **5,697 product records** in client catalogues
+
+| Feature | Description |
 |---|---|
-| **Каталог товаров** | Карточка с ценой, единицей измерения, НДС, кодом ИКПУ, фото, штрихкодом |
-| **Склады** | Несколько складов на организацию, архивирование |
-| **Движения** | Ручные операции прихода/расхода/перемещения |
-| **Влияние документов на остатки** | Принятая входящая СФ автоматически меняет остатки — надёжно и с защитой от повторного применения |
-| **Инвентаризация** | Сессия пересчёта со сканированием штрихкодов прямо с телефона |
-| **Поиск по штрихкоду** | EAN-8 / EAN-13 |
-| **Фото товара** | Загрузка, автоматические WebP-производные, хранилище |
-| **Подсказка «мало на складе»** | Пуш, когда позиция подходит к нулю |
-| **Импорт прайса** | Excel/CSV, а также фотографией прайс-листа |
+| **Product catalogue** | A record with price, unit of measure, VAT, IKPU code, photo and barcode |
+| **Warehouses** | Several warehouses per organisation, with archiving |
+| **Movements** | Manual receipt, issue and transfer operations |
+| **Documents affecting stock** | An accepted incoming invoice changes stock levels automatically — reliably, and guarded against being applied twice |
+| **Stocktaking** | A recount session with barcode scanning straight from the phone |
+| **Barcode lookup** | EAN-8 / EAN-13 |
+| **Product photos** | Upload, automatic WebP derivatives, storage |
+| **"Running low" alerts** | A push when an item approaches zero |
+| **Price-list import** | Excel/CSV, and also from a photograph of a price list |
 
-### Куда это идёт: свой умный склад 🎯
+### Where this is heading: our own smart warehouse 🎯
 
-Сегодня склад в системе — **учётный**: он знает, что и сколько лежит у клиента,
-но сам товар лежит у клиента.
+Today the warehouse in the system is a **ledger**: it knows what the client has
+and how much of it, but the goods sit on the client's premises.
 
-Следующий шаг — **наш собственный склад под управлением ИИ**, где бизнес может
-разместить свой товар физически. Мы принимаем поставку, распаковываем, сверяем с
-документами, сортируем, заводим карточки товара с фото, описанием и кодом ИКПУ,
-маркируем — и дальше отгружаем по заказам в любую точку Узбекистана, с целью
-доставки день в день.
+The next step is **our own AI-run warehouse**, where a business can physically
+place its stock. We take the delivery in, unpack it, reconcile it against the
+documents, sort it, create product records with photographs, descriptions and
+IKPU codes, label it — and from then on ship against orders anywhere in
+Uzbekistan, targeting same-day delivery.
 
-Ключевое: **продавать можно куда угодно**, не только через UmagShop — товар
-лежит у нас, а канал продажи выбирает клиент. Отдельная ветка — приём товара
-**прямо после растаможки**, вместе с [брокерским
-контуром](03-roadmap.md#3112--таможня-и-брокеры).
+The crucial part: **you can sell anywhere**, not only through UmagShop — the
+goods sit with us, and the client chooses the sales channel. A separate branch is
+taking goods in **straight after customs clearance**, together with the
+[broker loop](03-roadmap.md#3112--customs-and-brokers).
 
-Подробно — [дорожная карта §3.11](03-roadmap.md#311-горизонт-x-физический-контур--склад-таможня-доставка).
+In detail:
+[roadmap §3.11](03-roadmap.md#311-horizon-x--the-physical-loop-warehouse-customs-delivery).
 
-### ИКПУ — коды Ташниф ✅
+### IKPU — Tasnif codes ✅
 
-Отдельная тема, потому что ошибка здесь стоит денег. Каждый товар в счёт-фактуре
-обязан нести код государственного классификатора ИКПУ; неверный код — штраф по
-**ст. 223 НК РУз**.
+A topic of its own, because a mistake here costs money. Every product on an
+e-invoice must carry a code from the state IKPU classifier; the wrong code means
+a penalty under **Article 223 of the Tax Code of Uzbekistan**.
 
-- **Конвейер подбора кода в 5 фаз**: поиск в каталоге, сопоставление, проверка,
-  подстановка канонического имени, кэш на бизнес.
-- **Железное правило: название категории всегда из Ташниф, никогда от ИИ.**
-  Любой код перед отправкой в Didox проходит принудительную подстановку
-  официального имени.
-- **Поиск ИКПУ** доступен пользователю вручную — в мастере и отдельным экраном.
-- **Очередь предложений ИКПУ** ✅ — фоновый конвейер разбирает каталог и
-  предлагает коды пачками; **в проде уже 5 067 предложений** ждут подтверждения
-  человеком. Автоприменение открывается отдельным флагом — по принципу «ИИ
-  предлагает, публикует человек».
-- **Маркировка (КИЗ / DataMatrix)** — хранение полученных кодов маркировки.
-- **Проверка льгот** 🔵 — контекстная проверка применимых налоговых льгот в
-  потоках СФ.
-
----
-
-## H. Контрагенты
-
-> ✅ В проде
-
-- **Карточка контрагента**: реквизиты, банк, история документов, оборот,
-  избранное.
-- **Проверка по ИНН/ПИНФЛ через ГНК** — подтягивание официальной карточки
-  организации, в том числе по донорскому токену для тех, у кого ещё нет своего
-  доступа.
-- **Мои клиенты** — синхронизация списка получателей из истории Didox.
-- **Отслеживание переименований организаций** ✅ — если контрагент сменил
-  название, система замечает это по реестру и **сама разносит новое имя по
-  учёту**, ключом служит ИНН, а не внутренний идентификатор. Прежние названия
-  остаются в поиске, чтобы старые документы находились.
-- **Сверка реквизитов с реестром** ✅ — счёт, МФО, адрес, директор. Расхождение
-  показывается как доказательство (что именно и когда изменилось), а не как
-  флажок; по счёту и МФО система **сообщает**, а не исправляет, потому что у
-  организации может быть несколько счетов.
-- **Защита от дублей по ИНН** ✅.
+- **A five-phase code-matching pipeline**: catalogue search, matching,
+  verification, substitution of the canonical name, per-business caching.
+- **An iron rule: the category name always comes from Tasnif, never from the
+  AI.** Every code passes through a forced substitution of the official name
+  before it is sent to Didox.
+- **IKPU search** is available to the user manually — inside the wizard and on a
+  screen of its own.
+- **An IKPU suggestion queue** ✅ — a background pipeline works through the
+  catalogue and proposes codes in batches; **5,067 suggestions are already in
+  production**, waiting for human confirmation. Auto-application is gated behind
+  a separate flag, on the principle "the AI proposes, a human publishes".
+- **Product marking (KIZ / DataMatrix)** — storage of the marking codes
+  received.
+- **Tax relief checks** 🔵 — contextual checking of applicable tax reliefs inside
+  the invoice flows.
 
 ---
 
-## I. UmagShop — маркетплейс с документами
+## H. Counterparties
 
-> ✅ В проде (бета) · инфраструктура работает, площадка наполняется
+> ✅ In production
 
-### I.1. Идея
+- **A counterparty record**: registration details, bank, document history,
+  turnover, favourites.
+- **TIN/PINFL verification through the tax committee** — pulling the official
+  company record, including via a donor token for clients who do not yet have
+  their own access.
+- **My clients** — the recipient list synchronised from Didox history.
+- **Tracking of renamed organisations** ✅ — if a counterparty changes its name,
+  the system notices it from the register and **propagates the new name through
+  the books itself**, keyed on the TIN rather than an internal identifier. The
+  old names stay searchable so that historical documents can still be found.
+- **Reconciliation of details against the register** ✅ — account, bank code,
+  address, director. A discrepancy is shown as evidence (what changed, and when)
+  rather than as a flag; for the account number and bank code the system
+  **reports** rather than corrects, because an organisation may hold several
+  accounts.
+- **Duplicate protection by TIN** ✅.
 
-**У всех маркетплейсов заказ заканчивается корзиной. У нас — закрытой сделкой с
-бухгалтерией.**
+---
 
-UmagShop — не отдельный стартап, а раздел платформы. Из этого следуют два
-свойства, которых у площадок-конкурентов нет и быстро не будет:
+## I. UmagShop — a Marketplace with Documents
 
-1. **Документы уже умеет платформа.** Заказ на витрине становится обычной
-   сделкой iHisobchi и живёт по общим правилам: договор → оплата → счёт-фактура
-   → ТТН → приёмка → закрытие. Движок тот же, через который прошли десятки тысяч
-   реальных сделок.
-2. **База не пустая.** У клиентов платформы около 9 800 уникальных
-   контрагентов — это готовый список приглашений, а не каталог с нуля.
+> ✅ In production (beta) · the infrastructure works, the marketplace is filling
+> up
 
-### I.2. Двойная роль: продаёт и покупает одновременно
+### I.1. The idea
 
-Один и тот же бизнес в реальных данных выступает и поставщиком (17 457 ролей в
-сделках), и покупателем (14 901). Это **один пользователь в двух режимах**,
-поэтому площадка проектируется так, что бизнес:
+**On every other marketplace an order ends in a shopping basket. Here it ends in
+a closed deal with the bookkeeping done.**
 
-- **продаёт** свои товары через собственную витрину;
-- **закупает** у других — для перепродажи, для производства, для офиса — и
-  находит с помощью ИИ хорошую цену, хорошие отзывы, надёжного поставщика;
-- и в обе стороны получает договор и счёт **не выходя из системы**.
+UmagShop is not a separate start-up but a section of the platform. Two properties
+follow from that which competing marketplaces do not have and will not have
+quickly:
 
-Закупщику не нужно потом выбивать из поставщика документы — они рождаются из
-заказа.
+1. **The platform already knows how to do documents.** An order on a storefront
+   becomes an ordinary iHisobchi deal and lives by the same rules: contract →
+   payment → e-invoice → waybill → acceptance → closure. It is the same engine
+   that tens of thousands of real deals have already passed through.
+2. **The address book is not empty.** The platform's clients have around 9,800
+   unique counterparties between them — a ready-made invitation list rather than
+   a catalogue starting from zero.
 
-### I.3. Что построено ✅
+### I.2. A double role: selling and buying at the same time
 
-| Функция | Описание |
+In the real data, one and the same business acts both as a supplier (17,457
+roles in deals) and as a buyer (14,901). This is **one user in two modes**, so
+the marketplace is designed so that a business can:
+
+- **sell** its own goods through its own storefront;
+- **buy** from others — for resale, for production, for the office — using AI to
+  find a good price, good reviews and a dependable supplier;
+- and in both directions receive a contract and an invoice **without leaving the
+  system**.
+
+A buyer does not then have to chase the supplier for paperwork — it is born out
+of the order.
+
+### I.3. What is built ✅
+
+| Feature | Description |
 |---|---|
-| **Магазин на своём поддомене** | `<магазин>.umagshop.uz` + адрес `umagshop.uz/<slug>` |
-| **Общий каталог** | Маркетплейс: баннеры, 14 категорий, подборки, фильтры, поиск |
-| **Три двери** | Покупатель с улицы · клиент iHisobchi · продавец из рекламы UmagShop |
-| **Регистрация продавца «с улицы»** | Человек приходит в UmagShop, а не в бухгалтерскую систему; iHisobchi проявляется на этапе документов |
-| **Жизненный цикл заказа** | `new → confirmed → contract → paid → shipped → closed`, плюс запрос цены (`quote_requested → quoted`) |
-| **Заказ → документы** | Договор и счёт создаются автоматически; проводка в движок сделки |
-| **ИИ-модерация карточек** | Правила → LLM → проверка фото → вердикт. Любая неопределённость = «ограниченно», а не «одобрено» |
-| **ИИ-консультант покупателя** | «нужен насос для дачи» → карточки товаров. Модель **выбирает id** из снимка каталога, а не называет товары — выдуманной цене некуда приземлиться |
-| **Карточка из фото** | Фото упаковки → черновик карточки товара |
-| **Импорт прайса** | Excel/CSV и фотографией |
-| **ИИ-тексты карточек** | Описания как предложение, публикует человек |
-| **Печатный QR-плакат магазина** | A4 для точки продаж |
-| **Дайджест продавцу** | Еженедельная сводка + догон в тихие часы |
-| **Автоотметка оплаты** | Оплата заказа находится в банковской выписке автоматически |
-| **Инструменты агента** | Статистика магазина, черновики листингов, описания — с запретом публиковать без человека |
+| **A shop on its own subdomain** | `<shop>.umagshop.uz` plus the address `umagshop.uz/<slug>` |
+| **A shared catalogue** | The marketplace: banners, 14 categories, curated collections, filters, search |
+| **Three doors** | A buyer off the street · an existing iHisobchi client · a seller arriving from UmagShop advertising |
+| **Cold sign-up for sellers** | The person arrives at UmagShop, not at an accounting system; iHisobchi appears at the document stage |
+| **Order lifecycle** | `new → confirmed → contract → paid → shipped → closed`, plus a price request (`quote_requested → quoted`) |
+| **Order → documents** | The contract and invoice are created automatically and posted into the deals engine |
+| **AI moderation of listings** | Rules → LLM → photo check → verdict. Any uncertainty means "restricted", never "approved" |
+| **An AI buying assistant** | "I need a pump for a country house" → product cards. The model **picks an id** from a snapshot of the catalogue instead of naming products — an invented price has nowhere to land |
+| **A listing from a photo** | A photo of the packaging → a draft product listing |
+| **Price-list import** | Excel/CSV, and from a photograph |
+| **AI listing copy** | Descriptions offered as a suggestion; a human publishes |
+| **A printed QR poster for the shop** | A4, for the point of sale |
+| **A seller digest** | A weekly summary plus catch-up delivery after quiet hours |
+| **Automatic payment marking** | An order's payment is found in the bank statement automatically |
+| **Agent tools** | Shop statistics, listing drafts, descriptions — with publishing without a human forbidden |
 
-### I.4. Продуктовое решение, ради которого всё построено: товар ≠ витрина
+### I.4. The product decision everything is built around: a product is not a listing
 
 ```
-products_catalog  (ПРИВАТНО: ваш склад, ваши закупочные цены)
-      │  явный перенос человеком, по одной позиции
+products_catalog  (PRIVATE: your stock, your purchase prices)
+      │  moved across explicitly, by a human, one item at a time
       ▼
-mk_listings       (ПУБЛИЧНО: витринная цена, витринный текст, витринное фото)
+mk_listings       (PUBLIC: shop price, shop copy, shop photo)
       ▼
-модерация → одобрено | ограниченно | отклонено → общий каталог
+moderation → approved | restricted | rejected → the shared catalogue
 ```
 
-Бизнес, который подозревает утечку закупочных цен, не положит на витрину ни
-одного товара. Поэтому гарантии закреплены **в коде и тестах**:
+A business that suspects its purchase prices might leak will not put a single
+product on a storefront. So the guarantees are fixed **in the code and in the
+tests**:
 
-- витринная цена никогда не подставляется из закупочной автоматически;
-- кнопки «опубликовать всё» **не существует** ни в интерфейсе, ни в API — запрос
-  без явного списка позиций отклоняется;
-- отдельный тест перебирает все публичные маршруты и падает, если наружу утекло
-  хоть одно приватное поле.
+- a shop price is never populated from a purchase price automatically;
+- a "publish everything" button **does not exist**, neither in the interface nor
+  in the API — a request without an explicit list of items is rejected;
+- a dedicated test walks every public route and fails if even one private field
+  leaks out.
 
-В интерфейсе это нарисовано двумя колонками — «В системе · видите только вы» ↔
-«В магазине · видят покупатели» — с надписью на разделителе: **«ничего не
-переходит само»**.
+In the interface this is drawn as two columns — "In the system · only you see
+this" ↔ "In the shop · buyers see this" — with a caption on the divider:
+**"nothing crosses on its own"**.
 
-### I.5. Честное состояние на 14.08.2026
+### I.5. The honest state of things as of 14 August 2026
 
-Инфраструктура готова, площадка наполняется: 1 магазин, 5 опубликованных
-позиций, 1 заказ, 14 категорий. При этом **дефицита предложения нет** — 33
-бизнеса уже держат товары в системе, у одного 5 042 позиции; 5 067 кодов ИКПУ
-подобраны ИИ и ждут подтверждения. Витрина пуста не потому, что нечего
-показывать, а потому что почти никто ещё не прошёл путь «товар → витрина».
+The infrastructure is ready and the marketplace is filling up: 1 shop, 5
+published items, 1 order, 14 categories. There is, however, **no shortage of
+supply** — 33 businesses already hold products in the system, one of them with
+5,042 items; 5,067 IKPU codes have been matched by the AI and await
+confirmation. The storefront is empty not because there is nothing to show, but
+because almost nobody has yet walked the path from "product" to "listing".
 
-**Чего сегодня нет** (важно для честных обещаний): API перевозчиков не
-подключены — способы доставки (самовывоз, свой курьер, BTS Express, Узбекистон
-почтаси, Яндекс Доставка) пока справочник, трек-номер вписывается руками; оплата
-внутри площадки отсутствует, только банк-в-банк; личного кабинета покупателя,
-чата с продавцом и рейтинга пока нет; **видео на площадке нет вовсе** — ни
-живого эфира, ни коротких роликов. Всё это — в
-[дорожной карте](03-roadmap.md).
+**What does not exist today** (which matters for keeping promises honest):
+carrier APIs are not connected — the delivery options (self-collection, own
+courier, BTS Express, Uzbekiston Pochtasi, Yandex Delivery) are a reference list
+for now and the tracking number is typed in by hand; there is no payment inside
+the marketplace, only bank to bank; there is no buyer account, no chat with the
+seller and no ratings yet; and **there is no video on the marketplace at all** —
+neither live streaming nor short clips. All of it is on the
+[roadmap](03-roadmap.md).
 
-### I.6. Что строится следующим 🎯
+### I.6. What is being built next 🎯
 
-Два раздела, которые превращают витрину в живую торговую площадку. Оба — в
-ближайшей разработке, подробно в
-[дорожной карте §3.5.1–3.5.2](03-roadmap.md#351--живой-эфир-247--торговля-которую-видно):
+Two sections that turn a storefront into a living trading floor. Both are in
+near-term development; in detail in
+[roadmap §3.5.1–3.5.2](03-roadmap.md#351--247-live-streaming--commerce-you-can-watch):
 
-- **Живой эфир 24/7** — круглосуточная трансляция с товарами и услугами
-  продавцов. Покупатель просит показать товар ближе, задаёт вопросы и оформляет
-  заказ прямо в эфире. Ведёт сначала наш ведущий, затем — наш ИИ-агент.
-  Ключевое отличие от любой другой площадки: из эфира выходит **подписанный
-  договор и счёт**, а не корзина.
-- **Короткие видео продавцов** — вертикальные ролики до минуты, где бизнес сам
-  рекламирует товары и услуги, с настоящей карточкой заказа под роликом.
+- **24/7 live streaming** — a round-the-clock broadcast of sellers' goods and
+  services. The buyer asks to see an item closer, asks questions and places the
+  order live on air. Hosted first by our presenter, then by our AI agent. The key
+  difference from any other marketplace: what comes out of the broadcast is a
+  **signed contract and an invoice**, not a shopping basket.
+- **Short seller videos** — vertical clips of up to a minute in which a business
+  advertises its own goods and services, with a real order card underneath.
 
-**Тарифы:** сейчас бесплатно — создание магазина, витрина, заказы, документы;
-комиссии с оборота нет. Первая настоящая выручка площадки появится на **платном
-продвижении видео** — продавец платит за показы своего ролика, а не процент со
-сделки. Дополнительно планируются свой поддомен, собственный домен и расширенные
-лимиты.
-
----
-
-## J. QR-Hisob и Ссылка-заказ
-
-> ✅ В проде
-
-Два способа продавать без сайта и без интеграции.
-
-### J.1. QR-Hisob — печатный QR на прилавке
-
-Продавец печатает A4-лист с QR-кодом (генерируется системой). Покупатель-бизнес
-сканирует телефоном, попадает на страницу продавца, вводит свой ИНН, выбирает
-товары и оформляет заказ — **без регистрации и без приложения**.
-
-Дальше:
-1. Продавцу приходит карточка «🛒 Новый QR-заказ» в Telegram.
-2. Один тап — договор сформирован и подписан ЭЦП.
-3. Из подписанного договора одной кнопкой — счёт-фактура.
-
-Отдельный инвариант в коде: магазин не включится, пока у продавца не заполнены
-банковские реквизиты — счёт, по которому покупатель должен платить, не может
-оказаться пустым.
-
-### J.2. Ссылка-заказ (Deal Link)
-
-Продавец создаёт ссылку на предложение и отправляет её в мессенджере.
-Покупатель открывает, оформляет, получает договор и счёт. Есть срок оплаты,
-статусы, уборщик просроченных заказов, SMS-уведомления покупателю и пуши
-продавцу, автоматическая привязка поступившего платежа к заказу и доставка
-договора в Didox-кабинет контрагента.
+**Pricing:** currently free — creating a shop, the storefront, orders and
+documents; there is no commission on turnover. The marketplace's first real
+revenue will come from **paid video promotion** — the seller pays for
+impressions of their clip, not a percentage of the deal. A custom subdomain, a
+custom domain and extended limits are planned on top.
 
 ---
 
-## K. Nasiya — рассрочка
+## J. QR-Hisob and Deal Link
 
-> 🟡 Канарейка
+> ✅ In production
 
-Учёт продаж в рассрочку **для продавца**, который кредитует покупателя сам. Мы
-не BNPL-провайдер: деньги и кредитный риск остаются у продавца — мы даём учёт,
-документы и дисциплину.
+Two ways to sell without a website and without an integration.
 
-| Функция | Описание |
+### J.1. QR-Hisob — a printed QR code on the counter
+
+The seller prints an A4 sheet with a QR code (generated by the system). A
+business buyer scans it with their phone, lands on the seller's page, enters
+their TIN, picks the goods and places the order — **with no registration and no
+app**.
+
+Then:
+1. The seller receives a "🛒 New QR order" card in Telegram.
+2. One tap, and the contract is drawn up and signed with the digital signature.
+3. From the signed contract, one more button produces the e-invoice.
+
+A separate invariant in the code: a shop will not switch on until the seller's
+bank details are filled in — the account the buyer is supposed to pay into
+cannot be left blank.
+
+### J.2. Deal Link
+
+The seller creates a link to an offer and sends it over a messenger. The buyer
+opens it, fills in their details and receives a contract and an invoice. There
+is a payment deadline, order statuses, a cleaner for expired orders, SMS
+notifications to the buyer and pushes to the seller, automatic matching of an
+incoming payment to the order, and delivery of the contract into the
+counterparty's Didox account.
+
+---
+
+## K. Nasiya — Instalment Sales
+
+> 🟡 Canary release
+
+Accounting for instalment sales **for the seller** who finances the buyer
+themselves. We are not a BNPL provider: the money and the credit risk stay with
+the seller — we provide the bookkeeping, the documents and the discipline.
+
+| Feature | Description |
 |---|---|
-| **График платежей** | Расчёт графика, наценки, распределения платежа — чистая детерминированная математика на Decimal |
-| **Клиент по ПИНФЛ** | Распознавание паспорта / ID-карты РУз по фото, дедуп по ПИНФЛ, шифрование персональных данных |
-| **Договор рассрочки** | PDF с графиком |
-| **Приём платежей** | Отметка платежа с правильным распределением на основной долг и наценку |
-| **Напоминания** | Каденция −3 / 0 / +1 / +3 / +7 дней, с обязательной проверкой «а не заплатил ли уже» перед отправкой |
-| **Пени и претензии** | Начисление, претензия, пакет для суда |
-| **Портфель** | Аналитика: корзины по дням просрочки (DPD), процент собираемости |
-| **Смены продавцов** | Открытие/закрытие смены, сверка наличных |
-| **Импорт существующих книг** | XLSX/CSV — переезд с тетради или Excel |
-| **Кабинет покупателя** | Публичная ссылка `/n/<токен>`: график и остаток долга |
-| **Реструктуризация, отмена, возврат** | Полный жизненный цикл |
-| **Хранение ПДн** | Отдельная политика удержания и удаления |
+| **Payment schedule** | Calculation of the schedule, the mark-up and the allocation of each payment — pure deterministic arithmetic on `Decimal` |
+| **Customer by PINFL** | Recognition of an Uzbek passport or ID card from a photo, deduplication by PINFL, encryption of personal data |
+| **Instalment contract** | A PDF with the schedule |
+| **Taking payments** | Recording a payment with the correct split between principal and mark-up |
+| **Reminders** | A −3 / 0 / +1 / +3 / +7 day cadence, with a mandatory "have they already paid?" check before every send |
+| **Late fees and claims** | Accrual, a formal claim, a litigation pack |
+| **Portfolio** | Analytics: buckets by days past due (DPD), collection rate |
+| **Seller shifts** | Opening and closing a shift, cash reconciliation |
+| **Import of existing books** | XLSX/CSV — migrating from a notebook or Excel |
+| **Buyer portal** | The public link `/n/<token>`: the schedule and the outstanding balance |
+| **Restructuring, cancellation, refunds** | The full lifecycle |
+| **Personal-data storage** | A separate retention and deletion policy |
 
 ---
 
-## L. Кадры — HR
+## L. People — HR
 
-> 🔵 Построено, за выключенным флагом
+> 🔵 Built, behind a disabled flag
 
-**Замысел:** кадровый отдел ведёт не человек, а система. С момента, когда бизнес
-берёт кого-то на работу, всё оформляется автоматически — достаточно ввести
-паспортные данные один раз.
+**The intent:** the HR department is run by the system, not by a person. From the
+moment a business hires someone, everything is filed automatically — the passport
+details need to be entered once.
 
-### L.1. Принцип: источник правды — кадровое событие
+### L.1. The principle: the source of truth is the HR event
 
-Сегодня карточка сотрудника — это форма, которую кто-то заполнил. Ни один факт в
-ней не подтверждён документом, а приказы и договоры лежат в Word на чьём-то
-ноутбуке.
+Today an employee record is a form somebody filled in. Not a single fact in it is
+backed by a document, and the orders and contracts sit in Word on somebody's
+laptop.
 
-Мы строим обратное: **карточка сотрудника производна от ленты событий**,
-оформленных приказами. Отсюда:
+We are building the opposite: **the employee record is derived from a stream of
+events**, each formalised by an order. From which it follows that:
 
-- «кем работает» и «сколько получает» нельзя поменять мимо приказа;
-- состояние на любую дату в прошлом восстанавливается точно;
-- документы формируются из тех же данных, а не перепечатываются;
-- проверка налоговой или трудовой инспекции закрывается за минуту.
+- "what they do" and "what they are paid" cannot be changed except through an
+  order;
+- the state as of any past date can be reconstructed exactly;
+- documents are generated from the same data rather than retyped;
+- a tax or labour inspection is answered in a minute.
 
-### L.2. Что построено
+### L.2. What is built
 
-| Функция | Описание |
+| Feature | Description |
 |---|---|
-| **Мастер приёма на работу** | Одно действие вместо четырёх документов: договор, приказ, личная карточка, регистрация — одной транзакцией |
-| **Кадровые события и приказы** | С сериями номеров, печатными формами |
-| **Штатное расписание** | Редакции с датой вступления в силу, позиции, утверждение приказом |
-| **Проверка норм труда РУз** | МРОТ как **календарь**, а не константа (меняется указом, обычно с 1 сентября), и берётся на дату факта. Проверка строже российской: по ст. 245 и ст. 248 ч.2 ТК РУз **сам оклад** за полную ставку обязан быть не ниже МРОТ — «добрать» премиями нельзя |
-| **Контроль арифметики фонда** | Ошибочная строка (0,1 ставки × 25 млн = 25 млн) физически не вставляется в базу |
-| **Печатные формы** | Приказ и штатное расписание в PDF |
-| **Импорт кадров из 1С** | Сотрудники и история перемещений |
-| **Дедлайн-радар ЕНСТ** ✅ | Читает кадровые документы клиента в 1С и показывает, что не зарегистрировано в Едином национальном трудовом реестре в срок. Только чтение — отдельный флаг, потому что это персональные данные сотрудников, и включённый раздел «1С» сам по себе такого согласия не выражает |
-| **Карточка сотрудника** ✅ | Всё, что 1С знает о человеке: кадры и зарплата за период, одним запросом |
-| **Табель / отметка времени** 🎯 | Быстрый QR как основной путь; геосогласие двух устройств как несущая защита |
+| **A hiring wizard** | One action instead of four documents: contract, order, personal record and registration, in a single transaction |
+| **HR events and orders** | With number series and printable forms |
+| **Staffing table** | Revisions with an effective date, positions, approval by order |
+| **Uzbek labour-law checks** | The minimum wage as a **calendar**, not a constant (it changes by decree, usually on 1 September), applied as at the date of the fact. The check is stricter than the Russian model: under Articles 245 and 248(2) of the Uzbek Labour Code, **the base salary itself** for a full-time position must not fall below the minimum wage — you cannot top it up with bonuses |
+| **Payroll arithmetic control** | An erroneous row (0.1 FTE × 25 million = 25 million) physically cannot be written to the database |
+| **Printable forms** | The order and the staffing table as PDF |
+| **HR import from 1C** | Employees and their movement history |
+| **ENST deadline radar** ✅ | Reads the client's HR documents in 1C and shows what has not been registered in the Unified National Labour Register on time. Read-only — behind a flag of its own, because this is employees' personal data, and having the "1C" section switched on does not by itself express that consent |
+| **Employee record** ✅ | Everything 1C knows about a person: HR and payroll for a period, in a single query |
+| **Timesheets / clock-in** 🎯 | A fast QR code as the primary route; geolocation agreement between two devices as the load-bearing safeguard |
 
-**Граница модуля, зафиксированная сознательно:** мы **не считаем зарплату** и не
-заменяем 1С:ЗУП. Мы ведём кадровые документы и состояние сотрудника.
-Формы Т-1…Т-8, привычные по российской практике, в Узбекистане не существуют —
-модуль строится на нормах РУз, а не на переносе чужих шаблонов.
-
----
-
-## M. Интеграции
-
-**Философия:** не заставлять бизнес бросать то, чем он пользуется. Если у клиента
-есть 1С, МойСклад, CRM или касса — мы становимся слоем поверх, а не заменой.
-
-### M.1. МойСклад ✅
-
-Самая зрелая интеграция, эталон для остальных. Двусторонняя.
-
-- **Синхронизация**: товары (включая варианты, комплекты, услуги), контрагенты,
-  остатки, типы цен и прайс-листы, вложения и фото.
-- **Вебхуки** на все ключевые документы: отгрузка, заказ покупателя, приёмка,
-  возвраты (покупателя и поставщику), розничные продажи и смены, оприходование,
-  списание, перемещение, инвентаризация, производство и техкарты, входящие и
-  исходящие СФ, платежи входящие и исходящие, предоплаты и их возвраты.
-- **Отгрузка → счёт-фактура Didox** автоматически.
-- **Возврат → корректировочная СФ**.
-- **Обратная запись**: статус подписи Didox проставляется в атрибуты сущностей
-  МойСклад — бухгалтер видит статус там, где работает.
-- **Платежи** сверяются с банком.
-- **Ежедневная сводка** «вчерашние KPI» в Telegram.
-- **Самомониторинг вебхуков** — если МойСклад отключил вебхук на своей стороне,
-  система замечает и сообщает.
-- Бесплатный тариф работает через опрос, платный — через вебхуки.
-
-### M.2. 1С ✅
-
-- **Чтение справочников**: контрагенты, номенклатура, сотрудники.
-- **Запись**: контрагенты, номенклатура, исходящие счёт-фактуры.
-- **Раздел «1С» в приложении** ✅ — бухгалтерская отчётность прямо из базы
-  клиента: оборотно-сальдовая ведомость (ОСВ), карточка счёта с разрезом по
-  субконто, взаиморасчёты («кто должен нам / кому должны мы»), деньги.
-- **Кадры**: импорт сотрудников, карточка, дедлайн-радар ЕНСТ.
-- **Карта метаданных** — система сама выясняет, какие объекты 1С опубликованы по
-  OData у конкретного клиента, и не требует одинаковой конфигурации.
-- **Мост «Касса → учёт»** — дневной документ розничных продаж (см. [F.3](#f3-мост-касса--учёт-retail-bridge-)).
-
-### M.3. AmoCRM ✅ и Bitrix24 ✅
-
-OAuth-подключение, синхронизация компаний, контактов, сделок и лидов, вебхуки с
-проверкой подписи, обратная запись.
-
-### M.4. Приём документов почтой 🟡
-
-Персональный адрес для пересылки: клиент (или его банк, или его касса)
-пересылает письмо с выпиской или пачкой чеков на выданный адрес — вложение
-классифицируется (выписка / чеки / документ) и попадает в нужный конвейер учёта.
-Внутри — собственный IMAP-приём с курсором, управление алиасами, шифрование
-идентификаторов, окно подтверждения пересылки и HITL-карточки писем.
-
-### M.5. Внешние магазины ✅
-
-Приём заказов из сторонних интернет-магазинов по HTTP-вебхуку, обратные
-колбэки о статусе.
+**A boundary of the module, drawn deliberately:** we **do not calculate payroll**
+and do not replace a payroll package. We maintain HR documents and the state of
+the employee. The T-1…T-8 forms familiar from Russian practice do not exist in
+Uzbekistan — this module is built on Uzbek statutes rather than on imported
+templates.
 
 ---
 
-## N. ИИ-поверхности
+## M. Integrations
 
-### N.1. Ассистент — универсальный агент ✅
+**The philosophy:** never make a business abandon what it already uses. If the
+client has 1C, MoySklad, a CRM or a cash register, we become a layer on top
+rather than a replacement.
 
-Работает в двух местах: **в Telegram-боте** (текст и голосовые сообщения) и **в
-Mini App** (текстовый чат + живой голос).
+### M.1. MoySklad ✅
 
-Пользователь пишет или говорит свободным текстом — агент исполняет это
-**реальными действиями системы** через тот же реестр способностей, что и кнопки
-интерфейса (65 инструментов).
+The most mature integration and the reference for the rest. Bidirectional.
 
-**Что умеет:**
+- **Synchronisation**: products (including variants, bundles and services),
+  counterparties, stock levels, price types and price lists, attachments and
+  photos.
+- **Webhooks** on every key document: shipment, customer order, goods receipt,
+  returns (from a customer and to a supplier), retail sales and shifts, stock
+  entry, write-offs, transfers, stocktaking, production and bills of material,
+  incoming and outgoing invoices, incoming and outgoing payments, prepayments and
+  their refunds.
+- **Shipment → a Didox e-invoice**, automatically.
+- **Return → a correcting invoice**.
+- **Write-back**: the Didox signature status is written into the attributes of
+  MoySklad entities — the bookkeeper sees the status where they work.
+- **Payments** are reconciled against the bank.
+- **A daily "yesterday's KPIs" summary** in Telegram.
+- **Webhook self-monitoring** — if MoySklad disables a webhook on its side, the
+  system notices and says so.
+- The free tier works by polling, the paid tier through webhooks.
 
-- **Читать**: документы, статусы, входящие, отчёты, баланс, сделки, дебиторку,
-  тренд продаж, топ контрагентов, кассу, письма налоговой, Пульс, поиск ИКПУ,
-  проверка контрагента по ИНН.
-- **Создавать черновики**: договор, коммерческое предложение, счёт-фактура,
-  ТТН — с карточкой результата и кнопкой «Подписать и отправить».
-- **Просить подтверждение**: подпись, отправка, приём или отклонение входящего —
-  публикуются владельцу как HITL-карточка. Агент **не подписывает сам**.
-- **Ориентироваться в продукте**: манифест навигации по всем разделам меню —
-  ответ «такой функции нет» невозможен, если функция есть.
-- **Помнить контекст** — история диалога и дневной бюджет токенов на бизнес.
-- **Длинные поручения** 🔵 — задание, которое агент ведёт до результата
-  несколькими ходами, с фиксацией состояния и теми же гейтами подтверждения.
+### M.2. 1C ✅
 
-### N.2. Живой голосовой оркестратор ✅ (раскатка)
+- **Reading reference data**: counterparties, products, employees.
+- **Writing**: counterparties, products, outgoing e-invoices.
+- **The "1C" section in the app** ✅ — accounting reports straight out of the
+  client's own database: the trial balance, an account card broken down by
+  analytics dimensions, mutual settlements ("who owes us / whom do we owe"), and
+  cash.
+- **HR**: employee import, the employee record, the ENST deadline radar.
+- **A metadata map** — the system works out for itself which 1C objects a given
+  client has published over OData, and does not demand an identical
+  configuration.
+- **The Till-to-Books bridge** — a daily retail sales document (see
+  [F.3](#f3-the-till-to-books-bridge-retail-bridge-)).
 
-Не «команды голосом», а **разговор с человеком, который управляет вашим
-бизнесом**: speech-to-speech, сервер сам понимает, что реплика закончилась, —
-вы говорите и получаете ответ, без второго тапа «отправить».
+### M.3. AmoCRM ✅ and Bitrix24 ✅
 
-Это главная ставка продукта и его будущий основной интерфейс, поэтому у него
-отдельный документ:
+OAuth connection, synchronisation of companies, contacts, deals and leads,
+signature-verified webhooks, write-back.
 
-> **[04-voice-orchestrator.md](04-voice-orchestrator.md) — голосовой
-> ИИ-оркестратор бизнеса.** Что он уже умеет, как дотягивается до всех модулей —
-> документов, сделок, склада, банка, налоговой, маркетплейса, — почему он
-> безопасен, на каких устройствах работает и как из него вырастает управление
-> бизнесом голосом на 99 %.
+### M.4. Document intake by e-mail 🟡
 
-Коротко о сегодняшнем дне: провайдер речи — xAI Grok Voice Realtime (русский);
-агент отвечает голосом и одновременно показывает карточки результата; фразу
-подтверждения необратимой операции **сочиняет сервер, а не модель**; есть режим
-подтверждения голосом без тапа с многослойной защитой от эха.
+A personal forwarding address: the client (or their bank, or their cash register)
+forwards a message with a statement or a batch of receipts to the address they
+were issued — the attachment is classified (statement / receipts / document) and
+routed into the right accounting pipeline. Inside there is our own IMAP intake
+with a cursor, alias management, encryption of identifiers, a confirmation window
+for forwarding, and human-in-the-loop cards for messages.
 
-### N.3. Распознавание и ввод ✅
+### M.5. External shops ✅
 
-| Функция | Что делает |
+Order intake from third-party online shops over an HTTP webhook, with status
+callbacks in return.
+
+---
+
+## N. AI Surfaces
+
+### N.1. The assistant — a universal agent ✅
+
+It works in two places: **in the Telegram bot** (text and voice messages) and
+**in the Mini App** (text chat plus live voice).
+
+The user writes or speaks freely, and the agent carries it out with **real
+system actions**, through the same capability registry the interface buttons use
+(65 tools).
+
+**What it can do:**
+
+- **Read**: documents, statuses, incoming mail, reports, balances, deals,
+  receivables, the sales trend, top counterparties, the till, tax-office letters,
+  Business Pulse, IKPU search, a counterparty check by TIN.
+- **Create drafts**: contract, commercial proposal, e-invoice, waybill — with a
+  result card and a "Sign and send" button.
+- **Ask for confirmation**: signing, sending, accepting or rejecting an incoming
+  document — all published to the owner as a human-in-the-loop card. The agent
+  **does not sign on its own**.
+- **Find its way around the product**: a navigation manifest covering every menu
+  section — the answer "there is no such feature" is impossible when the feature
+  exists.
+- **Remember context** — conversation history and a daily token budget per
+  business.
+- **Long-running errands** 🔵 — a task the agent carries to a result across
+  several turns, with its state persisted and the same confirmation gates.
+
+### N.2. The live voice orchestrator ✅ (rolling out)
+
+Not "voice commands" but **a conversation with someone who runs your business**:
+speech to speech, with the server working out for itself that your turn has
+ended — you speak and you get an answer, with no second tap to "send".
+
+This is the product's main bet and its future primary interface, so it has a
+document of its own:
+
+> **[04-voice-orchestrator.md](04-voice-orchestrator.md) — the voice AI business
+> orchestrator.** What it can already do, how it reaches into every module —
+> documents, deals, inventory, banking, tax, the marketplace — why it is safe,
+> which devices it runs on, and how running a business by voice at 99% grows out
+> of it.
+
+Briefly, as things stand today: the speech provider is xAI Grok Voice Realtime
+(Russian); the agent answers by voice while showing result cards at the same
+time; the confirmation phrase for an irreversible operation is **composed by the
+server, not by the model**; and there is a tap-free voice confirmation mode with
+multi-layered echo protection.
+
+### N.3. Recognition and input ✅
+
+| Feature | What it does |
 |---|---|
-| **Умная вставка (Smart Paste)** | Вставленный текст → распознанные позиции, количества, цены; ИИ определяет и покупателя из контекста |
-| **Фото первички → таблица** | Пачка фотографий чеков и накладных → **одна сводная таблица** в Excel. Один запрос к vision-модели на всю пачку, с жёстким правилом честности цифр: не досчитывать, не масштабировать, не додумывать |
-| **Файлы-чеки → реестр** | Пачка .xls/.xlsx/.csv выгрузок → тот же реестр; работает и в личке, и в привязанном рабочем чате |
-| **Распознавание речи** | Groq Whisper (ru) и Gemini (uz) для голосовых сообщений |
-| **Фото-OCR** | Товары и реквизиты с фотографии |
-| **Распознавание документов** | DOCX / PDF / изображение → текст для ИИ |
+| **Smart Paste** | Pasted text → recognised line items, quantities and prices; the AI works out the buyer from context too |
+| **Photos of source documents → a table** | A batch of photographed receipts and delivery notes → **one consolidated table** in Excel. A single vision-model request for the whole batch, under a strict honesty rule for figures: never total up what is not there, never rescale, never guess |
+| **Receipt files → a register** | A batch of `.xls`/`.xlsx`/`.csv` exports → the same register; works both in a private chat and in a linked work chat |
+| **Speech recognition** | Groq Whisper (ru) and Gemini (uz) for voice messages |
+| **Photo OCR** | Products and company details from a photograph |
+| **Document recognition** | DOCX / PDF / image → text for the AI |
 
-### N.4. AI Studio — материальный бухгалтер ✅ (раскатка)
+### N.4. AI Studio — the spreadsheet bookkeeper ✅ (rolling out)
 
-Универсальный ИИ-агент над бухгалтерскими файлами: клиент загружает свои
-таблицы, агент выполняет над ними задачу (свод, разнесение, пересчёт,
-переформатирование) и возвращает готовый файл. Есть сохраняемые «рецепты»
-(повторяемые задания) и шаблоны, история запусков, живой прогресс через SSE,
-изолированная песочница исполнения кода.
+A general-purpose AI agent working over accounting files: the client uploads
+their spreadsheets, the agent performs a task on them (consolidation,
+allocation, recalculation, reformatting) and returns a finished file. There are
+saved "recipes" (repeatable jobs) and templates, a run history, live progress
+over SSE, and an isolated sandbox for code execution.
 
-### N.5. Конвертер ✅
+### N.5. Converter ✅
 
-Отдельный простой инструмент без ИИ: конвертация файлов (DOCX/XLSX/PDF и др.)
-через изолированный LibreOffice-сайдкар.
+A separate, simple, AI-free tool: file conversion (DOCX/XLSX/PDF and others)
+through an isolated LibreOffice sidecar.
 
-### N.6. Консьерж ✅
+### N.6. Concierge ✅
 
-Страховка на случай, когда сообщение не удалось разобрать иначе: один быстрый
-классификатор намерения — и бот **всегда** отвечает по делу, а не «не понял».
-Никогда не подписывает, не отправляет и не платит: путь «намерение → действие»
-ограничен жёстким списком в коде.
+A safety net for when a message could not be parsed any other way: one fast
+intent classifier, and the bot **always** answers to the point rather than
+saying "I didn't understand". It never signs, sends or pays: the path from
+intent to action is limited to a hard-coded list.
 
 ---
 
-## O. Отчёты и аналитика
+## O. Reports and Analytics
 
-> ✅ В проде
+> ✅ In production
 
-| Отчёт | Что показывает |
+| Report | What it shows |
 |---|---|
-| **Продажи** | Исходящие СФ по периодам, контрагентам, суммам |
-| **Закупки** | Входящие СФ |
-| **НДС** | Сверка входящего и исходящего НДС |
-| **По клиентам** | Разрез по каждому покупателю: оборот, документы, долг |
-| **По товарам** | Что продаётся, в каком объёме, по какой цене |
-| **Прогноз продаж** | Линейная регрессия по истории |
-| **Движение денег** | Приход/расход по категориям |
-| **Дашборд** | Главный экран: ключевые цифры за период + **ИИ-комментарий** одним абзацем |
-| **Экспорт** | Excel по любому отчёту, PDF для Пульса |
+| **Sales** | Outgoing invoices by period, counterparty and amount |
+| **Purchases** | Incoming invoices |
+| **VAT** | Input and output VAT reconciled |
+| **By client** | A breakdown per buyer: turnover, documents, debt |
+| **By product** | What sells, in what volume, at what price |
+| **Sales forecast** | Linear regression over the history |
+| **Cash movement** | Income and spending by category |
+| **Dashboard** | The home screen: the key figures for a period plus an **AI comment** in a single paragraph |
+| **Export** | Excel for any report, PDF for Business Pulse |
 
 ---
 
-## P. Автодокументы
+## P. Automatic Documents
 
-> ✅ В проде
+> ✅ In production
 
-Конвейеры, которые делают документы **без участия человека** — на основании уже
-подписанных документов.
+Pipelines that produce documents **without human involvement**, on the basis of
+documents already signed.
 
-| Конвейер | Что делает |
+| Pipeline | What it does |
 |---|---|
-| **Авто-СФ по доверенности** | Пришла доверенность → система собирает счёт-фактуру по её позициям, показывает предпросмотр, ждёт подтверждения |
-| **Акт из СФ** | Из подписанной счёт-фактуры собирается акт выполненных работ |
-| **ТТН из СФ** | Из товарной СФ собирается товарно-транспортная накладная (тип 041) с настройками транспорта по умолчанию |
-| **Приём СФ в один тап** | Входящие от поставщиков из белого списка узнаются сами и приходят готовой карточкой «принять» — по одному документу или пачкой. Приём подтверждает человек |
-| **СФ из договора** | Позиции и суммы подставляются из подписанного договора |
-| **Счёт из заказа** | Заказ с витрины или по QR становится договором и счётом |
-| **Настройки по умолчанию** | Отдельные профили «Настройки договора» и «Настройки ТТН», чтобы не вводить одно и то же |
+| **Auto-invoice from a power of attorney** | A power of attorney arrives → the system assembles an e-invoice from its line items, shows a preview and waits for confirmation |
+| **Act from an invoice** | A certificate of completed work is assembled from a signed e-invoice |
+| **Waybill from an invoice** | A goods waybill (type 041) is assembled from a goods invoice, using the default transport settings |
+| **One-tap invoice acceptance** | Incoming invoices from whitelisted suppliers are recognised automatically and arrive as a ready "accept" card — one document at a time or a whole batch. A human confirms the acceptance |
+| **Invoice from a contract** | Line items and amounts are taken from the signed contract |
+| **Invoice from an order** | An order from a storefront or a QR code becomes a contract and an invoice |
+| **Default settings** | Separate "Contract settings" and "Waybill settings" profiles, so the same values are not typed twice |
 
-**Это и есть подступ к автономным сделкам** — следующему шагу, описанному в
-[дорожной карте](03-roadmap.md#32-горизонт-i-автономные-сделки).
-
----
-
-## Q. Мультибизнес, роли, уведомления, аудит
-
-> ✅ В проде
-
-- **Несколько организаций у одного человека** — переключение активной компании в
-  один тап, во всех поверхностях сразу. Ради этого сценария и построена
-  мультибизнес-модель: у мультибизнесмена одна лента, один вход, одна картина.
-- **Роли в компании**: owner / admin / accountant / viewer. Модель ролей и
-  таблица участников построены, интерфейс назначения работает; **общий доступ
-  нескольких сотрудников к одной организации раскатывается мягкой миграцией** —
-  пока она не завершена, рабочим путём остаётся владельческий доступ. Отдельно и
-  независимо работает управление ролями сотрудников **в самом Didox** и реестр
-  сотрудников-подписантов — это разные вещи, и их легко перепутать.
-- **Уведомления**: настраиваемые по типам, с тихими часами; durable-лента
-  событий, которая переживает офлайн; живые обновления в Mini App через SSE.
-- **Привязка рабочего группового чата** — файлы-чеки, брошенные в рабочую
-  группу, обрабатываются и отвечают реестром в тот же чат.
-- **Журнал действий** — пользователю доступен в интерфейсе; действия ИИ пишутся
-  в отдельный реестр без персональных данных.
-- **Расходы / зарплата** — простой регистр затрат по организации.
-- **Оформление**: темы, семейства брендов, светлая и тёмная схема, два языка.
+**This is the approach run-up to autonomous deals** — the next step, described in
+the [roadmap](03-roadmap.md#32-horizon-i--autonomous-deals).
 
 ---
 
-## R. Партнёрские каналы
+## Q. Multi-business, Roles, Notifications, Audit
 
-### R.1. MCP-сервер ✅ (раскатка)
+> ✅ In production
 
-`mcp.ihisobchi.uz` — подключение iHisobchi к внешним ИИ-клиентам (Claude,
-ChatGPT и др.) по протоколу Model Context Protocol с полноценным OAuth 2.1
-(включая динамическую регистрацию клиентов). Клиент разговаривает со своим
-бизнесом из любого ИИ-приложения; необратимые операции проходят тот же
-HITL-гейт с подтверждением в Telegram.
+- **Several organisations under one person** — switching the active company in
+  one tap, across every surface at once. The multi-business model was built for
+  exactly this scenario: one feed, one way in, one picture.
+- **Roles inside a company**: owner / admin / accountant / viewer. The role model
+  and the membership table are built and the assignment interface works;
+  **shared access for several employees to one organisation is being rolled out
+  through a gentle migration** — until that finishes, owner access remains the
+  working path. Separately and independently, there is management of employee
+  roles **inside Didox itself** and a register of employee signatories — these
+  are different things and are easily confused.
+- **Notifications**: configurable by type, with quiet hours; a durable event feed
+  that survives being offline; live updates in the Mini App over SSE.
+- **Linking a work group chat** — receipt files dropped into a work group are
+  processed and answered with a register in that same chat.
+- **An action log** — available to the user in the interface; the AI's actions
+  are written to a separate register that carries no personal data.
+- **Expenses / payroll** — a simple cost register per organisation.
+- **Appearance**: themes, brand families, light and dark schemes, two languages.
+
+---
+
+## R. Partner Channels
+
+### R.1. MCP server ✅ (rolling out)
+
+`mcp.ihisobchi.uz` — connects iHisobchi to external AI clients (Claude, ChatGPT
+and others) over the Model Context Protocol with full OAuth 2.1 (including
+dynamic client registration). The client talks to their own business from any AI
+application; irreversible operations pass through the same human-in-the-loop
+gate, confirmed in Telegram.
 
 ### R.2. Partner REST API 🔵
 
-Headless-контур для партнёров: ключ на организацию, единый конверт ответа,
-двухфазный rate-limit, идемпотентность, проверка прав на каждом маршруте.
+A headless surface for partners: a per-organisation key, a uniform response
+envelope, two-phase rate limiting, idempotency, and a permission check on every
+route.
 
-**Что открыто по HTTP сегодня — точный список:** создание черновиков четырёх
-типов — договор, коммерческое предложение, счёт-фактура, ТТН.
+**What is exposed over HTTP today — the exact list:** creating drafts of four
+types — contract, commercial proposal, e-invoice, waybill.
 
-**Подпись и отправка в Partner API намеренно не зарегистрированы.** Это не
-недоделка, а решение: внешний ключ не должен уметь подписать документ от имени
-организации без участия её владельца. Партнёр готовит черновик — подписывает
-человек в своей поверхности. Когда контур подписи для партнёров откроется, он
-пойдёт через тот же HITL-гейт, что и всё остальное.
+**Signing and sending are deliberately not registered in the Partner API.** That
+is a decision, not an omission: an external key must not be able to sign a
+document on an organisation's behalf without its owner taking part. The partner
+prepares a draft — a human signs it on their own surface. When a signing path for
+partners does open, it will run through the same human-in-the-loop gate as
+everything else.
 
-Флаг выключен: контур включается по договору, после контрактных тестов и
-согласования квот.
+The flag is off: the surface is enabled under a contract, after contract tests
+and agreement on quotas.
 
-### R.3. Chrome-расширение ✅
+### R.3. Chrome extension ✅
 
-Боковая панель в браузере с ИИ-сценариями поверх сторонних веб-порталов:
-заполнение форм по сохранённым сопоставлениям, перенос данных, поиск
-контрагента по ИНН, загрузка и разбор файлов. Соединяется с аккаунтом по коду
-сопряжения.
+A browser side panel with AI workflows layered over third-party web portals:
+filling in forms from saved field mappings, moving data across, looking up a
+counterparty by TIN, uploading and parsing files. It pairs with the account
+through a pairing code.
 
 ---
 
-## S. iSMM — продажи и продвижение в социальных сетях
+## S. iSMM — Sales and Promotion on Social Media
 
-> 🎯 Спроектирован, строится следующим
+> 🎯 Designed, next in the build queue
 
-**iSMM — intelligence social media management.** Соцсети бизнеса подключаются к
-платформе один раз и становятся ещё одним её рабочим местом: посты и рекламные
-кампании выходят отсюда, отклики приходят сюда, а покупатель, которому реклама
-понравилась, **покупает в ту же минуту** — договор, счёт и оплата проходят на
-одной странице, из которой он никуда не уходит.
+**iSMM — intelligent social media management.** A business connects its social
+accounts to the platform once, and they become one more workplace inside it:
+posts and ad campaigns go out from here, responses come back here, and a buyer
+who liked the advertisement **buys in the same minute** — contract, invoice and
+payment all happen on a single page they never have to leave.
 
-### S.1. Разрыв, ради которого модуль существует
+### S.1. The gap the module exists to close
 
-Реклама в соцсетях сегодня умеет привести человека, который **хочет купить
-прямо сейчас**, и на этом останавливается. Дальше начинается то, что убивает
-покупку:
+Social advertising today is capable of delivering a person who **wants to buy
+right now**, and there it stops. What comes next is what kills the purchase:
 
-| Шаг сегодня | Кто делает | Сколько живёт |
+| The step today | Who does it | How long it lives |
 |---|---|---|
-| Посмотрел рекламу, захотел купить | покупатель | секунды |
-| «Оставьте номер в директе» | покупатель | минуты |
-| Менеджер перезванивает и пересказывает то же самое | продавец | часы |
-| Передал бухгалтеру | продавец | часы |
-| Бухгалтер запрашивает реквизиты, ИНН, адрес | продавец | часы |
-| Готовит договор и счёт | продавец | часы |
-| Отправляет — почтой, в мессенджер, в ЭДО | продавец | часы |
-| Покупатель открывает ЭДО, находит договор, подписывает | покупатель | сутки |
-| Заходит в клиент-банк и платит по реквизитам | покупатель | сутки |
-| Продавец ищет платёж в выписке | продавец | сутки |
+| Saw the ad, wanted to buy | the buyer | seconds |
+| "Leave your number in our DMs" | the buyer | minutes |
+| A sales manager calls back and repeats the same thing | the seller | hours |
+| Hands it to the bookkeeper | the seller | hours |
+| The bookkeeper asks for details, TIN, address | the seller | hours |
+| Prepares the contract and the invoice | the seller | hours |
+| Sends them — by post, by messenger, through the e-document system | the seller | hours |
+| The buyer opens the e-document portal, finds the contract, signs it | the buyer | a day |
+| Logs into their bank client and pays against the details | the buyer | a day |
+| The seller hunts for the payment in the statement | the seller | a day |
 
-**Между «хочу» и «оплачено» — до десяти шагов, две-три программы и несколько
-суток.** Порыв, за который бизнес заплатил рекламным бюджетом, до кассы не
-доживает. И это не проблема конкретного продавца: **в B2B этого пути просто
-нет.** Нельзя из рекламного объявления выставить счёт-фактуру и заключить
-договор — ни в одной соцсети мира.
+**Between "I want it" and "it is paid for" lie up to ten steps, two or three
+different programs and several days.** The impulse the business paid an
+advertising budget for does not survive to the till. And this is not one
+seller's problem: **in B2B that path simply does not exist.** You cannot issue an
+e-invoice and conclude a contract from an advertisement — not on any social
+network in the world.
 
-### S.2. Четыре слоя модуля
+### S.2. The module's four layers
 
-| Слой | Что делает |
+| Layer | What it does |
 |---|---|
-| **1. Единый контур аккаунтов** | Instagram, Telegram, Facebook, TikTok, X — и другие сети по запросу. Подключение один раз, дальше все они видны из одного места |
-| **2. Публикация и реклама** | Посты и кампании из кабинета, с товарами **из вашего же каталога**: актуальная цена, остаток, фото, код ИКПУ. Тексты пишет ИИ, знающий ассортимент |
-| **3. Checkout** | Страница оплаты, привязанная к посту, кампании или отдельному товару. Покупатель вводит ИНН — и получает готовый договор, счёт и оплату онлайн |
-| **4. Документы и деньги** | Договор, счёт на оплату, счёт-фактура в Didox, фискальный чек — рождаются из заказа сами. Оплата ищется в выписке и закрывает сделку |
+| **1. A single account loop** | Instagram, Telegram, Facebook, TikTok, X — and other networks on request. Connect once, and from then on they are all visible from one place |
+| **2. Publishing and advertising** | Posts and campaigns from the workspace, featuring products **from your own catalogue**: current price, stock, photo, IKPU code. The copy is written by an AI that knows the range |
+| **3. Checkout** | A payment page bound to a post, a campaign or a single product. The buyer enters their TIN and receives a ready contract, an invoice and online payment |
+| **4. Documents and money** | Contract, payment invoice, a Didox e-invoice and a fiscal receipt — all born out of the order by themselves. The payment is found in the statement and closes the deal |
 
-Поверх всех четырёх — тот же ИИ-агент и та же [сделка](#b-сделки--движок-незакрытых-циклов):
-заказ из Instagram попадает в общий движок циклов и живёт по общим правилам.
+Above all four sits the same AI agent and the same
+[deal](#b-deals--the-open-cycle-engine): an order from Instagram enters the
+common cycle engine and lives by the common rules.
 
-### S.3. Почему это достраивается, а не строится с нуля
+### S.3. Why this is being finished rather than started
 
-Модуль опирается на то, что **уже работает в проде** — ему нужен платёжный шов и
-слой соцсетей, а не новая платформа:
+The module rests on what **already runs in production** — what it needs is a
+payment seam and a social layer, not a new platform:
 
-| Готовый кирпич | Что из него берёт iSMM |
+| The existing brick | What iSMM takes from it |
 |---|---|
-| [Ссылка-заказ](#j2-ссылка-заказ-deal-link) | Публичная страница `/l/<slug>`: холодный покупатель без регистрации, ИНН → реквизиты, предпросмотр договора, срок оплаты, статус по токену. Её код **изначально написан под браузер внутри Instagram** — вплоть до бюджета загрузки на 3G |
-| [Договор и счёт из заказа](#p-автодокументы) | Документы по шаблону продавца, с номером, который не сгорает на предпросмотре |
-| [Сопоставление платежа](#e-банк-и-платежи) | Пришедший на счёт платёж сам находит свой заказ в выписке |
-| [Каталог и витрина](#i-umagshop--маркетплейс-с-документами) | Товары, цены, фото, ИИ-модерация и правило «ничего не переходит само» |
-| [ЭДО и ЭЦП](#a-документооборот-и-эцп) | Счёт-фактура в Didox и подпись — контур, через который прошло 73 098 документов |
-| [Движок сделок](#b-сделки--движок-незакрытых-циклов) | Заказ из соцсети становится сделкой с состоянием и ответом «чей ход» |
+| [Deal Link](#j2-deal-link) | The public page `/l/<slug>`: a cold buyer with no registration, TIN → company details, contract preview, payment deadline, status by token. Its code was **written for the in-app browser inside Instagram from the start** — right down to a 3G load budget |
+| [Contract and invoice from an order](#p-automatic-documents) | Documents on the seller's template, with a number that is not burned by a preview |
+| [Payment matching](#e-banking-and-payments) | A payment arriving in the account finds its own order in the statement |
+| [Catalogue and storefront](#i-umagshop--a-marketplace-with-documents) | Products, prices, photos, AI moderation and the "nothing crosses on its own" rule |
+| [E-documents and digital signature](#a-document-flow-and-digital-signature) | The Didox e-invoice and the signature — the loop 73,098 documents have passed through |
+| [The deals engine](#b-deals--the-open-cycle-engine) | An order from social media becomes a deal with a state and an answer to "whose move is it" |
 
-**Чего сегодня нет и что придётся построить:** приём онлайн-оплаты (эквайринг),
-фискальный чек для покупателя-физлица, подключение самих соцсетей и рекламных
-кабинетов, единая лента откликов. Это и есть содержание модуля.
+**What does not exist today and will have to be built:** online payment
+acceptance (card acquiring), a fiscal receipt for a consumer buyer, connections
+to the social networks and their ad workspaces, and a single feed of responses.
+That is what the module consists of.
 
-### S.4. Чего в модуле не будет
+### S.4. What the module will not have
 
-- **Процента со сделки.** Деньги идут с карты или счёта покупателя прямо на счёт
-  продавца — мы их не держим и не проводим ([принцип](09-business-model.md#91-принцип-мы-не-берём-процент-со-сделки)).
-- **Автопостинга без человека.** ИИ готовит текст и подбирает товар; публикует и
-  запускает рекламу — владелец. Тот же HITL-гейт, что и на подписи.
-- **Обещания «нативной оплаты внутри Instagram».** Встроенный checkout Meta в
-  Узбекистане недоступен; мы честно открываем свою страницу оплаты во встроенном
-  браузере — и потому она спроектирована так, чтобы открываться за секунды.
+- **A percentage of the deal.** The money goes from the buyer's card or account
+  straight to the seller's account — we neither hold it nor route it
+  ([the principle](09-business-model.md#91-the-principle-we-do-not-take-a-percentage-of-the-deal)).
+- **Auto-posting without a human.** The AI prepares the copy and picks the
+  product; the owner publishes it and launches the campaign. The same
+  human-in-the-loop gate as on signing.
+- **A promise of "native payment inside Instagram".** Meta's built-in checkout is
+  not available in Uzbekistan; we honestly open our own payment page in the
+  in-app browser — which is precisely why it is engineered to open in seconds.
 
-**Модуль подробно:** как выглядит покупка глазами покупателя,
-что именно умеет каждая сеть и где у неё границы, как устроен checkout для
-юрлица и для физлица, какие документы и по какому закону рождаются, как считается
-эффект рекламы по банковской выписке, и в каком порядке всё это строится.
+**The module in detail:** what the purchase looks like through the buyer's eyes,
+what each network can and cannot do, how checkout works for a company and for an
+individual, which documents are produced and under which law, how advertising
+effectiveness is measured against the bank statement, and in what order all of it
+gets built.
 
 ---
 
-**Дальше:** [3. Дорожная карта](03-roadmap.md) — куда движется продукт.
+**Next:** [3. Roadmap](03-roadmap.md) — where the product is heading.

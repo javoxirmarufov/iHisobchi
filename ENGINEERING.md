@@ -1,36 +1,32 @@
-# История разработки
+# Development History
 
-> **Зачем этот файл.** В этом репозитории два коммита — и так задумано: он
-> собран свежим `git init`, история основного репозитория сюда намеренно не
-> переносилась, чтобы вместе с ней не уехали внутренние детали приватного
-> контура. Но тогда объём реальной работы остаётся словом, а не фактом.
-> Здесь — сводная статистика из приватного репозитория: агрегаты, по которым
-> видно темп, без единой строки внутреннего содержимого.
-
-**EN:** *This showcase repository intentionally carries only two commits — its
-history was not transferred from the private repository. This file records the
-aggregate development statistics of the real codebase, so that the scale of the
-work is a measurable fact rather than a claim. Summary in English at the bottom.*
+> **Why this file exists.** This repository holds two commits, and that is by
+> design: it was assembled with a fresh `git init`, and the main repository's
+> history was deliberately not carried over, so that internal details of the
+> private environment would not travel with it. But that leaves the volume of
+> real work as a claim rather than a fact. What follows are aggregate statistics
+> from the private repository: figures that show the pace, without a single line
+> of internal content.
 
 ---
 
-## Период и темп
+## Period and Pace
 
 | | |
 |---|---|
-| Первый коммит | **12 февраля 2026** |
-| Последний замер | **14 августа 2026** |
-| Календарных дней | **184** |
-| Дней с коммитами | **145** — 79 % всех календарных дней, включая выходные |
-| Коммитов в `main` | **2 061** |
-| Смерженных pull request'ов | **993** |
-| Среднее в активный день | **14 коммитов** |
+| First commit | **12 February 2026** |
+| Latest measurement | **14 August 2026** |
+| Calendar days | **184** |
+| Days with commits | **145** — 79% of all calendar days, weekends included |
+| Commits on `main` | **2,061** |
+| Merged pull requests | **993** |
+| Average on an active day | **14 commits** |
 
-Разработка идёт непрерывно шесть месяцев. Не спринтом к дедлайну: 79 %
-календарных дней с коммитами означает, что пауз длиннее пары дней в проекте
-практически не было.
+Development has run continuously for six months. Not as a sprint towards a
+deadline: 79% of calendar days carrying commits means the project has had
+essentially no pauses longer than a couple of days.
 
-## Коммиты по месяцам
+## Commits by Month
 
 ```
 2026-02   160  █████████████
@@ -39,65 +35,68 @@ work is a measurable fact rather than a claim. Summary in English at the bottom.
 2026-05   387  ████████████████████████████████
 2026-06   266  ██████████████████████
 2026-07   475  ████████████████████████████████████████
-2026-08   482  ████████████████████████████████████████  ← за 14 дней
+2026-08   482  ████████████████████████████████████████  ← in 14 days
 ```
 
-Ключевая деталь — последняя строка. **482 коммита за первые 14 дней августа**
-против 475 за весь июль: это примерно 34 коммита в день. Проект не выходит на
-плато и не замедляется к моменту подачи заявки — он ускоряется.
+The last line is the telling one. **482 commits in the first 14 days of August**
+against 475 for the whole of July — roughly 34 commits a day. The project is not
+levelling off and not slowing down as the submission deadline approaches; it is
+accelerating.
 
-Провал в марте (43) объясняется просто: февраль ушёл на каркас, март — на
-проектирование доменной модели узбекского документооборота, где писалось мало
-кода и много разбиралось в законодательстве. С апреля темп только растёт.
+The dip in March (43) has a simple explanation: February went into the skeleton,
+and March into designing the domain model of Uzbek document flow, where little
+code was written and a great deal of legislation was studied. From April onwards
+the pace has only risen.
 
-## Рост кодовой базы
+## Growth of the Codebase
 
-Срезы реального дерева на четыре даты:
+Snapshots of the real tree on four dates:
 
-| Дата | Файлов `.py` | Из них тестовых |
+| Date | `.py` files | Of which test files |
 |---|---|---|
-| 1 марта 2026 | 175 | 12 |
-| 1 мая 2026 | 412 | 106 |
-| 1 июля 2026 | 1 575 | 586 |
-| 14 августа 2026 | **2 877** | **1 194** |
+| 1 March 2026 | 175 | 12 |
+| 1 May 2026 | 412 | 106 |
+| 1 July 2026 | 1,575 | 586 |
+| 14 August 2026 | **2,877** | **1,194** |
 
-Тестовых файлов стало в **сто раз** больше за пять месяцев, и растут они
-быстрее продуктового кода: в марте тесты составляли 7 % файлов, в августе —
-41 %. Это не украшение отчёта, а рабочая необходимость: продукт выпускает
-юридически значимые документы, и ошибка в коде ИКПУ означает штраф клиенту по
-ст. 223 НК РУз.
+The number of test files grew **a hundredfold** in five months, and it grows
+faster than the product code: in March tests were 7% of files, in August 41%.
+This is not decoration for a report but a working necessity: the product issues
+legally significant documents, and an error in an IKPU code means a penalty for
+the client under Article 223 of the Tax Code of Uzbekistan.
 
-Сегодня в сьюте **18 496** тестов на Python и **3 573** на TypeScript.
+The suite today holds **18,496** Python tests and **3,573** TypeScript tests.
 
-## Процесс, а не только объём
+## Process, Not Only Volume
 
-- **993 смерженных pull request'а** — работа идёт через ветки и ревью, прямой
-  push в `main` не практикуется.
-- **232 миграции Alembic** — схема базы меняется только ревизией, каждая с
-  обратимым `downgrade` и проверкой в CI.
-- **Self-hosted CI на трёх раннерах** — линтер, полный тестовый прогон, проверка
-  миграций на подъём и откат, сканирование секретов двумя независимыми
-  сканерами, статический анализ и проверка зависимостей на CVE.
-- **Автоматический откат деплоя** — неудачный выкат возвращает предыдущий образ
-  и состояние базы без ручного вмешательства.
-- **Ночной прогон** — вся история репозитория пересматривается на предмет
-  случайно попавшего секрета; красный результат разбирается как инцидент.
+- **993 merged pull requests** — work goes through branches and review; pushing
+  directly to `main` is not practised.
+- **232 Alembic migrations** — the database schema changes only through a
+  revision, each with a reversible `downgrade` and a CI check.
+- **Self-hosted CI across three runners** — linting, the full test run, migration
+  checks up and down, secret scanning by two independent scanners, static
+  analysis and CVE auditing of dependencies.
+- **Automatic deployment rollback** — a failed release restores the previous
+  image and database state without manual intervention.
+- **A nightly run** — the entire repository history is re-examined for an
+  accidentally committed secret; a red result is handled as an incident.
 
-## Как это проверить
+## How to Verify This
 
-Приватный репозиторий по понятным причинам закрыт, но объём работы виден и
-снаружи:
+The private repository is closed for obvious reasons, but the volume of work is
+visible from outside as well:
 
-1. **Продукт работает.** [app.ihisobchi.uz](https://app.ihisobchi.uz) —
-   с юридически значимым документооборотом и реальными клиентами.
-2. **Граф активности профиля** — [github.com/javoxirmarufov](https://github.com/javoxirmarufov).
-3. **Код в этом репозитории** — выборка написана в том же стиле и с теми же
-   требованиями, что и остальные 555 000 строк. Каждый показанный модуль идёт
-   со своим тестом.
+1. **The product works.** [app.ihisobchi.uz](https://app.ihisobchi.uz) — with
+   legally significant document flow and real clients.
+2. **The profile's activity graph** —
+   [github.com/javoxirmarufov](https://github.com/javoxirmarufov).
+3. **The code in this repository** — the selection is written in the same style
+   and to the same standard as the other 555,000 lines. Every module shown comes
+   with its own test.
 
 ---
 
-## Summary in English
+## Summary
 
 Development of iHisobchi began on **12 February 2026** and has run continuously
 since:

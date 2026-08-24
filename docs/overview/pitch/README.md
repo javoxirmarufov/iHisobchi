@@ -1,24 +1,25 @@
-# Презентация для инвесторов
+# Investor Deck
 
-`investor-deck.html` — 18 слайдов, собранных из [обзора](../README.md).
-Открывается в браузере, листается прокруткой, печатается в PDF (`Ctrl+P`),
-работает в светлой и тёмной теме.
+`investor-deck.html` — 18 slides assembled from the [overview](../README.md).
+It opens in a browser, is navigated by scrolling, prints to PDF (`Ctrl+P`) and
+works in both light and dark themes.
 
-## Что нужно заполнить перед показом
+## What has to be filled in before showing it
 
-Слайд 17 содержит рамку, помеченную в тексте: **сумма раунда, оценка, доля,
-горизонт до следующего раунда, состав команды**. Это решение основателя —
-намеренно не заполнено, чтобы в деке не оказалось выдуманных цифр.
+Slide 17 contains a frame marked in the text: **round size, valuation, equity,
+runway to the next round, team composition**. That is the founder's decision and
+is deliberately left blank, so that no invented figures end up in the deck.
 
-## Откуда цифры
+## Where the numbers come from
 
-Все числа взяты из обзора и на момент сборки сверялись с кодом и продом
-(`scripts/overview_snapshot.py`). Дек — **снимок**: он не пересчитывается
-автоматически, в отличие от самого обзора.
+Every figure is taken from the overview and was reconciled against the code and
+production at build time (`scripts/overview_snapshot.py`). The deck is a
+**snapshot**: unlike the overview itself, it is not recalculated automatically.
 
-Поэтому перед каждым показом:
+So before each showing:
 
-1. прогнать `python3 scripts/overview_snapshot.py` и убедиться, что обзор сходится;
-2. перенести в дек изменившиеся цифры вручную.
+1. run `python3 scripts/overview_snapshot.py` and confirm the overview still
+   adds up;
+2. carry any changed figures into the deck by hand.
 
-Даты снимка: **14 августа 2026**.
+Snapshot date: **14 August 2026**.

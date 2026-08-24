@@ -1,310 +1,319 @@
-# 7. Подпись документов
+# 7. Document Signing
 
-> Часть 7 из 9. Назад: [экосистема](01-ecosystem.md) · [модули](02-modules.md) · [дорожная карта](03-roadmap.md) · [голосовой оркестратор](04-voice-orchestrator.md) · [безопасность](05-security.md) · [первый день](06-first-day.md). Далее: [с нами и без нас](08-with-and-without.md) · [бизнес-модель](09-business-model.md).
+> Part 7 of 9. Back: [ecosystem](01-ecosystem.md) · [modules](02-modules.md) · [roadmap](03-roadmap.md) · [voice orchestrator](04-voice-orchestrator.md) · [security](05-security.md) · [first day](06-first-day.md). Next: [with us and without us](08-with-and-without.md) · [business model](09-business-model.md).
 
 ---
 
-## 7.1. Проблема, которую в Узбекистане не решал никто
+## 7.1. The Problem Nobody in Uzbekistan Had Solved
 
-Электронная подпись **E-IMZO** обязательна: без неё документ не уйдёт
-контрагенту и не будет иметь силы. А работает она так:
+The **E-IMZO** digital signature is mandatory: without it a document will not
+reach the counterparty and carries no legal force. And it works like this:
 
-- нужен **компьютер** с установленным модулем E-IMZO;
-- нужен **физический ключ** — USB-токен или файл `.pfx` на диске;
-- при каждой подписи выскакивает **окно ввода пароля** от ключа;
-- значит, подписать можно **только сидя за этим компьютером**.
+- you need a **computer** with the E-IMZO module installed;
+- you need a **physical key** — a USB token or a `.pfx` file on disk;
+- every signature pops up a **password prompt** for the key;
+- which means you can sign **only while sitting at that computer**.
 
-Что это означает в жизни. Директор в командировке — документы ждут. Бухгалтер
-заболел — отгрузка стоит. Оплата пришла в пятницу вечером — счёт-фактуру
-выставят в понедельник. Аутсорсинговая фирма ведёт сорок клиентов — сорок
-ключей на одном столе и сорок окон ввода пароля в день.
+What that means in life. The director is away on business — the documents wait.
+The bookkeeper is ill — the shipment stands still. A payment arrives on Friday
+evening — the invoice goes out on Monday. An outsourcing firm handles forty
+clients — forty keys on one desk and forty password prompts a day.
 
-Мы построили **четыре способа подписи** — от классического до полностью
-автономного. Клиент выбирает один раз при подключении и может сменить когда
-угодно. Отдельно, для корпораций с собственной политикой безопасности, есть ещё
-два формата поставки — [§7.7](#77-для-корпораций-контур-в-аренду-и-установка-у-себя-).
+We built **four ways to sign**, from the classic to the fully autonomous. The
+client chooses one at setup and can change it whenever they like. Separately, for
+corporations with security policies of their own, there are two further delivery
+formats — [§7.7](#77-for-corporations-a-dedicated-environment-or-an-on-premise-install-).
 
-| | Способ | Компьютер нужен? | Подпись с телефона | Работает 24/7 | Где лежит ключ |
+| | Method | Computer needed? | Sign from a phone | Works 24/7 | Where the key lives |
 |---|---|---|---|---|---|
-| 1 | **Из браузера** | да, за ним | нет | нет | у клиента на ПК |
-| 2 | **Программа-агент на ПК** | включённым | **да** | пока ПК включён | у клиента на ПК |
-| 3 | **Свой сервер** | нет | **да** | **да** | на сервере клиента |
-| 4 | **Сервер «под ключ»** | нет | **да** | **да** | в изолированной ячейке |
+| 1 | **From the browser** | yes, seated at it | no | no | on the client's PC |
+| 2 | **An agent program on a PC** | switched on | **yes** | while the PC is on | on the client's PC |
+| 3 | **Your own server** | no | **yes** | **yes** | on the client's server |
+| 4 | **A turnkey server** | no | **yes** | **yes** | in an isolated vault cell |
 
 ---
 
-## 7.2. Способ 1. Из браузера — классика
+## 7.2. Method 1. From the Browser — the Classic
 
-Знакомый всем путь. Клиент открывает веб-приложение на компьютере, где
-установлен модуль E-IMZO, нажимает «Подписать», выбирает свой ключ из списка,
-вводит пароль — документ подписан и отправлен.
+The path everyone knows. The client opens the web app on a computer with the
+E-IMZO module installed, presses "Sign", picks their key from a list and enters
+the password — the document is signed and sent.
 
-**Кому подходит:** тем, кто и так работает за одним компьютером и не нуждается в
-подписи из дома или в дороге.
+**Who it suits:** people who work at one computer anyway and do not need to sign
+from home or on the road.
 
-**Ограничение честно:** это не наша разработка и не может быть лучше, чем есть.
-Только за этим ПК, только с установленным модулем, только вручную. Остальные три
-способа существуют именно потому, что этого мало.
+**The limitation, stated honestly:** this is not our own development and cannot be
+better than it is. Only at that PC, only with the module installed, only by hand.
+The other three methods exist precisely because that is not enough.
 
 ---
 
-## 7.3. Способ 2. Программа-агент на компьютере — подпись с телефона
+## 7.3. Method 2. An Agent Program on the Computer — Signing from a Phone
 
-> **E-IMZO Agent** — наша собственная разработка, приложение для Windows.
+> **E-IMZO Agent** — our own development, a Windows application.
 
-Клиент устанавливает программу на свой рабочий компьютер один раз. Она получает
-доступ к ключу ЭЦП (USB-токен или файл) и держит **защищённое соединение с
-нашим сервером**.
+The client installs the program on their work computer once. It gains access to
+the signature key (a USB token or a file) and holds a **secured connection to our
+server**.
 
-**Что это меняет.** Компьютер остаётся включённым в офисе — а клиент подписывает
-документы **откуда угодно**: из Telegram-бота, из приложения на телефоне, из
-браузера с любого устройства. Нажал «Подписать» на телефоне в машине — задание
-ушло на его компьютер, программа подписала ключом, документ вернулся подписанным
-и уехал контрагенту. Занимает секунды.
+**What that changes.** The computer stays switched on in the office — and the
+client signs documents **from anywhere**: from the Telegram bot, from the app on
+their phone, from a browser on any device. Press "Sign" on a phone in a car — the
+job goes to their computer, the program signs with the key, and the document
+comes back signed and travels on to the counterparty. It takes seconds.
 
-**Что умеет программа:**
+**What the program can do:**
 
-| Возможность | Что даёт |
+| Capability | What it gives |
 |---|---|
-| **Подпись по заданию из бота и приложения** | Не нужно быть у компьютера — нужно, чтобы он был включён |
-| **Работа без окна ввода пароля** | Программа сама вводит пароль ключа. Окно E-IMZO больше не выскакивает поверх работы и не крадёт фокус |
-| **Несколько организаций на одном агенте** | Одна программа обслуживает несколько ИНН. Для бухгалтерской фирмы со ста ключами клиентов это принципиально: доступ к чужому ИНН открывается, только если агент **доказал владение ключом этой организации** подписанным вызовом сервера |
-| **Автообновление** | Программа обновляется сама |
-| **Значок в трее и журнал** | Видно, на связи ли агент и что он подписал |
-| **Установщик** | Обычный `.exe`: далее → далее → готово |
+| **Signing from a job sent by the bot or the app** | You do not have to be at the computer — the computer has to be switched on |
+| **Working without a password prompt** | The program enters the key's password itself. The E-IMZO window no longer pops up over your work and steals focus |
+| **Several organisations on one agent** | One program serves several TINs. For an accounting firm holding a hundred client keys this is fundamental: access to another company's TIN opens only once the agent has **proved ownership of that organisation's key** through a signed server challenge |
+| **Self-updating** | The program updates itself |
+| **A tray icon and a log** | You can see whether the agent is connected and what it has signed |
+| **An installer** | An ordinary `.exe`: next → next → done |
 
-**Ограничение честно:** компьютер должен быть включён и в сети. Выключили свет,
-пропал интернет, Windows ушёл в обновление — подпись недоступна, пока машина не
-вернётся. Именно поэтому существуют способы 3 и 4.
+**The limitation, stated honestly:** the computer has to be switched on and
+online. A power cut, a lost connection, Windows deciding to update — and signing
+is unavailable until the machine comes back. Which is exactly why methods 3 and 4
+exist.
 
 ---
 
-## 7.4. Способ 3. Свой сервер — подпись, которая не зависит ни от чего
+## 7.4. Method 3. Your Own Server — Signing That Depends on Nothing
 
-> Для тех, кому подпись нужна **действительно** круглосуточно.
+> For anyone who needs signing to be available **genuinely** round the clock.
 
-Клиент берёт недорогой Ubuntu-сервер (VPS от нескольких долларов в месяц или
-свой сервер в офисе) и выполняет **одну команду**:
+The client takes an inexpensive Ubuntu server (a VPS for a few dollars a month,
+or their own machine in the office) and runs **one command**:
 
 ```bash
 curl -fsSL https://app.ihisobchi.uz/agent/install.sh | sudo AGENT_ID='...' AGENT_SECRET='...' bash
 ```
 
-Установщик сам ставит Java, проверяет E-IMZO, спрашивает файл ключа, **сам
-определяет ИНН и серийный номер** из ключа и поднимает службу, работающую 24/7.
-Ни графического интерфейса, ни окна пароля.
+The installer sets up Java, checks E-IMZO, asks for the key file, **works out the
+TIN and the serial number** from the key itself, and raises a service that runs
+24/7. No graphical interface, no password prompt.
 
-**Ключ и пароль остаются на сервере клиента.** Мы не получаем их, не храним и не
-можем получить — мы поставляем только программу. Это та же модель доверия, что и
-с программой на ПК: софт наш, ключ ваш.
+**The key and its password stay on the client's server.** We do not receive them,
+do not store them and cannot obtain them — we supply only the program. This is the
+same trust model as with the PC program: the software is ours, the key is yours.
 
-**Как клиент получает ключ доступа.** В боте есть раздел **«🖥 Сервер подписи
-24/7»**:
+**How the client gets an access key.** The bot has a section called **"🖥 24/7
+signing server"**:
 
-- **«Создать ключ сервера»** — выдаётся пара «идентификатор + секрет» и **готовая
-  команда установки**, которую остаётся скопировать на сервер.
-- Секрет показывается **ровно один раз** и никогда не пишется в журналы.
-- В списке видно, **когда каждый сервер был на связи** — «🟢 был на связи 3
-  минуты назад» или «⚪️ ещё не подключался».
-- **«Отозвать ключ»** — сервер мгновенно теряет право подписи. Необратимо и без
-  нашего участия.
-- До 10 активных ключей на организацию — можно держать основной и резервный.
+- **"Create a server key"** — issues an identifier and secret pair plus a
+  **ready-made installation command** to copy onto the server.
+- The secret is shown **exactly once** and is never written to any log.
+- The list shows **when each server was last seen** — "🟢 seen 3 minutes ago" or
+  "⚪️ has not connected yet".
+- **"Revoke key"** — the server instantly loses the right to sign. Irreversible,
+  and without our involvement.
+- Up to 10 active keys per organisation — enough for a primary and a backup.
 
-**Что это даёт бизнесу.** Подпись перестаёт зависеть от офиса: свет, интернет,
-чей-то ноутбук, отпуск бухгалтера больше не влияют ни на что. Сервер стоит в
-дата-центре и подписывает круглосуточно. Клиент в любой момент может ключ
-удалить, заменить, пересоздать сервер с нуля — это его сервер и его ключ.
+**What it gives a business.** Signing stops depending on the office: the power,
+the internet, somebody's laptop and the bookkeeper's holiday no longer matter. The
+server sits in a data centre and signs round the clock. The client can delete the
+key, replace it, or rebuild the server from scratch at any time — it is their
+server and their key.
 
-**Проверено на живой конфигурации:** Ubuntu 24.04, E-IMZO 6.4.7 для Linux,
-OpenJDK 17 — агент регистрируется, доказывает владение ключом и подписывает без
-единого всплывающего окна.
-
----
-
-## 7.5. Способ 4. Сервер «под ключ» — как банковская ячейка
-
-> Для тех, кто не хочет заниматься серверами вообще.
-
-Резонный вопрос: «А если у меня нет сервера и я в этом не разбираюсь? Я хочу,
-чтобы кто-то настроил надёжно, недорого и под ключ».
-
-Такая возможность есть. Мы поднимаем **отдельный защищённый сервер**, на котором
-для каждого клиента создаётся **изолированная ячейка** — по устройству это ближе
-всего к банковскому депозитарию.
-
-**Как это выглядит для клиента.** Он отправляет файл ключа и пароль к нему — и
-через несколько секунд подпись работает круглосуточно. Всё.
-
-**Что происходит внутри, по шагам:**
-
-1. Оба сообщения — файл ключа и пароль — **удаляются из переписки немедленно**
-   после приёма.
-2. Ключ шифруется **сразу**, ещё до того как система запросит пароль: в открытом
-   виде он не попадает ни в кэш, ни в очереди.
-3. Ключ и пароль запечатываются **публичным ключом изолированного контура** и
-   только в таком виде сохраняются. Приватного ключа от этого «конверта» на
-   основном сервере **нет** — он физически не может прочитать то, что хранит.
-4. В изолированном контуре разворачивается **персональная ячейка**: отдельная
-   служба, отдельное хранилище, отдельные учётные данные. Соседние клиенты
-   изолированы друг от друга.
-5. Перед запуском система **проверяет, что ИНН в ключе совпадает** с
-   организацией клиента. Чужой ключ в ячейку не встанет.
-
-**Ячейка принадлежит клиенту.** В любой момент он может заменить ключ, обновить
-его после перевыпуска сертификата или **удалить ячейку целиком** — вместе со
-всем содержимым. Мы не «владеем» ключом, мы предоставляем сейф.
-
-**Единственная граница, о которой мы говорим сами:** в момент самого подключения
-— и только в этот момент — файл и пароль кратко проходят через оперативную
-память, чтобы их можно было запечатать. Это не хранение и не запись на диск, но
-это и не «мы вообще никогда их не видим». Мы предпочитаем сказать это прямо, чем
-позволить кому-то найти неточность в нашем описании. Подробнее — в
-[05-security.md](05-security.md#54-сервер-подписи-247--что-именно-мы-храним).
+**Verified on a live configuration:** Ubuntu 24.04, E-IMZO 6.4.7 for Linux,
+OpenJDK 17 — the agent registers, proves ownership of the key and signs without a
+single pop-up window.
 
 ---
 
-## 7.6. Главный вопрос: «А оно не подпишет что-нибудь без меня?»
+## 7.5. Method 4. A Turnkey Server — Like a Safe Deposit Box
 
-Это первый вопрос любого владельца бизнеса, и он абсолютно правильный. Отвечаем
-предельно конкретно, потому что здесь важна не формулировка, а устройство.
+> For anyone who does not want to deal with servers at all.
 
-### Никакая подпись не начинается сама
+A fair question: "What if I have no server and know nothing about them? I want
+somebody to set it up reliably, cheaply and turnkey."
 
-**Подписание всегда начинается с действия человека.** Ни программа-агент, ни
-сервер, ни ячейка **не могут инициировать подпись** — они технически не умеют
-этого делать. Они не ходят по вашим документам и не решают, что пора что-то
-подписать. Они ждут задание.
+That option exists. We raise a **separate protected server** on which an
+**isolated cell** is created for each client — architecturally the closest thing
+to a bank's safe deposit vault.
 
-Задание создаётся **только** тогда, когда человек:
+**What it looks like to the client.** They send the key file and its password —
+and a few seconds later signing works round the clock. That is all.
 
-- создал документ в мастере и подтвердил его; **или**
-- нажал «Подписать» на конкретном документе; **или**
-- подтвердил карточку, которую ему предъявил ИИ-ассистент.
+**What happens inside, step by step:**
 
-Нет действия человека — нет задания. Нет задания — сервер молчит, даже если
-работает круглосуточно.
+1. Both messages — the key file and the password — are **deleted from the
+   conversation immediately** on receipt.
+2. The key is encrypted **at once**, before the system even asks for the
+   password: in plaintext it never reaches a cache or a queue.
+3. The key and password are sealed **with the public key of the isolated
+   environment** and only stored in that form. The private key to that envelope
+   **does not exist** on the main server — it physically cannot read what it
+   stores.
+4. Inside the isolated environment a **personal cell** is created: a separate
+   service, separate storage, separate credentials. Neighbouring clients are
+   isolated from one another.
+5. Before starting, the system **checks that the TIN in the key matches** the
+   client's organisation. Somebody else's key will not fit the cell.
 
-### Что на самом деле означает «автоподпись»
+**The cell belongs to the client.** At any moment they can replace the key, update
+it after a certificate reissue, or **delete the cell entirely**, contents and all.
+We do not "own" the key; we provide the safe.
 
-Слово пугает больше, чем стоит, потому что означает не то, что кажется.
+**The one boundary we point out ourselves:** at the moment of connection — and
+only at that moment — the file and the password pass briefly through memory so
+that they can be sealed. That is not storage and not a write to disk, but neither
+is it "we never see them at all". We would rather say so directly than let
+somebody find an inaccuracy in our description. In detail:
+[05-security.md](05-security.md#54-the-247-signing-server--what-exactly-we-store).
 
-**«Автоподпись» — это не «система сама решает, что подписать».** Это настройка,
-которая убирает **второй** вопрос. Смотрите разницу:
+---
+
+## 7.6. The Central Question: "Could It Sign Something Without Me?"
+
+This is the first question any business owner asks, and it is entirely the right
+one. We answer it as concretely as possible, because what matters here is the
+construction, not the phrasing.
+
+### No signature ever starts by itself
+
+**Signing always begins with a human action.** Neither the agent program, nor the
+server, nor the vault cell **can initiate a signature** — they are technically
+incapable of it. They do not walk through your documents deciding that something
+ought to be signed. They wait for a job.
+
+A job is created **only** when a person has:
+
+- created a document in the wizard and confirmed it; **or**
+- pressed "Sign" on a specific document; **or**
+- confirmed a card the AI assistant presented to them.
+
+No human action, no job. No job, and the server stays silent, however
+round-the-clock it runs.
+
+### What "auto-signing" actually means
+
+The word frightens people more than it should, because it does not mean what it
+seems to.
+
+**"Auto-signing" is not "the system decides what to sign".** It is a setting that
+removes the **second** question. Compare:
 
 ```
-БЕЗ автоподписи:
-  вы заполнили счёт-фактуру → «Создать документ?» → ДА
-  → документ создан → «Подписать его?» → ДА → подписан
+WITHOUT auto-signing:
+  you filled in the invoice → "Create the document?" → YES
+  → document created → "Sign it?" → YES → signed
 
-С автоподписью:
-  вы заполнили счёт-фактуру → «Создать документ?» → ДА
-  → документ создан и сразу подписан
+WITH auto-signing:
+  you filled in the invoice → "Create the document?" → YES
+  → document created and signed straight away
 ```
 
-Документ в обоих случаях **создали вы**, содержимое **проверили вы**, команду
-дали **вы**. Автоподпись экономит одно лишнее подтверждение на документе,
-который вы только что собрали своими руками. Она включается и выключается вами в
-настройках организации в любой момент.
+In both cases **you** created the document, **you** checked its contents, **you**
+gave the command. Auto-signing saves one redundant confirmation on a document you
+have just assembled with your own hands. You switch it on and off in the
+organisation's settings whenever you like.
 
-**Отдельно про программу на ПК:** там есть похожая настройка, и она означает
-ещё более узкое — программа сама вводит **пароль от вашего ключа**, чтобы
-системное окно E-IMZO не выскакивало поверх работы. Решение о том, какой
-документ подписать, она по-прежнему не принимает.
+**On the PC program specifically:** it has a similar setting, and it means
+something narrower still — the program enters the **password to your key** itself,
+so that the system's E-IMZO window does not pop up over your work. It still does
+not decide which document to sign.
 
-### Что вы видите до подписи
+### What you see before signing
 
-- **Полный предпросмотр документа**: товары, суммы, НДС, реквизиты обеих сторон,
-  номер. До нажатия, а не после.
-- **Автоматически собранные документы** (счёт-фактура по доверенности, акт из
-  СФ, ТТН из СФ) **никогда не подписываются молча** — они приходят карточкой с
-  предпросмотром и кнопками.
-- **Входящие от постоянных поставщиков** — тоже карточка «принять», а не
-  молчаливый приём. Это прямое требование к продукту: приём входящей СФ имеет
-  налоговые последствия.
-- **Голосовой ассистент** проговаривает операцию перед исполнением, причём
-  фразу подтверждения **сочиняет сервер, а не языковая модель** — вы слышите
-  именно тот номер и ту сумму, которые исполнятся.
+- **A full preview of the document**: goods, amounts, VAT, both parties' details,
+  the number. Before you press, not after.
+- **Automatically assembled documents** (an invoice from a power of attorney, an
+  act from an invoice, a waybill from an invoice) are **never signed silently** —
+  they arrive as a card with a preview and buttons.
+- **Incoming documents from regular suppliers** likewise arrive as an "accept"
+  card, not as silent acceptance. This is a direct product requirement: accepting
+  an incoming invoice has tax consequences.
+- **The voice assistant** speaks the operation aloud before executing it, and the
+  confirmation phrase is **composed by the server, not by the language model** —
+  you hear exactly the number and the amount that will be executed.
 
-### Дополнительные ограничения, которые работают всегда
+### Additional constraints that always apply
 
-- **Ключ подписывает только за свою организацию.** Соответствие ИНН в ключе и
-  организации проверяется на сервере при каждом подключении агента.
-- **Секрет доступа отзывается мгновенно** — из бота, без нашего участия.
-- **Повторная подпись невозможна.** При обрыве связи система не подписывает
-  вслепую, а сверяет фактическое состояние документа в Didox.
-- **Всё записано.** Каждая подпись — кто, что, когда, с какого агента — в
-  журнале, доступном владельцу.
+- **A key signs only for its own organisation.** The match between the TIN in the
+  key and the organisation is checked on the server every time the agent
+  connects.
+- **The access secret is revoked instantly** — from the bot, without our
+  involvement.
+- **A repeat signature is impossible.** On a connection failure the system does
+  not sign blindly but verifies the document's actual state in Didox.
+- **Everything is recorded.** Every signature — who, what, when, from which agent
+  — goes into a log the owner can read.
 
-### И самое главное
+### And most importantly
 
-**Ни один документ не будет подписан без вашего ведома и вашего разрешения.**
-Это не обещание в тексте — это конструкция: у контура подписи просто нет пути
-начать работу самостоятельно.
+**No document will be signed without your knowledge and your permission.** That is
+not a promise in a text; it is the construction: the signing loop simply has no
+way to start work by itself.
 
-Когда мы будем строить действительно автономную подпись (например,
-[счёт-фактура по факту оплаты](03-roadmap.md#321-первый-шаг-к-этому--автосчёт-фактура-по-оплате-)),
-она получит право работать **только через отдельное, явное, ограниченное по
-сумме и сроку и отзываемое в один тап разрешение владельца** — и об этом будет
-сказано так же прямо, как здесь.
-
----
-
-## 7.7. Для корпораций: контур в аренду и установка у себя 🎯
-
-Четыре способа выше закрывают потребности малого и среднего бизнеса. Но есть
-клиенты с другим требованием: **крупная компания, банк, госструктура,
-аутсорсинговая фирма с сотней ключей** — те, у кого политика безопасности прямо
-запрещает хранить что-либо у стороннего провайдера.
-
-Для них — два формата, которые сейчас в проработке.
-
-### Выделенный контур в аренду
-
-Мы предоставляем клиенту **отдельный сервер и разворачиваем на нём наше ПО**.
-Клиент кладёт туда свои ключи, свои данные, свои организации — и работает.
-
-- Контур принадлежит клиенту: только его организации, только его ключи, никаких
-  соседей.
-- **На наших основных серверах не хранится ничего из его данных.**
-- Мы отвечаем за то, чтобы это работало: обновления, наблюдение, восстановление.
-- Клиенту не нужно нанимать администратора и разбираться в установке.
-
-Формат для тех, кто хочет изоляции, но не хочет заниматься инфраструктурой.
-
-### Установка на своём сервере («коробка»)
-
-Максимальная степень независимости: **наше ПО разворачивается на оборудовании
-клиента** — в его дата-центре, в его серверной, внутри его периметра.
-
-- Ключи, документы, база — **всё физически у клиента**.
-- **К нам не уходит ни одного запроса с его данными.** Не «мы обещаем не
-  смотреть», а «технически нечего смотреть».
-- Мы поставляем обновления и сопровождение по договору.
-- Клиент покупает продукт, а не подписку на чужой сервис.
-
-Так работают корпорации, которые обязаны держать всё внутри — и обычно этим
-закрыты от современных инструментов вовсе. Здесь они получают ту же платформу,
-что и все остальные, но целиком у себя.
-
-**Цена — по проекту.** Оба формата тарифицируются индивидуально: они зависят от
-масштаба, числа организаций, нагрузки и требований к сопровождению. Модель
-описана в [09-business-model.md](09-business-model.md#95-источник-3-корпоративный-контур-аренда-и-коробка).
+When we do build genuinely autonomous signing (for instance,
+[the invoice issued on payment](03-roadmap.md#321-the-first-step-towards-it--automatic-e-invoice-on-payment-)),
+it will acquire the right to operate **only through a separate, explicit
+permission from the owner, bounded by amount and duration and revocable in one
+tap** — and that will be stated just as directly as this is.
 
 ---
 
-## 7.8. Как выбрать
+## 7.7. For Corporations: a Dedicated Environment or an On-Premise Install 🎯
 
-| Ваша ситуация | Способ |
+The four methods above cover the needs of small and medium businesses. But some
+clients have a different requirement: **a large company, a bank, a government
+body, an outsourcing firm with a hundred keys** — organisations whose security
+policy explicitly forbids storing anything with a third-party provider.
+
+For them there are two formats, currently in preparation.
+
+### A dedicated hosted environment
+
+We provide the client with a **separate server and deploy our software on it**.
+The client puts their keys, their data and their organisations there, and works.
+
+- The environment belongs to the client: only their organisations, only their
+  keys, no neighbours.
+- **None of their data is stored on our main servers.**
+- We are responsible for keeping it running: updates, monitoring, recovery.
+- The client does not have to hire an administrator or learn how to install it.
+
+A format for anyone who wants isolation but not infrastructure work.
+
+### An on-premise install (the "box")
+
+The maximum degree of independence: **our software is deployed on the client's own
+hardware** — in their data centre, in their server room, inside their perimeter.
+
+- Keys, documents, database — **all physically with the client**.
+- **Not a single request carrying their data reaches us.** Not "we promise not to
+  look", but "there is technically nothing to look at".
+- We supply updates and support under a contract.
+- The client buys a product rather than a subscription to somebody else's
+  service.
+
+This is how corporations that are obliged to keep everything internal operate —
+and it usually cuts them off from modern tooling altogether. Here they get the
+same platform as everyone else, entirely on their own premises.
+
+**Pricing is per project.** Both formats are priced individually: they depend on
+scale, the number of organisations, load and support requirements. The model is
+described in
+[09-business-model.md](09-business-model.md#95-stream-3-the-corporate-environment--hosted-and-on-premise).
+
+---
+
+## 7.8. How to Choose
+
+| Your situation | Method |
 |---|---|
-| Работаю за одним компьютером, подписываю пару документов в неделю | **Из браузера** |
-| Хочу подписывать с телефона, компьютер в офисе всё равно включён | **Программа-агент на ПК** |
-| Документы должны уходить круглосуточно; свет и интернет в офисе не должны на это влиять | **Свой сервер** |
-| Хочу то же самое, но не хочу заниматься сервером | **Сервер «под ключ»** |
-| Бухгалтерская фирма, десятки ключей клиентов | **Свой сервер** или **агент с несколькими ИНН** |
+| I work at one computer and sign a couple of documents a week | **From the browser** |
+| I want to sign from a phone; the office computer is on anyway | **The agent program on a PC** |
+| Documents must go out round the clock; office power and internet must not affect that | **Your own server** |
+| I want the same thing, but without dealing with a server | **A turnkey server** |
+| An accounting firm with dozens of client keys | **Your own server**, or **an agent with several TINs** |
 
-Способы не взаимоисключающие: можно держать сервер как основной путь и
-программу на ПК как резервный.
+The methods are not mutually exclusive: you can keep a server as the primary path
+and the PC program as a fallback.
 
 ---
 
-*Назад к началу: [обзор экосистемы](README.md)*
+*Back to the beginning: [ecosystem overview](README.md)*

@@ -1,208 +1,216 @@
-# 6. Первый день клиента
+# 6. The Client's First Day
 
-> Часть 6 из 9. Назад: [экосистема](01-ecosystem.md) · [модули](02-modules.md) · [дорожная карта](03-roadmap.md) · [голосовой оркестратор](04-voice-orchestrator.md) · [безопасность](05-security.md). Далее: [подпись](07-signing.md) · [с нами и без нас](08-with-and-without.md) · [бизнес-модель](09-business-model.md).
-
----
-
-## 6.1. Зачем этот документ
-
-Карта функций отвечает на вопрос «что умеет продукт». Она не отвечает на другой,
-более важный: **что происходит с человеком, который открыл нас впервые.**
-
-Здесь — сквозной путь: от первого сообщения до первого подписанного документа,
-который контрагент увидит в своём кабинете Didox. Со всеми шагами, которые
-человек реально проходит, и с объяснением, почему каждый из них устроен именно
-так.
+> Part 6 of 9. Back: [ecosystem](01-ecosystem.md) · [modules](02-modules.md) · [roadmap](03-roadmap.md) · [voice orchestrator](04-voice-orchestrator.md) · [security](05-security.md). Next: [signing](07-signing.md) · [with us and without us](08-with-and-without.md) · [business model](09-business-model.md).
 
 ---
 
-## 6.2. Путь целиком
+## 6.1. Why This Document Exists
+
+A map of features answers the question "what can the product do". It does not
+answer the other, more important one: **what happens to a person who opens us for
+the first time.**
+
+What follows is the whole journey: from the first message to the first signed
+document that a counterparty will see in their own Didox account. With every step
+a person actually goes through, and with an explanation of why each of them is
+built the way it is.
+
+---
+
+## 6.2. The Journey End to End
 
 ```
-   ЗНАКОМСТВО                РЕГИСТРАЦИЯ              ОРГАНИЗАЦИЯ
-        │                         │                        │
-  открыл бота          язык → согласие → телефон      ИНН → «это ваша
-  или app.ihisobchi.uz      → SMS-код → имя           компания?» → пароль
-        │                         │                    Didox → реквизиты
-   можно посмотреть        ~2 минуты                   подтянулись сами
-   в демо-режиме                                            │
-        │                                                   │
-        └───────────────────────────────────────────────────┤
-                                                            ▼
-                                                    ПОДПИСЬ (один раз)
-                                            выбрать один из четырёх способов
-                                                            │
-                                                            ▼
-                                                   ПЕРВЫЙ ДОКУМЕНТ
-                                          создать → проверить → подписать →
-                                            ушёл контрагенту в Didox
+   FIRST LOOK                 SIGN-UP                 ORGANISATION
+        │                        │                         │
+  opened the bot        language → consent → phone    TIN → "is this your
+  or app.ihisobchi.uz     → SMS code → name           company?" → Didox
+        │                        │                    password → details
+   can be explored         ~2 minutes                 pulled in automatically
+   in demo mode                                              │
+        │                                                    │
+        └────────────────────────────────────────────────────┤
+                                                             ▼
+                                                    SIGNING (set up once)
+                                              choose one of four methods
+                                                             │
+                                                             ▼
+                                                    THE FIRST DOCUMENT
+                                          create → check → sign →
+                                          delivered to the counterparty in Didox
 ```
 
-Дальше — обычная работа: входящие приходят сами, сделки собираются сами, деньги
-разносятся сами.
+After that it is ordinary work: incoming documents arrive on their own, deals
+assemble themselves, money is allocated automatically.
 
 ---
 
-## 6.3. Шаг 0. Знакомство — до того, как отдавать пароли
+## 6.3. Step 0. A First Look — Before Handing Over Any Passwords
 
-Человек может пройти **весь путь создания и подписания документа, не
-регистрируясь**: демо-режим работает на безопасных выдуманных данных
-узбекской компании. Мастер, товары, ИКПУ, подпись, отправка — всё как в бою, но
-ничего не уходит наружу.
+A person can walk **the entire path of creating and signing a document without
+registering**: demo mode runs on safe, fictional data for an Uzbek company. The
+wizard, the products, the IKPU codes, the signature, the delivery — all exactly as
+in production, but nothing leaves the building.
 
-Это сделано намеренно. Мы просим у клиента пароль от государственной системы
-электронного документооборота — это большое доверие для первого экрана. Честнее
-сначала показать, что происходит после ввода пароля, и только потом его
-спрашивать.
+This is deliberate. We ask the client for the password to a state e-document
+system — that is a great deal of trust to request on a first screen. It is more
+honest to first show what happens after the password is entered, and only then
+ask for it.
 
 ---
 
-## 6.4. Шаг 1. Регистрация — около двух минут
+## 6.4. Step 1. Sign-up — About Two Minutes
 
-| # | Экран | Что происходит | Зачем именно так |
+| # | Screen | What happens | Why it is done this way |
 |---|---|---|---|
-| 1 | **Язык** | Русский или узбекский | Первый же экран на родном языке, а не «сначала зарегистрируйся, потом переключишь» |
-| 2 | **Согласие** | Экран обработки персональных данных (ЗРУ-547) с версией текста | Согласие берётся **до** первого персонального байта. Система запоминает, какую именно редакцию человек принял |
-| 3 | **Телефон** | Номер +998 | Основной идентификатор: телефон есть у всех, e-mail в этом сегменте — нет |
-| 4 | **SMS-код** | Одноразовый код через Eskiz.uz | Подтверждение, что номер действительно его |
-| 5 | **Имя** | Как обращаться | — |
-| 6 | **Токен доступа** | Только для Pro-версии: код вида `BH-XXXX-XXXX` | Pro пока раздаётся адресно, а не самозаписью |
+| 1 | **Language** | Russian or Uzbek | The very first screen in the user's own language, not "register first, switch later" |
+| 2 | **Consent** | The personal-data screen (Law ZRU-547) with the text's version | Consent is taken **before** the first byte of personal data. The system records which revision the person accepted |
+| 3 | **Phone** | A +998 number | The primary identifier: everyone has a phone; in this segment, not everyone has e-mail |
+| 4 | **SMS code** | A one-time code via Eskiz.uz | Confirmation that the number really is theirs |
+| 5 | **Name** | How to address them | — |
+| 6 | **Access token** | Pro edition only: a code of the form `BH-XXXX-XXXX` | Pro is still issued by invitation rather than self-service |
 
-В браузере вместо Telegram работает тот же путь, плюс альтернатива: **e-mail и
-пароль**. Сессия живёт по JWT, поэтому приложение открывается и без мессенджера.
-
----
-
-## 6.5. Шаг 2. Организация — ИНН вместо анкеты
-
-Классический сценарий конкурентов: форма на двадцать полей — название, адрес,
-директор, банк, счёт, ОКЭД, статус НДС. Человек бросает её на пятом поле.
-
-У нас три шага:
-
-**1. Ввести ИНН** (или ПИНФЛ для ЯТТ).
-
-**2. Подтвердить компанию.** Система показывает карточку организации из
-государственного реестра и спрашивает прямо: **«Это ваша компания?»** Человек
-видит название, директора, адрес — и либо подтверждает, либо исправляет ИНН.
-Опечатка в одной цифре ловится здесь, а не через месяц в подписанном документе.
-
-**3. Ввести пароль Didox.** После этого система сама подтягивает и сохраняет
-все реквизиты: полное название, директора, юридический адрес, банк, расчётный
-счёт, МФО, ОКЭД, статус плательщика НДС.
-
-Ни одного поля руками.
-
-**Что произойдёт дальше без участия человека:** входящие документы начнут
-зеркалиться из Didox, контрагенты — подтягиваться из истории переписки, сделки —
-собираться из документов. К моменту, когда клиент создаст свой первый документ,
-система уже знает его контрагентов.
-
-**Несколько организаций** добавляются так же и переключаются в один тап — во всех
-поверхностях сразу. Для владельца двух-трёх компаний это основной режим работы.
+In a browser, instead of Telegram, the same path works, plus an alternative:
+**e-mail and password**. The session runs on a JWT, so the app opens without a
+messenger too.
 
 ---
 
-## 6.6. Шаг 3. Подпись — единственная настройка, которую стоит сделать сразу
+## 6.5. Step 2. The Organisation — a TIN Instead of a Form
 
-Документ можно создать без ключа ЭЦП. Но чтобы он **ушёл контрагенту**, его
-нужно подписать — этого требует закон, а не мы.
+The classic competitor scenario: a twenty-field form — company name, address,
+director, bank, account, activity code, VAT status. People abandon it at the
+fifth field.
 
-Здесь клиент выбирает **один из четырёх способов**, и выбор определяет, сможет ли
-он подписывать с телефона, ночью и в отпуске, или только сидя за рабочим
-компьютером.
+We have three steps:
 
-| Способ | Коротко | Кому |
+**1. Enter the TIN** (or PINFL for a sole trader).
+
+**2. Confirm the company.** The system shows the organisation's record from the
+state register and asks directly: **"Is this your company?"** The person sees the
+name, the director and the address, and either confirms or corrects the TIN. A
+one-digit typo is caught here, not a month later inside a signed document.
+
+**3. Enter the Didox password.** After that the system pulls in and saves every
+detail itself: full legal name, director, registered address, bank, settlement
+account, bank code, activity code, VAT status.
+
+Not a single field typed by hand.
+
+**What happens next without any human involvement:** incoming documents start
+mirroring from Didox, counterparties are pulled from the correspondence history,
+deals assemble themselves from the documents. By the time the client creates their
+first document, the system already knows their counterparties.
+
+**Additional organisations** are added the same way and switched between in one
+tap, across every surface at once. For an owner of two or three companies this is
+the primary working mode.
+
+---
+
+## 6.6. Step 3. Signing — the One Setting Worth Doing Straight Away
+
+A document can be created without a signature key. But for it to **reach the
+counterparty** it has to be signed — that is the law's requirement, not ours.
+
+Here the client chooses **one of four methods**, and the choice determines whether
+they can sign from a phone, at night and on holiday, or only sitting at their
+office computer.
+
+| Method | In brief | Who it suits |
 |---|---|---|
-| **Из браузера** | Модуль E-IMZO на своём компьютере, ключ выбирается из списка | Кто работает за одним ПК |
-| **Программа-агент на ПК** | Ставится один раз, компьютер остаётся включённым — подпись доступна с телефона | Кто хочет подписывать не с рабочего места |
-| **Свой сервер** | Одна команда на своём Ubuntu-сервере, ключ остаётся у клиента | Кому нужна подпись без зависимости от офисного ПК |
-| **Сервер «под ключ»** | Мы поднимаем защищённую ячейку, настройка — секунды | Кто не хочет заниматься серверами вообще |
+| **From the browser** | The E-IMZO module on your own computer, with the key picked from a list | People who work at one PC |
+| **An agent program on a PC** | Installed once, the computer stays switched on — signing becomes available from a phone | People who want to sign away from their desk |
+| **Your own server** | One command on your own Ubuntu server, the key stays with the client | People who need signing without depending on an office PC |
+| **A turnkey server** | We raise a protected vault cell; setup takes seconds | People who do not want to deal with servers at all |
 
-Каждый способ, включая ответ на главный страх — «а вдруг оно подпишет что-то без
-меня» — подробно разобран в **[07-signing.md](07-signing.md)**.
-
----
-
-## 6.7. Шаг 4. Первый документ
-
-Возьмём счёт-фактуру — самый частый документ.
-
-**1. Товары.** Четыре способа, клиент выбирает удобный:
-надиктовать голосом · вставить список из Excel или WhatsApp · сфотографировать
-накладную · выбрать со своего склада.
-
-**2. Коды ИКПУ.** Система подбирает коды государственного классификатора сама и
-показывает на подтверждение. Название категории **всегда** подставляется из
-справочника Ташниф, а не сочиняется — неверный код означает штраф по ст. 223 НК
-РУз.
-
-**3. Покупатель.** Из сохранённых контрагентов, из подтянутой истории Didox или
-по ИНН с проверкой в государственном реестре.
-
-**4. Проверка.** Один экран: товары, суммы, НДС, реквизиты обеих сторон, номер
-документа из вашей серии нумерации.
-
-**5. Подпись и отправка.** Одна кнопка. Документ подписан ЭЦП, зарегистрирован
-в Didox и доставлен контрагенту.
-
-**Итого 2–5 минут** против 30–60 на портале Didox — и это при первом
-использовании, без привычки.
-
-### Если что-то пошло не так
-
-Отдельно стоит сказать, что происходит на путях отказа, потому что первый
-негативный опыт решает судьбу продукта:
-
-- **Didox недоступен или оборвалась сеть.** Введённое не пропадает: документ
-  ложится в «Не завершённые», а когда Didox поднимется, система **сама напишет**
-  и вернёт человека ровно в то место мастера, где он остановился.
-- **Неверный пароль Didox.** Система говорит об этом прямо и даёт ввести заново,
-  а не показывает техническую ошибку.
-- **Ключ ЭЦП ещё не настроен.** Документ сохраняется черновиком; система
-  тактично напомнит про подпись, а не бросит на полпути.
-- **Двойное нажатие «Подписать».** Повторная подпись невозможна: при обрыве связи
-  система не подписывает вслепую, а сверяет фактическое состояние документа в
-  Didox.
+Every method — including the answer to the central fear, "what if it signs
+something without me?" — is examined in detail in
+**[07-signing.md](07-signing.md)**.
 
 ---
 
-## 6.8. Что происходит на второй день и дальше
+## 6.7. Step 4. The First Document
 
-Первый документ — не конец пути, а точка, после которой продукт начинает
-работать на клиента сам:
+Take an e-invoice — the most common document there is.
 
-| Когда | Что делает система |
+**1. Products.** Four ways, whichever suits the client: dictate them by voice ·
+paste a list from Excel or WhatsApp · photograph a delivery note · pick them from
+your own stock.
+
+**2. IKPU codes.** The system matches the state classifier codes itself and shows
+them for confirmation. The category name is **always** taken from the Tasnif
+catalogue rather than composed — a wrong code means a penalty under Article 223 of
+the Tax Code of Uzbekistan.
+
+**3. The buyer.** From saved counterparties, from the imported Didox history, or
+by TIN with a check against the state register.
+
+**4. Review.** One screen: goods, amounts, VAT, both parties' details, and the
+document number from your own numbering series.
+
+**5. Sign and send.** One button. The document is signed, registered in Didox and
+delivered to the counterparty.
+
+**Two to five minutes in total**, against 30–60 on the Didox portal — and that is
+on first use, with no practice.
+
+### If something goes wrong
+
+The failure paths deserve saying out loud, because a first bad experience decides
+the fate of the product:
+
+- **Didox is unavailable or the network drops.** What was typed is not lost: the
+  document lands in "Unfinished", and when Didox comes back the system **writes to
+  the person itself** and returns them to the exact step of the wizard where they
+  stopped.
+- **The Didox password is wrong.** The system says so plainly and lets them try
+  again, instead of showing a technical error.
+- **The signature key is not set up yet.** The document is saved as a draft; the
+  system will remind them tactfully about signing rather than abandoning them
+  halfway.
+- **"Sign" is pressed twice.** A second signature is impossible: on a connection
+  failure the system does not sign blindly but verifies the document's actual
+  state in Didox.
+
+---
+
+## 6.8. What Happens on Day Two and After
+
+The first document is not the end of the journey but the point after which the
+product starts working for the client on its own:
+
+| When | What the system does |
 |---|---|
-| Контрагент прислал документ | Появляется во «Входящих», приходит уведомление; постоянные поставщики — карточкой «принять в один тап» |
-| Пришла оплата | Видна в Telegram с привязкой к договору и счёту (если банк подключён) |
-| Документы накопились | Сами собираются в сделки: договор → оплата → доверенность → СФ → акт |
-| Появилась незакрытая сделка | Лента «Требует вас» показывает, чей сейчас ход |
-| Прошла неделя | Дайджест «Пульса бизнеса»: деньги, продажи, долги, что требует внимания |
-| Письмо от налоговой | Приходит в Telegram, а не ждёт визита в личный кабинет |
+| A counterparty sends a document | It appears in "Incoming" with a notification; regular suppliers arrive as a one-tap "accept" card |
+| A payment arrives | Visible in Telegram, tied to its contract and invoice (if the bank is connected) |
+| Documents accumulate | They assemble themselves into deals: contract → payment → power of attorney → invoice → act |
+| A deal goes unclosed | The "Needs you" feed shows whose move it is |
+| A week passes | The Business Pulse digest: money, sales, debts, what needs attention |
+| A letter arrives from the tax office | It comes to Telegram instead of waiting for a visit to the portal |
 
-Клиент не изучал ни одного раздела — всё это включилось само после подключения
-организации.
+The client has studied not a single section — all of it switched itself on once
+the organisation was connected.
 
 ---
 
-## 6.9. Где люди отваливаются — и что мы с этим делаем
+## 6.9. Where People Drop Out — and What We Do About It
 
-Честный раздел: узкие места пути мы знаем и не прячем.
+An honest section: we know the narrow points of the journey and we do not hide
+them.
 
-| Место | Почему трудно | Что уже сделано |
+| Where | Why it is hard | What has already been done |
 |---|---|---|
-| **Пароль Didox** | Просим пароль от госсистемы на третьей минуте знакомства | Демо-режим до регистрации; карточка компании перед вводом пароля |
-| **Нет аккаунта Didox** | Часть бизнеса вообще не заведена в ЭДО | Регистрация в Didox **прямо из бота**, без похода на портал |
-| **Ключ ЭЦП** | Самый тяжёлый шаг: нужен физический ключ и установленное ПО | Четыре способа подписи вместо одного; напоминания, если ключ не подключён |
-| **Первый документ** | Без товаров в каталоге мастер выглядит пустым | Голос, фото, вставка из Excel — каталог заполняется по ходу дела |
+| **The Didox password** | We ask for the password to a state system three minutes into the acquaintance | Demo mode before sign-up; the company record shown before the password is requested |
+| **No Didox account** | Some businesses are not registered in the e-document system at all | Didox registration **from inside the bot**, with no trip to the portal |
+| **The signature key** | The heaviest step: it needs a physical key and installed software | Four signing methods instead of one; reminders if no key is connected |
+| **The first document** | With no products in the catalogue, the wizard looks empty | Voice, photo, paste from Excel — the catalogue fills up as work proceeds |
 
-**Это и есть текущий приоритет продукта.** Как показано в
-[текущих цифрах](01-ecosystem.md#19-где-мы-сейчас-масштаб-и-зрелость), платформа
-построена широко, а ограничение — именно здесь: довести человека от первого
-экрана до регулярной работы.
+**This is the product's current priority.** As
+[the current figures](01-ecosystem.md#19-where-we-stand-scale-and-maturity) show,
+the platform is built broadly, and the constraint is right here: carrying a person
+from the first screen to regular use.
 
 ---
 
-**Дальше:** [7. Подпись документов](07-signing.md) — все способы и почему ни
-один из них не подпишет ничего без вас.
+**Next:** [7. Document signing](07-signing.md) — every method, and why none of
+them will sign anything without you.

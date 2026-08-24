@@ -1,128 +1,132 @@
-# iHisobchi — обзор экосистемы
+# iHisobchi — Ecosystem Overview
 
-> **Что это за папка.** Полный, актуальный обзор продукта: чем является
-> iHisobchi сегодня, из каких поверхностей и модулей состоит, как устроен
-> внутри, как защищены данные и куда движется.
+> **What this folder is.** A complete, current overview of the product: what
+> iHisobchi is today, which surfaces and modules it consists of, how it is built
+> inside, how the data is protected, and where it is heading.
 >
-> Обзор написан по исходному коду и живому продакшну, а не по более ранней
-> документации — она описывала продукт как «Telegram-бот для документов», каким
-> он был в начале 2026 года.
+> The overview is written from the source code and from live production, not from
+> earlier documentation — which described the product as "a Telegram bot for
+> documents", which is what it was in early 2026.
 
-**Паспорт документа**
+**Document passport**
 
 | | |
 |---|---|
-| Актуально на | **14 августа 2026** |
-| Состояние кода | `origin/main`, Alembic head **236** |
-| Продакшн | снимок метрик от 14.08.2026 |
-| Как собран | По исходному коду и живому продакшну: докстринги сервисов и роутеров, фактические фича-флаги из Redis и таблицы `feature_flags`, счётчики из базы. Не по документации — часть её устарела |
-| Проверка на расхождение | `python3 scripts/overview_snapshot.py` — заново измеряет каждое число обзора по коду и проду. Числа из кода **проверяются автоматически каждую ночь** в ночном прогоне CI; прод-счётчики пересматриваются вручную |
-| Следующий пересмотр | При крупном изменении продукта; цифры прода — не реже раза в квартал |
+| Current as of | **14 August 2026** |
+| Code state | `origin/main`, Alembic head **236** |
+| Production | metrics snapshot taken 14 August 2026 |
+| How it was assembled | From the source code and live production: service and router docstrings, actual feature flags from Redis and the `feature_flags` table, counters from the database. Not from the documentation — parts of it are out of date |
+| Drift check | `python3 scripts/overview_snapshot.py` re-measures every figure in the overview against the code and production. Figures drawn from the code are **verified automatically every night** in the nightly CI run; production counters are reviewed by hand |
+| Next review | On any major product change; production figures at least quarterly |
 
 ---
 
-## Порядок чтения
+## Reading Order
 
-| # | Документ | О чём |
+| # | Document | What it covers |
 |---|---|---|
-| 1 | **[01-ecosystem.md](01-ecosystem.md)** | Что такое iHisobchi, какую проблему решает, идея «оркестратора бизнеса», все 18 платформ и точек входа, архитектура, текущее состояние в цифрах |
-| 2 | **[02-modules.md](02-modules.md)** | Каждый модуль и функция подробно: документы, сделки, Пульс, AI-юрист, банк, налоговая, склад, кадры, маркетплейс, рассрочка, интеграции, ИИ-поверхности |
-| 3 | **[03-roadmap.md](03-roadmap.md)** | Одиннадцать горизонтов: автономные сделки, автосчёт по оплате, биржа бухуслуг, кабинет аутсорсера, коммерция под ключ (живой эфир и видео), открытый банкинг, мобильные приложения, налоговая отчётность, ИИ-поддержка, склад и таможня, социальная коммерция |
-| 4 | **[04-voice-orchestrator.md](04-voice-orchestrator.md)** | **Главная ставка продукта** — голосовой ИИ-оркестратор: управление всем бизнесом разговором, на любом устройстве |
-| 5 | **[05-security.md](05-security.md)** | **Безопасность и доверие** — шифрование, режим нулевого хранения в ИИ, хранилище ключей ЭЦП, что мы делаем каждую ночь |
-| 6 | **[06-first-day.md](06-first-day.md)** | **Первый день клиента** — сквозной путь: регистрация, подключение организации, настройка подписи, первый документ, и где люди отваливаются |
-| 7 | **[07-signing.md](07-signing.md)** | **Подпись документов** — четыре способа от классического до полностью автономного плюс корпоративная поставка, и почему ни один не подпишет ничего без вас |
-| 8 | **[08-with-and-without.md](08-with-and-without.md)** | **С нами и без нас** — карта рынка Узбекистана, во что обходится текущая сборка из 7–9 программ, чего нет ни у кого кроме нас, официальная рассылка КП и наша позиция по поддержке |
-| 9 | **[09-business-model.md](09-business-model.md)** | **Как мы зарабатываем** — восемь источников дохода: подписка с ценами, продвижение в маркетплейсе, корпоративный контур, склад и фулфилмент, биржи услуг, кабинет бухгалтерской фирмы, справка о деловой активности, внедрение и партнёры |
+| 1 | **[01-ecosystem.md](01-ecosystem.md)** | What iHisobchi is, the problem it solves, the "business orchestrator" idea, all 18 platforms and points of entry, the architecture, the current state in figures |
+| 2 | **[02-modules.md](02-modules.md)** | Every module and feature in detail: documents, deals, Business Pulse, the AI Lawyer, banking, tax, inventory, HR, the marketplace, instalments, integrations, AI surfaces |
+| 3 | **[03-roadmap.md](03-roadmap.md)** | Eleven horizons: autonomous deals, the automatic invoice on payment, an accounting services exchange, the outsourcer workspace, turnkey commerce (live streaming and video), open banking, mobile apps, tax filing, AI support, warehousing and customs, social commerce |
+| 4 | **[04-voice-orchestrator.md](04-voice-orchestrator.md)** | **The product's main bet** — the voice AI orchestrator: running an entire business by conversation, on any device |
+| 5 | **[05-security.md](05-security.md)** | **Security and trust** — encryption, zero-retention AI, the signature-key vault, and what we do every night |
+| 6 | **[06-first-day.md](06-first-day.md)** | **The client's first day** — the whole journey: sign-up, connecting an organisation, setting up signing, the first document, and where people drop out |
+| 7 | **[07-signing.md](07-signing.md)** | **Document signing** — four methods from the classic to the fully autonomous, plus enterprise delivery, and why none of them will sign anything without you |
+| 8 | **[08-with-and-without.md](08-with-and-without.md)** | **With us and without us** — a map of the Uzbek market, what the current assembly of 7–9 programs costs, what nobody else has, official mass-mailing of proposals, and our position on support |
+| 9 | **[09-business-model.md](09-business-model.md)** | **How we make money** — eight revenue streams: subscriptions with prices, marketplace promotion, the corporate environment, warehousing and fulfilment, service exchanges, the accounting firm workspace, the business-activity certificate, implementation and partners |
 
-**Отдельно:** [pitch/investor-deck.html](pitch/investor-deck.html) — презентация для инвесторов на 18 слайдов, собранная из этих документов.
-
----
-
-## Продукт одной страницей
-
-**iHisobchi — операционная система бизнеса Узбекистана.**
-Не ещё один инструмент в ряду десяти, а **оркестратор**, в котором
-предприниматель держит весь свой бизнес целиком: документы и ЭЦП, сделки,
-деньги, склад, кадры, налоговую, кассу, продажи — и управляет всем этим
-разговором с ИИ-агентом, который знает его товары, цены, контрагентов, долги и
-обязательства.
-
-Три уровня ценности, в порядке возрастания:
-
-1. **Уровень инструмента.** Счёт-фактура за 2 минуты вместо 40 на портале
-   Didox. Голосом, с телефона, с подписью ЭЦП.
-2. **Уровень контура.** Документ не живёт сам по себе — он часть сделки.
-   Система видит: договор подписан → оплата не пришла → доверенность выдана →
-   СФ не выставлена → и говорит владельцу, чей сейчас ход.
-3. **Уровень оркестратора.** Бизнес идёт как швейцарские часы: заказ с витрины
-   сам становится договором и счётом, оплата сама закрывает сделку, чек кассы
-   сам ложится в учёт, письмо от налоговой само приходит в Telegram, а
-   ИИ-«Пульс бизнеса» сам показывает владельцу, где из компании утекают деньги.
-
-**И над всем этим — [голос](04-voice-orchestrator.md).** Владелец разговаривает,
-бизнес работает.
-
-## Что уже работает — цифрами живого прода
-
-**Размер платформы:**
-
-| Показатель | Значение |
-|---|---|
-| Модулей бизнес-логики | **252** |
-| Telegram-роутеров | **103** |
-| Экранов Mini App | **126** маршрутов |
-| Способностей, доступных ИИ | **67** |
-| Миграций БД | Alembic head **236** (195 таблиц в проде) |
-| Строк кода | ~**562 000** Python (без тестов) + ~**262 000** TypeScript/React |
-| Тестов | ~**439 000** строк тестового кода |
-
-**Накоплено за всё время** (часть — зеркало того, что бизнес и так делал в
-Didox; это оборот системы, а не только созданная нами ценность):
-
-| Показатель | Значение |
-|---|---|
-| Документов проведено | **73 098** |
-| Сделок в движке циклов | **85 869**, из них закрыто **62 802 (73 %)** |
-| Входящих документов в зеркале | **96 217** |
-| Банковских транзакций разобрано | **70 094** |
-| Товарных позиций в каталогах | **5 699** |
-| Активных ключей подписи | **25** |
-
-**Чем пользуются прямо сейчас — за 30 дней:**
-
-| Показатель | Значение |
-|---|---|
-| Организаций всего | **80** |
-| Организаций создавали документы | **57** |
-| Пользователей заходило (30 дн. / 7 дн.) | **76 / 19** |
-| Документов создано | **4 095** |
-| Действий ИИ-агента | **313** (в 9 организациях) |
-
-> **Как это читать.** Платформа построена широко и технически зрелая, аудитория
-> — ранняя, глубина использования неравномерна. Ограничение сегодня — не
-> скорость постройки новых модулей, а доведение уже построенного до регулярного
-> использования. Это прямо определяет [порядок работ](03-roadmap.md#чем-занимаемся-в-первую-очередь).
-
-## Легенда статусов
-
-Во всех документах у каждой функции стоит честная отметка. Полная картина — это
-и то, что работает, и то, что раскатывается, и то, что уже спроектировано и
-стоит следующим в очереди. Без этой разметки обзор превращается либо в обещание,
-либо в недосказанность.
-
-| Метка | Что означает |
-|---|---|
-| ✅ **В проде** | Работает у клиентов прямо сейчас, выключатель включён глобально |
-| 🟡 **Раскатка** | Построено и протестировано, включается по клиентам (канарейка / отдельный флаг) |
-| 🔵 **В работе** | Код в проде за выключенным флагом либо строится сейчас |
-| 🎯 **Следующий шаг** | Решено, спроектировано, стоит в ближайшей очереди |
-
-Там, где включённая функция имеет **раннюю аудиторию**, это сказано рядом с
-отметкой: «в проде» означает «доступно и работает», а не «этим уже пользуются
-все».
+**Separately:** [pitch/investor-deck.html](pitch/investor-deck.html) — an
+18-slide investor deck assembled from these documents.
 
 ---
 
-*Обзор поддерживается вручную. При крупных изменениях продукта — обновлять
-вместе с `docs/feature-history.md`. Цифры прода помечены датой снятия.*
+## The Product on One Page
+
+**iHisobchi is a business operating system for Uzbekistan.**
+Not an eleventh tool alongside ten others but an **orchestrator** in which an
+entrepreneur keeps their whole business at once: documents and digital
+signatures, deals, money, inventory, HR, the tax office, the till, sales — and
+runs all of it by talking to an AI agent that knows their products, prices,
+counterparties, debts and obligations.
+
+Three levels of value, in ascending order:
+
+1. **The tool level.** An e-invoice in 2 minutes instead of 40 on the Didox
+   portal. By voice, from a phone, with a digital signature.
+2. **The loop level.** A document does not live on its own — it is part of a
+   deal. The system sees: contract signed → payment not received → power of
+   attorney issued → invoice not raised → and tells the owner whose move it is.
+3. **The orchestrator level.** The business runs like a Swiss watch: an order
+   from the storefront becomes a contract and an invoice by itself, a payment
+   closes the deal by itself, a cash-register receipt posts itself to the books,
+   a letter from the tax office arrives in Telegram by itself, and the AI-driven
+   Business Pulse shows the owner, unprompted, where money is leaking out of the
+   company.
+
+**And above all of it — [the voice](04-voice-orchestrator.md).** The owner
+talks; the business works.
+
+## What Already Works — in Live Production Figures
+
+**The size of the platform:**
+
+| Indicator | Value |
+|---|---|
+| Business-logic modules | **252** |
+| Telegram routers | **103** |
+| Mini App screens | **126** routes |
+| Capabilities available to the AI | **67** |
+| Database migrations | Alembic head **236** (195 tables in production) |
+| Lines of code | ~**562,000** Python (excluding tests) + ~**262,000** TypeScript/React |
+| Tests | ~**439,000** lines of test code |
+
+**Accumulated over all time** (part of it mirrors what businesses were doing in
+Didox anyway; this is the system's throughput, not solely value we created):
+
+| Indicator | Value |
+|---|---|
+| Documents processed | **73,098** |
+| Deals in the cycle engine | **85,869**, of which **62,802 (73%)** are closed |
+| Incoming documents mirrored | **96,217** |
+| Bank transactions parsed | **70,094** |
+| Product records in catalogues | **5,699** |
+| Active signature keys | **25** |
+
+**What is being used right now — over 30 days:**
+
+| Indicator | Value |
+|---|---|
+| Organisations in total | **80** |
+| Organisations that created documents | **57** |
+| Users who signed in (30 days / 7 days) | **76 / 19** |
+| Documents created | **4,095** |
+| AI agent actions | **313** (across 9 organisations) |
+
+> **How to read this.** The platform is broadly built and technically mature; the
+> audience is early and depth of use is uneven. The constraint today is not how
+> fast new modules can be built but getting what is already built into regular
+> use. That directly determines the [order of work](03-roadmap.md#what-we-are-working-on-first).
+
+## Status Legend
+
+Every feature in these documents carries an honest marker. The full picture
+includes what works, what is rolling out, and what has been designed and is next
+in the queue. Without that marking, an overview turns either into a promise or
+into an omission.
+
+| Marker | What it means |
+|---|---|
+| ✅ **In production** | Working for clients right now, with the switch on globally |
+| 🟡 **Rolling out** | Built and tested, enabled client by client (canary release or a dedicated flag) |
+| 🔵 **In progress** | The code is in production behind a disabled flag, or is being built now |
+| 🎯 **Next step** | Decided, designed, and near the front of the queue |
+
+Where an enabled feature has an **early audience**, that is stated alongside the
+marker: "in production" means "available and working", not "everyone is already
+using it".
+
+---
+
+*The overview is maintained by hand. On major product changes, update it together
+with `docs/feature-history.md`. Production figures are marked with the date they
+were taken.*

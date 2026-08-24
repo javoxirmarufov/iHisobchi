@@ -1,187 +1,190 @@
-# iHisobchi — операционная система бизнеса Узбекистана
+# iHisobchi — the Business Operating System of Uzbekistan
 
-> **Витрина проекта для President AI Award.** Публичная выборка из приватной
-> кодовой базы: полный обзор продукта, архитектура и представительные фрагменты
-> реального production-кода.
+> **A project showcase for the President AI Award.** A curated public selection
+> from a private codebase: the complete product overview, the architecture, and
+> representative fragments of real production code.
 
-**EN:** *iHisobchi is an AI-driven business operating system for Uzbekistan —
+*iHisobchi is an AI-driven business operating system for Uzbekistan —
 e-invoicing with digital signature (Didox / E-IMZO), deal tracking, banking, tax
-office integration, warehouse, HR and a voice-first AI orchestrator, delivered
+office integration, warehousing, HR and a voice-first AI orchestrator, delivered
 through Telegram, a Mini App and a web app. This repository is a curated public
-showcase of a private production codebase. See [About this repository](#об-этом-репозитории).*
+showcase of a private production codebase. See
+[About this repository](#about-this-repository).*
 
 ---
 
-## Что это
+## What This Is
 
-Предприниматель в Узбекистане собирает свой учёт из 7–9 несвязанных программ:
-портал Didox для счёт-фактур, клиент-банк, 1С или Excel для склада, отдельная
-касса, отдельная кадровая программа, мессенджер для переписки с бухгалтером.
-Между ними он — сам себе интеграция.
+An entrepreneur in Uzbekistan assembles their bookkeeping out of 7–9 disconnected
+programs: the Didox portal for e-invoices, a bank client, 1C or Excel for stock,
+a separate till, a separate HR package, a messenger for talking to the
+bookkeeper. Between them, they are their own integration layer.
 
-**iHisobchi заменяет эту сборку одним контуром.** Не ещё один инструмент в ряду
-десяти, а **оркестратор**, в котором бизнес держится целиком: документы и ЭЦП,
-сделки, деньги, склад, кадры, налоговая, касса, продажи. Управление —
-разговором с ИИ-агентом, который знает товары, цены, контрагентов, долги и
-обязательства конкретного бизнеса.
+**iHisobchi replaces that assembly with a single loop.** Not one more tool in a
+row of ten but an **orchestrator** in which the whole business is held at once:
+documents and digital signatures, deals, money, inventory, HR, the tax office,
+the till, sales. It is operated by talking to an AI agent that knows this
+particular business's products, prices, counterparties, debts and obligations.
 
-Три уровня ценности:
+Three levels of value:
 
-| Уровень | Что это значит |
+| Level | What it means |
 |---|---|
-| **Инструмент** | Счёт-фактура за 2 минуты вместо 40 на портале. Голосом, с телефона, с подписью ЭЦП |
-| **Контур** | Документ — часть сделки. Система видит: договор подписан → оплата не пришла → доверенность выдана → СФ не выставлена — и говорит владельцу, чей сейчас ход |
-| **Оркестратор** | Заказ с витрины сам становится договором и счётом, оплата сама закрывает сделку, чек кассы сам ложится в учёт, письмо от налоговой само приходит в Telegram |
+| **A tool** | An e-invoice in 2 minutes instead of 40 on the portal. By voice, from a phone, digitally signed |
+| **A loop** | A document is part of a deal. The system sees: contract signed → payment not received → power of attorney issued → invoice not raised — and tells the owner whose move it is |
+| **An orchestrator** | An order from the storefront becomes a contract and an invoice by itself, a payment closes the deal by itself, a cash-register receipt posts itself to the books, a letter from the tax office arrives in Telegram by itself |
 
-Продукт работает в продакшне с реальными клиентами и реальным
-документооборотом, юридически значимым по законодательству РУз.
+The product runs in production with real clients and real document flow, legally
+valid under Uzbek law.
 
 ---
 
-## Проект в цифрах
+## The Project in Numbers
 
 | | |
 |---|---|
-| Строк кода приложения (Python) | **555 368** |
-| Строк тестов (Python) | **432 226** |
-| Строк фронтенда (TypeScript/React) | **253 235** |
-| Автотестов | **18 496** pytest + **3 573** vitest |
-| Модулей бизнес-логики | **250** сервисов, **103** Telegram-роутера |
-| Миграций базы данных | **232** (Alembic) |
-| Ключей локализации | **2 484** на каждый из двух языков — русский и узбекский |
-| Коммитов | **2 061** и **993** смерженных PR за 6 месяцев непрерывной разработки — [история и темп](ENGINEERING.md) |
-| Точек входа для пользователя | **18** (Telegram, Mini App, веб-приложение, MCP, REST API, Chrome-расширение, десктоп-агент подписи…) |
+| Lines of application code (Python) | **555,368** |
+| Lines of tests (Python) | **432,226** |
+| Lines of frontend code (TypeScript/React) | **253,235** |
+| Automated tests | **18,496** pytest + **3,573** vitest |
+| Business-logic modules | **250** services, **103** Telegram routers |
+| Database migrations | **232** (Alembic) |
+| Localisation keys | **2,484** in each of two languages — Russian and Uzbek |
+| Commits | **2,061** and **993** merged pull requests over 6 months of continuous development — [history and pace](ENGINEERING.md) |
+| Points of entry for a user | **18** (Telegram, Mini App, web app, MCP, REST API, a Chrome extension, a desktop signing agent…) |
 
-*Замер по `origin/main` на 14 августа 2026.*
-
----
-
-## Об этом репозитории
-
-Основная кодовая база **приватная**, и останется такой: она содержит рабочую
-интеграцию с государственными системами электронного документооборота,
-криптографический контур подписи и данные реальных клиентов, защищённые
-законодательством РУз о персональных данных.
-
-Конкурс просит **часть кода** («part of your project's code»). Этот репозиторий
-и есть такая часть — собранная осознанно, а не выгруженная случайной нарезкой:
-
-- **Обзор продукта целиком** — девять документов в [`docs/overview/`](docs/overview/),
-  написанных по исходному коду и живому продакшну, плюс презентация на 18 слайдов.
-- **Представительные фрагменты кода** — файлы, по которым видно инженерную
-  культуру: шифрование с ротацией ключей, маскирование секретов и персональных
-  данных в логах, кодификация норм трудового права РУз, управление фоновыми
-  задачами, миграции, CI-конвейер, фронтенд с тестами.
-- **Тесты рядом с кодом** — каждый показанный модуль идёт со своим тестом,
-  чтобы покрытие можно было проверить, а не принять на слово.
-
-Собрано свежим `git init` в один коммит: история основного репозитория сюда не
-переносилась. Выборка проверена сканером секретов (`detect-secrets`) — находок нет.
-
-Поэтому счётчик коммитов здесь показывает единицы, а не тысячи. Реальный объём
-и темп работы — в **[ENGINEERING.md](ENGINEERING.md)**: 2 061 коммит и 993
-pull request'а за шесть месяцев, 145 активных дней из 184, рост тестовой базы
-с 12 файлов до 1 194.
+*Measured against `origin/main` on 14 August 2026.*
 
 ---
 
-## Что смотреть
+## About This Repository
 
-### Обзор продукта — [`docs/overview/`](docs/overview/)
+The main codebase is **private**, and will stay that way: it contains a working
+integration with state e-document systems, the cryptographic signing loop, and
+real client data protected by Uzbek personal-data law.
 
-| Документ | О чём |
+The competition asks for **part of the project's code**. This repository is that
+part — assembled deliberately rather than exported as a random slice:
+
+- **The complete product overview** — nine documents in
+  [`docs/overview/`](docs/overview/), written from the source code and live
+  production, plus an 18-slide deck.
+- **Representative code fragments** — files that show the engineering culture:
+  encryption with key rotation, masking of secrets and personal data in logs, the
+  codification of Uzbek labour law, background task management, migrations, the
+  CI pipeline, and frontend code with its tests.
+- **Tests alongside the code** — every module shown comes with its own test, so
+  that coverage can be verified rather than taken on trust.
+
+It was assembled with a fresh `git init` in a single commit: the main
+repository's history was not carried over. The selection was checked with a
+secret scanner (`detect-secrets`) — no findings.
+
+That is why the commit counter here shows single digits rather than thousands.
+The real volume and pace of the work is in **[ENGINEERING.md](ENGINEERING.md)**:
+2,061 commits and 993 pull requests over six months, 145 active days out of 184,
+and a test base that grew from 12 files to 1,194.
+
+---
+
+## What to Look At
+
+### The product overview — [`docs/overview/`](docs/overview/)
+
+| Document | What it covers |
 |---|---|
-| [01-ecosystem.md](docs/overview/01-ecosystem.md) | Какую проблему решаем, идея оркестратора, все 18 точек входа, архитектура, состояние в цифрах |
-| [02-modules.md](docs/overview/02-modules.md) | Каждый модуль подробно: документы, сделки, Пульс, AI-юрист, банк, налоговая, склад, кадры, маркетплейс, интеграции |
-| [03-roadmap.md](docs/overview/03-roadmap.md) | Десять горизонтов развития |
-| [04-voice-orchestrator.md](docs/overview/04-voice-orchestrator.md) | **Главная ставка продукта** — управление бизнесом голосом |
-| [05-security.md](docs/overview/05-security.md) | Шифрование, режим нулевого хранения в ИИ, хранилище ключей ЭЦП |
-| [06-first-day.md](docs/overview/06-first-day.md) | Сквозной путь клиента: регистрация → организация → подпись → первый документ |
-| [07-signing.md](docs/overview/07-signing.md) | Четыре способа подписи и почему ни один не подпишет ничего без владельца |
-| [08-with-and-without.md](docs/overview/08-with-and-without.md) | Карта рынка Узбекистана, во что обходится текущая сборка из 7–9 программ |
-| [09-business-model.md](docs/overview/09-business-model.md) | Восемь источников дохода |
-| [pitch/investor-deck.html](docs/overview/pitch/investor-deck.html) | Презентация на 18 слайдов |
+| [01-ecosystem.md](docs/overview/01-ecosystem.md) | The problem we solve, the orchestrator idea, all 18 points of entry, the architecture, the current state in figures |
+| [02-modules.md](docs/overview/02-modules.md) | Every module in detail: documents, deals, Business Pulse, the AI Lawyer, banking, tax, inventory, HR, the marketplace, integrations |
+| [03-roadmap.md](docs/overview/03-roadmap.md) | Ten horizons of development |
+| [04-voice-orchestrator.md](docs/overview/04-voice-orchestrator.md) | **The product's main bet** — running a business by voice |
+| [05-security.md](docs/overview/05-security.md) | Encryption, zero-retention AI, the signature-key vault |
+| [06-first-day.md](docs/overview/06-first-day.md) | The client's end-to-end journey: sign-up → organisation → signing → first document |
+| [07-signing.md](docs/overview/07-signing.md) | Four ways to sign, and why none of them will sign anything without the owner |
+| [08-with-and-without.md](docs/overview/08-with-and-without.md) | A map of the Uzbek market, and what the current assembly of 7–9 programs costs |
+| [09-business-model.md](docs/overview/09-business-model.md) | Eight revenue streams |
+| [pitch/investor-deck.html](docs/overview/pitch/investor-deck.html) | An 18-slide deck |
 
-### Фрагменты кода
+### Code fragments
 
-| Файл | Что демонстрирует |
+| File | What it demonstrates |
 |---|---|
-| [`services/crypto.py`](services/crypto.py) | Шифрование Fernet с **ротацией ключей**: версионированные префиксы, чтение старым ключом с метрикой, отдельный контур для персональных данных. Доступ к базе не даёт доступа к паролям |
-| [`services/logging_config.py`](services/logging_config.py) | Фильтр маскирования секретов и **ПДн Узбекистана** в логах — ИНН, ПИНФЛ, телефоны +998. С оптимизацией: быстрая проверка подстрокой отсекает ~80 % записей до дорогих регулярных выражений |
-| [`services/uz_labor.py`](services/uz_labor.py) | **Доменная экспертиза**: нормы ТК РУз в коде. МРОТ как календарь, а не константа; ст. 245 и ст. 248 ч.2 вместе означают, что «добрать» до МРОТ премиями нельзя — российскую модель сюда переносить неверно |
-| [`services/task_manager.py`](services/task_manager.py) | Управление жизненным циклом фоновых задач: задача не теряется при остановке процесса |
-| [`services/error_codes.py`](services/error_codes.py) | Кодификация ошибок внешних систем — пользователь получает код, а не стектрейс |
-| [`alembic/versions/217_hr_records_foundation.py`](alembic/versions/217_hr_records_foundation.py) | Миграция кадрового модуля: ограничения целостности на уровне базы, обратимый `downgrade` |
-| [`alembic/versions/224_ikpu_suggestions.py`](alembic/versions/224_ikpu_suggestions.py) | Очередь предложений ИКПУ: отдельная таблица до подтверждения человеком |
-| [`miniapp/src/hooks/useDraftAutosave.ts`](miniapp/src/hooks/useDraftAutosave.ts) | Автосохранение черновиков во фронтенде — работа не теряется при обрыве связи |
-| [`miniapp/src/components/ErrorBoundary.tsx`](miniapp/src/components/ErrorBoundary.tsx) | Изоляция отказов интерфейса |
-| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | CI-конвейер: линтер, тесты, проверка миграций, сканирование секретов |
-| [`ruff.toml`](ruff.toml) | Единый источник истины по стилю кода |
+| [`services/crypto.py`](services/crypto.py) | Fernet encryption with **key rotation**: versioned prefixes, reads with the old key under a metric, a separate loop for personal data. Access to the database does not grant access to passwords |
+| [`services/logging_config.py`](services/logging_config.py) | A filter that masks secrets and **Uzbek personal data** in logs — TINs, PINFLs, +998 phone numbers. With an optimisation: a fast substring check discards ~80% of records before the expensive regular expressions |
+| [`services/uz_labor.py`](services/uz_labor.py) | **Domain expertise**: Uzbek labour-law rules expressed in code. The minimum wage as a calendar rather than a constant; Articles 245 and 248(2) together mean that topping salaries up to the minimum wage with bonuses is not allowed — importing the Russian model here would be wrong |
+| [`services/task_manager.py`](services/task_manager.py) | Lifecycle management for background tasks: a task is not lost when the process stops |
+| [`services/error_codes.py`](services/error_codes.py) | Codification of external-system errors — the user receives a code, not a stack trace |
+| [`alembic/versions/217_hr_records_foundation.py`](alembic/versions/217_hr_records_foundation.py) | The HR module migration: integrity constraints at the database level, a reversible `downgrade` |
+| [`alembic/versions/224_ikpu_suggestions.py`](alembic/versions/224_ikpu_suggestions.py) | The IKPU suggestion queue: a separate table until a human confirms |
+| [`miniapp/src/hooks/useDraftAutosave.ts`](miniapp/src/hooks/useDraftAutosave.ts) | Draft autosaving in the frontend — work is not lost when the connection drops |
+| [`miniapp/src/components/ErrorBoundary.tsx`](miniapp/src/components/ErrorBoundary.tsx) | Isolation of interface failures |
+| [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | The CI pipeline: linting, tests, migration checks, secret scanning |
+| [`ruff.toml`](ruff.toml) | The single source of truth for code style |
 
-Тесты к показанным модулям — в [`tests/`](tests/).
+Tests for the modules shown are in [`tests/`](tests/).
 
 ---
 
-## Архитектура
+## Architecture
 
 ```
 Telegram Bot (aiogram)  ─┐
 React Mini App          ─┤
-Веб-приложение          ─┼─→  Слой сервисов (250 модулей)  ─┬─→  PostgreSQL 16
-MCP-сервер              ─┤         бизнес-логика,           ├─→  Redis 7 (FSM, кэш)
-Partner REST API        ─┤      circuit breakers,           └─→  Внешние системы:
-Chrome-расширение       ─┤      идемпотентность,                 Didox, E-IMZO,
-E-IMZO Agent (Windows)  ─┘      очереди операций                 банк, налоговая,
+Web app                 ─┼─→  Service layer (250 modules)  ─┬─→  PostgreSQL 16
+MCP server              ─┤        business logic,           ├─→  Redis 7 (FSM, cache)
+Partner REST API        ─┤        circuit breakers,         └─→  External systems:
+Chrome extension        ─┤        idempotency,                   Didox, E-IMZO,
+E-IMZO Agent (Windows)  ─┘        operation queues                banking, tax office,
                                                                   Grok, Whisper
 ```
 
-| Слой | Технология |
+| Layer | Technology |
 |---|---|
-| Язык | Python 3.12 |
-| Бот | aiogram 3.27 |
+| Language | Python 3.12 |
+| Bot | aiogram 3.27 |
 | HTTP | aiohttp 3.11 |
-| База | PostgreSQL 16 (asyncpg), миграции Alembic |
-| Кэш / FSM | Redis 7 |
-| Фронтенд | React + TypeScript, Vite |
-| Документы | WeasyPrint + Jinja2 |
-| Шифрование | Fernet (cryptography), sealed-box для хранилища ЭЦП |
-| ИИ | Grok (xAI) — агент, юрист, парсеры; Anthropic Claude — AI Studio |
-| Речь | Groq Whisper (ru), Gemini (uz), Grok Voice Realtime |
-| Инфраструктура | Docker Compose, nginx + Let's Encrypt |
-| Наблюдаемость | Sentry, Prometheus, Alertmanager, Grafana |
-| CI/CD | Self-hosted GitHub Actions, авто-rollback при неудачном деплое |
+| Database | PostgreSQL 16 (asyncpg), Alembic migrations |
+| Cache / FSM | Redis 7 |
+| Frontend | React + TypeScript, Vite |
+| Documents | WeasyPrint + Jinja2 |
+| Encryption | Fernet (cryptography), a sealed box for the signature vault |
+| AI | Grok (xAI) — agent, lawyer, parsers; Anthropic Claude — AI Studio |
+| Speech | Groq Whisper (ru), Gemini (uz), Grok Voice Realtime |
+| Infrastructure | Docker Compose, nginx + Let's Encrypt |
+| Observability | Sentry, Prometheus, Alertmanager, Grafana |
+| CI/CD | Self-hosted GitHub Actions, automatic rollback on a failed deployment |
 
-### Инженерные принципы, видные в коде
+### Engineering principles visible in the code
 
-- **Ничего чувствительного в открытом виде.** Пароли, токены, реквизиты ЭЦП и
-  персональные данные шифруются, ключи ротируются, логи маскируются.
-- **Внешние системы считаются ненадёжными.** Каждая интеграция закрыта circuit
-  breaker'ом; подпись документа идемпотентна — обрыв сети не создаёт
-  двойную подпись.
-- **Отказ должен быть виден.** Sentry, метрики, алерты в мессенджер дежурного.
-- **Схема базы меняется только миграцией.** 232 ревизии, обратимые, проверяемые в CI.
-- **Человек подтверждает.** Ни один ИИ-агент не подписывает и не отправляет
-  документ без явного действия владельца.
+- **Nothing sensitive in the clear.** Passwords, tokens, signature credentials
+  and personal data are encrypted, keys are rotated, logs are masked.
+- **External systems are assumed unreliable.** Every integration sits behind a
+  circuit breaker; document signing is idempotent — a dropped connection cannot
+  produce a double signature.
+- **Failure has to be visible.** Sentry, metrics, alerts into the on-call
+  engineer's messenger.
+- **The database schema changes only through a migration.** 232 revisions,
+  reversible and verified in CI.
+- **A human confirms.** No AI agent signs or sends a document without an explicit
+  action by the owner.
 
 ---
 
-## Продукт вживую
+## The Product, Live
 
 | | |
 |---|---|
 | Telegram | [@ihisobchi_bot](https://t.me/ihisobchi_bot) |
-| Mini App / веб-приложение | [app.ihisobchi.uz](https://app.ihisobchi.uz) |
+| Mini App / web app | [app.ihisobchi.uz](https://app.ihisobchi.uz) |
 
 ---
 
-## Лицензия и права
+## Licence and Rights
 
-© 2026 Javokhir Marufov. **Все права защищены.**
+© 2026 Javokhir Marufov. **All rights reserved.**
 
-Материалы этого репозитория опубликованы **исключительно для ознакомления
-жюри конкурса** с техническим уровнем проекта. Это **не** открытое
-программное обеспечение. Любое использование, копирование, изменение,
-распространение или создание производных работ — без письменного разрешения
-правообладателя запрещено.
+The material in this repository is published **solely so that the competition
+jury can assess** the project's technical level. This is **not** open-source
+software. Any use, copying, modification, distribution or creation of derivative
+works without the written permission of the rights holder is prohibited.
 
-Подробнее — [LICENSE](LICENSE).
+For details, see [LICENSE](LICENSE).

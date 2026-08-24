@@ -1,258 +1,265 @@
-# 5. Безопасность и доверие
+# 5. Security and Trust
 
-> Часть 5 из 9. Назад: [экосистема](01-ecosystem.md) · [модули](02-modules.md) · [дорожная карта](03-roadmap.md) · [голосовой оркестратор](04-voice-orchestrator.md). Далее: [первый день](06-first-day.md) · [подпись](07-signing.md) · [с нами и без нас](08-with-and-without.md) · [бизнес-модель](09-business-model.md).
-
----
-
-## 5.1. Почему этот документ существует отдельно
-
-Бизнес доверяет нам не «данные вообще». Он доверяет пароль от государственной
-системы электронного документооборота, ключ электронной подписи, банковскую
-выписку, персональные данные сотрудников и закупочные цены — то, чем в компании
-владеет один-два человека.
-
-Это значит простую вещь: **у нас нет права на один инцидент.** Не «мы постараемся
-минимизировать риски», а именно так — после первой же утечки нам не доверит свою
-организацию никто, и продукта не станет. Поэтому безопасность здесь не функция в
-списке функций, а условие, при котором всё остальное имеет смысл.
-
-Ниже — что именно мы делаем. Без общих слов: с указанием, какая технология, где
-применяется и что мы делаем, чтобы защита не устаревала.
+> Part 5 of 9. Back: [ecosystem](01-ecosystem.md) · [modules](02-modules.md) · [roadmap](03-roadmap.md) · [voice orchestrator](04-voice-orchestrator.md). Next: [first day](06-first-day.md) · [signing](07-signing.md) · [with us and without us](08-with-and-without.md) · [business model](09-business-model.md).
 
 ---
 
-## 5.2. Шифрование: чем и как
+## 5.1. Why This Document Stands Apart
 
-**Всё чувствительное шифруется до того, как попадёт на диск.** Не «база под
-паролем» — сами значения хранятся в зашифрованном виде, и в базе лежит
-шифротекст.
+A business does not entrust us with "data in general". It entrusts us with the
+password to a state e-document system, a digital signature key, a bank statement,
+its employees' personal data and its purchase prices — the things that in any
+company are held by one or two people.
 
-| Что | Как защищено |
+Which means something simple: **we have no right to a single incident.** Not "we
+will try to minimise the risks" — precisely this: after the first leak, nobody
+will trust us with their organisation again, and the product will cease to exist.
+So security here is not a feature among features but the condition under which
+everything else makes sense.
+
+What follows is exactly what we do. Without generalities: which technology,
+applied where, and what we do to stop the protection going stale.
+
+---
+
+## 5.2. Encryption: With What and How
+
+**Everything sensitive is encrypted before it reaches disk.** Not "a database
+behind a password" — the values themselves are stored encrypted, and what sits in
+the database is ciphertext.
+
+| What | How it is protected |
 |---|---|
-| Пароль от Didox, токены доступа | Fernet (AES-128-CBC + HMAC-SHA256, стандарт отрасли) |
-| Токены и идентификаторы банка | Fernet |
-| Учётные данные подключения к Soliq, 1С, МойСклад, CRM | Fernet |
-| Персональные данные (ПИНФЛ, паспортные данные покупателей рассрочки) | Fernet, отдельный префикс класса данных |
-| Содержимое писем налоговой в рабочем кэше | Fernet + шифрование идентификаторов |
-| Ключ ЭЦП в режиме «Сервер подписи 24/7» | Sealed-box: X25519 + HKDF-SHA256 + AES-256-GCM (см. §5.4) |
-| Пароли веб-входа | bcrypt (односторонний хэш, восстановлению не подлежит) |
-| Артефакты отчётов по выписке | Шифрование на диске с проверкой целостности содержимого |
+| Didox password, access tokens | Fernet (AES-128-CBC + HMAC-SHA256, an industry standard) |
+| Bank tokens and identifiers | Fernet |
+| Connection credentials for Soliq, 1C, MoySklad, CRMs | Fernet |
+| Personal data (PINFL, passport details of instalment customers) | Fernet, with a separate data-class prefix |
+| The contents of tax-office letters in the working cache | Fernet plus encryption of the identifiers |
+| The signature key in "24/7 signing server" mode | A sealed box: X25519 + HKDF-SHA256 + AES-256-GCM (see §5.4) |
+| Web sign-in passwords | bcrypt (a one-way hash, not recoverable) |
+| Statement-report artefacts | Encrypted on disk with an integrity check on the contents |
 
-**Что это означает на практике.** Шифротекст без ключа бесполезен: подобрать его
-перебором невозможно вычислительно — это тот же класс защиты, на котором держатся
-банковские и государственные системы. Даже полный доступ к содержимому базы
-данных не даёт паролей и ключей клиентов.
+**What this means in practice.** Ciphertext without the key is useless: brute
+force is computationally impossible — this is the same class of protection banking
+and government systems rest on. Even complete access to the contents of the
+database yields no client passwords and no client keys.
 
-**Ротация ключей.** Мастер-ключ можно заменить без остановки сервиса: новые
-записи шифруются новым ключом, старые продолжают читаться прежним, и у нас есть
-счётчик, который показывает, сколько записей ещё осталось на старом ключе. Это
-превращает ротацию из аварийной операции в управляемую процедуру.
+**Key rotation.** The master key can be replaced without stopping the service: new
+records are encrypted with the new key, old ones continue to be read with the
+previous one, and we keep a counter showing how many records are still on the old
+key. That turns rotation from an emergency into a managed procedure.
 
-**Поиск без расшифровки.** Там, где нужно находить запись, не раскрывая её
-содержимого (например, «это письмо мы уже видели?»), мы используем криптографические
-слепые индексы с разделением по назначению: индекс позволяет сравнить, но по нему
-нельзя восстановить исходное значение и нельзя перенести его в другой контекст.
-
----
-
-## 5.3. Секреты и доступ — принцип наименьших прав
-
-- **Ни одного пароля, ключа или токена в коде.** Всё — только из защищённого
-  окружения. Это не соглашение между разработчиками, а автоматическая проверка:
-  коммит с секретом не проходит.
-- **Каждый клиент видит только свои данные.** Любой запрос к базе ограничен
-  организацией, от имени которой он сделан; изоляция проверяется тестами.
-- **Персональные данные сотрудников — за отдельным замком.** Включённый
-  бухгалтерский раздел «1С» сам по себе **не** открывает кадровые данные: для них
-  нужен отдельный осознанный переключатель, потому что согласие на бухгалтерию не
-  равно согласию на персональные данные людей.
-- **Разделение контуров.** Подпись документов живёт в изолированном контуре;
-  разбор недоверенных файлов клиента — в песочнице с минимальными правами, у
-  которой нет доступа к сети и к базе.
-- **Ссылки на файлы одноразовые и короткоживущие.** Скачивание документа идёт по
-  подписанному билету, который живёт секунды и сгорает после использования —
-  чужая пересланная ссылка бесполезна.
+**Search without decryption.** Where a record has to be found without revealing
+its contents (for example, "have we seen this letter before?"), we use
+cryptographic blind indexes with purpose separation: the index allows a
+comparison, but the original value cannot be reconstructed from it and cannot be
+carried into another context.
 
 ---
 
-## 5.4. «Сервер подписи 24/7» — что именно мы храним
+## 5.3. Secrets and Access — the Principle of Least Privilege
 
-Самое чувствительное, что может доверить бизнес, — ключ электронной подписи.
-Поэтому здесь мы описываем модель предельно точно, без округления в свою пользу.
-
-**Как это устроено:**
-
-1. Клиент передаёт файл ключа и пароль к нему в защищённом диалоге. Оба
-   сообщения **удаляются из чата сразу** после приёма.
-2. Пока система ждёт пароль, файл ключа уже зашифрован — в открытом виде он не
-   лежит ни в кэше, ни в очередях.
-3. Ключ и пароль запечатываются **публичным ключом изолированного контура
-   подписи** и в таком виде сохраняются в базе.
-4. Приватный ключ от этого «конверта» на продакшн-сервере отсутствует.
-   **Прод физически не может прочитать то, что хранит** — он выступает
-   хранилищем, а не владельцем.
-
-**Честная граница, о которой нужно сказать прямо.** В момент самого подключения
-— и только в этот момент — файл ключа и пароль кратковременно находятся в
-оперативной памяти процесса, чтобы их можно было запечатать. Это не хранение и
-не запись на диск, но это и не «мы вообще никогда их не видим». Мы предпочитаем
-сказать это сами, чем позволить кому-то обнаружить неточность в нашем описании:
-**в покое — режим нулевого знания, в момент подключения — короткое окно в
-памяти.**
-
-Ключ ЭЦП вообще не обязателен для работы в managed-режиме: большинство клиентов
-пользуются настольным агентом подписи, где ключ **никогда не покидает их
-компьютер**, а система лишь присылает задание на подпись.
+- **Not one password, key or token in the code.** Everything comes from a
+  protected environment. This is not a gentlemen's agreement between developers
+  but an automatic check: a commit containing a secret does not go through.
+- **Each client sees only their own data.** Every database query is scoped to the
+  organisation it was made on behalf of; the isolation is covered by tests.
+- **Employees' personal data sits behind a separate lock.** Having the "1C"
+  accounting section switched on does **not** by itself unlock HR data: that needs
+  a separate, deliberate switch, because consent to bookkeeping is not consent to
+  people's personal data.
+- **Separated environments.** Document signing lives in an isolated environment;
+  parsing of untrusted client files happens in a minimum-privilege sandbox with no
+  access to the network or the database.
+- **File links are single-use and short-lived.** Downloading a document goes
+  through a signed ticket that lives for seconds and burns on use — a forwarded
+  link is useless to anyone else.
 
 ---
 
-## 5.5. Режим нулевого хранения (ZDR) — что происходит с данными в ИИ
+## 5.4. The "24/7 Signing Server" — What Exactly We Store
 
-Отдельный вопрос, который бизнес задаёт первым: **«вы отдаёте мои данные
-искусственному интеллекту — что с ними происходит потом?»**
+The most sensitive thing a business can entrust to anyone is its digital
+signature key. So here we describe the model with complete precision, with no
+rounding in our own favour.
 
-Ответ: **ничего. Они не сохраняются у провайдера.** Мы работаем в режиме
-Zero Data Retention — нулевого хранения: содержимое запроса используется, чтобы
-дать ответ, и не остаётся ни в логах провайдера, ни в его хранилище, ни в
-обучении моделей.
+**How it works:**
 
-**И мы это не предполагаем, а проверяем.** Режим нулевого хранения — настройка
-аккаунта, а настройку можно случайно выключить. Поэтому у нас работает
-автоматическая проба: система **по расписанию спрашивает у провайдера напрямую**,
-включён ли режим на нашем аккаунте, и если ответ изменился — поднимает тревогу
-дежурному. Мы специально сделали так, чтобы проба не полагалась на косвенные
-признаки: она читает подтверждение самого провайдера.
+1. The client submits the key file and its password in a protected dialogue. Both
+   messages are **deleted from the chat immediately** on receipt.
+2. While the system waits for the password, the key file is already encrypted — it
+   never sits in plaintext in a cache or in a queue.
+3. The key and password are sealed **with the public key of the isolated signing
+   environment** and stored in that form in the database.
+4. The private key to that envelope does not exist on the production server.
+   **Production physically cannot read what it stores** — it acts as a vault, not
+   as an owner.
 
-Что ещё ограничивает передачу:
+**An honest boundary that has to be stated directly.** At the moment of connection
+— and only at that moment — the key file and the password are briefly present in
+the process's memory so that they can be sealed. That is not storage and not a
+write to disk, but neither is it "we never see them at all". We would rather say
+so ourselves than let somebody find an inaccuracy in our description:
+**at rest, zero knowledge; at the moment of connection, a brief window in
+memory.**
 
-- **Минимально необходимое.** В модель уходит то, что нужно для конкретной
-  задачи, а не «весь бизнес на всякий случай».
-- **Прозрачность в интерфейсе.** Там, где содержимое файла уходит на разбор ИИ,
-  пользователь предупреждён до загрузки, а не после.
-- **Выключатель на каждом ИИ-контуре.** Любую функцию с ИИ можно погасить
-  отдельно и мгновенно — доступ модели к данным прекращается без выкладки новой
-  версии.
-- **Наш собственный код — не «чёрный ящик» модели.** Финансовые проверки, коды
-  ИКПУ, суммы и НДС считает детерминированный код. Модель не может подставить
-  выдуманное число туда, где решает арифметика.
-
----
-
-## 5.6. Что мы не пишем в логи
-
-Логи — недооценённый канал утечки: они живут долго, копируются и попадают в
-системы мониторинга.
-
-- Пароли, токены и ключи проходят через фильтр маскирования и **не попадают в
-  логи ни при каком сценарии** — включая тексты ошибок.
-- Адреса страниц не сохраняют учётные данные из параметров запроса — за это
-  отвечает отдельный логгер доступа.
-- В интеграции с 1С ответы по кадровым и зарплатным объектам логируются **без
-  тела ответа**: ошибку можно расследовать по коду и адресу, а ФИО, ПИНФЛ и
-  суммы для этого не нужны — значит, их там и не будет.
-- Содержимое писем налоговой, тема, отправитель и номер не пишутся ни в логи, ни
-  в систему мониторинга ошибок — только технические идентификаторы и результат.
-- Отправка ошибок в систему мониторинга работает по принципу «нет согласия — нет
-  отправки».
-
-**Открытая позиция.** Мы не заявляем, что за всю историю проекта ни одно имя
-файла ни разу не попало в служебную запись: в отдельных местах разбора
-пользовательских файлов имя файла пишется в диагностическое сообщение. Это не
-содержимое и не персональные данные, но это исключение из правила, и мы
-предпочитаем назвать его, а не подписаться под абсолютным утверждением. Приведение
-этих мест к общему правилу — в текущей работе.
+A digital signature key is not required for managed mode at all: most clients use
+the desktop signing agent, where the key **never leaves their computer** and the
+system merely sends over a job to be signed.
 
 ---
 
-## 5.7. Защита от вредоносного содержимого
+## 5.5. Zero Data Retention: What Happens to Data Inside the AI
 
-Каждый файл, который загружает пользователь, считается недоверенным по умолчанию.
+A separate question, and the first one businesses ask: **"you hand my data to an
+artificial intelligence — what happens to it afterwards?"**
 
-- **Проверка перед разбором**: ограничение размера, структуры и вложенности —
-  «архивная бомба» не доходит до распаковки.
-- **Разбор банковских выписок — в песочнице** с минимальными правами, отдельным
-  процессом и общением через локальный сокет: даже успешная атака на разборщик не
-  даёт доступа ни к базе, ни к сети.
-- **Защита от подделки запросов к внутренним адресам** — любые ссылки, которые
-  указывает пользователь, проходят через отдельный сторож.
-- **Подпись необратимых кнопок**: нажатие, которое что-то уничтожает или
-  отправляет, несёт криптографическую подпись — подделать её со стороны нельзя.
-- **Ограничение частоты** на нескольких уровнях сразу: по адресу, по
-  пользователю, по маршруту и отдельно по дорогим операциям с ИИ.
+The answer: **nothing. It is not retained by the provider.** We operate in
+zero-data-retention mode: the content of a request is used to produce an answer
+and remains neither in the provider's logs, nor in its storage, nor in model
+training.
 
----
+**And we do not assume this — we verify it.** Zero retention is an account
+setting, and a setting can be switched off by accident. So we run an automated
+probe: **on a schedule, the system asks the provider directly** whether the mode
+is enabled on our account, and raises an alert to the on-call engineer if the
+answer changes. We deliberately built the probe so that it does not rely on
+indirect signals: it reads the provider's own confirmation.
 
-## 5.8. Соответствие закону РУз
+What else limits what is sent:
 
-Продукт работает по **ЗРУ-547 «О персональных данных»** — и это отражено в
-конструкции, а не только в тексте политики:
-
-- **Согласие с версией.** Пользователь принимает конкретную редакцию политики;
-  система хранит, какую именно и когда. При изменении политики согласие
-  запрашивается заново.
-- **Отзыв согласия** доступен командой, а не письмом в поддержку.
-- **Согласие в заказе.** В публичных сценариях (заказ на витрине, QR-заказ)
-  согласие сохраняется в самом заказе вместе с версией текста, а не только в
-  журнале.
-- **Политика на трёх языках** — русский, узбекский, английский.
-- **Сроки хранения.** Служебные журналы чистятся по расписанию отдельным
-  процессом; для персональных данных модулей с повышенной чувствительностью
-  (рассрочка) действует собственная политика удержания.
+- **The minimum necessary.** What goes to the model is what the specific task
+  requires, not "the whole business, just in case".
+- **Transparency in the interface.** Where a file's contents are sent to the AI
+  for parsing, the user is warned before the upload rather than after it.
+- **A switch on every AI loop.** Any AI feature can be killed separately and
+  instantly — the model's access to the data ends without a new version being
+  shipped.
+- **Our own code is not the model's black box.** Financial checks, IKPU codes,
+  amounts and VAT are computed by deterministic code. The model cannot slip an
+  invented number into a place where arithmetic decides.
 
 ---
 
-## 5.9. Что мы делаем каждый день, чтобы защита не устаревала
+## 5.6. What We Do Not Write to the Logs
 
-Безопасность — не состояние, а режим работы. У нас он выглядит так:
+Logs are an underrated leak channel: they live a long time, they get copied, and
+they end up in monitoring systems.
 
-**Каждую ночь, в 06:00 по Ташкенту**, автоматически:
+- Passwords, tokens and keys pass through a masking filter and **never reach the
+  logs under any scenario** — including inside error messages.
+- Page addresses do not retain credentials from query parameters — a dedicated
+  access logger takes care of that.
+- In the 1C integration, responses concerning HR and payroll objects are logged
+  **without the response body**: an error can be investigated from the status code
+  and the address, and names, PINFLs and amounts are not needed for that — so they
+  are not there.
+- The contents of tax-office letters, along with their subject, sender and number,
+  are written neither to the logs nor to the error-monitoring system — only
+  technical identifiers and the outcome.
+- Sending errors to the monitoring system works on the principle "no consent, no
+  send".
 
-- пересматривается **вся история репозитория** на предмет случайно попавшего
-  секрета — двумя независимыми сканерами;
-- запускается статический анализ кода на уязвимые конструкции;
-- проверяются **все зависимости** на известные уязвимости (CVE);
-- сканируются собранные образы контейнеров.
-
-Красный результат ночной проверки трактуется как **инцидент**, а не как задача в
-очереди: он разбирается утром первым делом, до всего остального.
-
-**На каждое изменение кода**, ещё до того как оно попадёт в общую ветку:
-проверка на секреты в изменённых файлах, статический анализ, и — для всего, что
-касается авторизации, шифрования, персональных данных, подписи и платежей —
-отдельный ревью с фокусом на безопасность.
-
-**Постоянно:** мы читаем, что происходит в отрасли — уязвимости в библиотеках,
-которыми пользуемся, изменения в требованиях провайдеров, новые классы атак на
-ИИ-системы. Обновление зависимости с известной уязвимостью — не «когда дойдут
-руки», а работа с приоритетом выше новых функций. Несколько таких обновлений уже
-выкатывались тем же днём, когда уязвимость становилась публичной.
-
-**Всё, что произошло, — видно.** Действия пользователей и действия ИИ пишутся в
-журналы, доступные владельцу бизнеса в интерфейсе. Мониторинг поднимает тревогу
-в мессенджер дежурного, а не в почту, которую читают раз в неделю.
+**An open position.** We do not claim that across the project's whole history not
+one file name has ever landed in a service record: in a few places where user
+files are parsed, the file name is written into a diagnostic message. That is not
+content and not personal data, but it is an exception to the rule, and we would
+rather name it than sign up to an absolute statement. Bringing those places into
+line with the general rule is work in progress.
 
 ---
 
-## 5.10. Наша позиция коротко
+## 5.7. Protection Against Malicious Content
 
-1. **Данные клиента принадлежат клиенту.** Мы не продаём их, не передаём третьим
-   лицам и не используем для чего-либо, кроме работы его собственного бизнеса.
-2. **Шифруем всё чувствительное** промышленными алгоритмами, с ротацией ключей;
-   доступ к базе не даёт доступа к паролям и ключам.
-3. **ИИ ничего не сохраняет** — режим нулевого хранения, и мы проверяем его
-   автоматически, а не верим на слово.
-4. **Ключ подписи — либо у клиента на компьютере, либо в изолированном контуре**,
-   который прод-сервер не может прочитать.
-5. **Необратимое делает человек.** Даже полностью автономный контур в будущем
-   получит это право только через явное, ограниченное и отзываемое разрешение
-   владельца.
-6. **Мы называем свои слабые места сами.** Всё, что в этом документе помечено как
-   открытое, — открыто. Продукт, который скрывает неудобное, нельзя проверить, а
-   значит, ему нельзя доверять.
+Every file a user uploads is treated as untrusted by default.
 
-**Одного инцидента достаточно, чтобы этот продукт закончился. Мы работаем
-исходя ровно из этого.**
+- **Checks before parsing**: limits on size, structure and nesting — a zip bomb
+  never reaches decompression.
+- **Bank statements are parsed in a sandbox** with minimal privileges, in a
+  separate process communicating over a local socket: even a successful attack on
+  the parser gains access to neither the database nor the network.
+- **Protection against forged requests to internal addresses** — any URL a user
+  supplies passes through a dedicated guard.
+- **Signed irreversible buttons**: a tap that destroys or sends something carries
+  a cryptographic signature that cannot be forged from outside.
+- **Rate limiting at several levels at once**: by address, by user, by route, and
+  separately for expensive AI operations.
 
 ---
 
-*Назад к началу: [обзор экосистемы](README.md)*
+## 5.8. Compliance with Uzbek Law
+
+The product operates under **Law ZRU-547 "On Personal Data"** — and that is
+reflected in its construction, not only in the text of a policy:
+
+- **Versioned consent.** The user accepts a specific revision of the policy; the
+  system records which one and when. When the policy changes, consent is requested
+  again.
+- **Withdrawing consent** is available as a command, not as a letter to support.
+- **Consent inside the order.** In public scenarios (a storefront order, a QR
+  order) the consent is stored in the order itself together with the version of
+  the text, not only in a log.
+- **The policy in three languages** — Russian, Uzbek, English.
+- **Retention periods.** Service logs are cleaned on a schedule by a dedicated
+  process; personal data in the more sensitive modules (instalment sales) has a
+  retention policy of its own.
+
+---
+
+## 5.9. What We Do Every Day So the Protection Does Not Go Stale
+
+Security is not a state but a working regime. Ours looks like this:
+
+**Every night at 06:00 Tashkent time**, automatically:
+
+- **the entire repository history** is re-examined for an accidentally committed
+  secret — by two independent scanners;
+- static analysis is run against vulnerable constructs in the code;
+- **every dependency** is checked against known vulnerabilities (CVEs);
+- the built container images are scanned.
+
+A red result from the nightly run is treated as an **incident**, not as an item in
+a queue: it is investigated first thing in the morning, ahead of everything else.
+
+**On every code change**, before it reaches the shared branch: a secret check on
+the changed files, static analysis, and — for anything touching authentication,
+encryption, personal data, signing or payments — a separate review focused on
+security.
+
+**Continuously:** we read what is happening in the industry — vulnerabilities in
+the libraries we use, changes in providers' requirements, new classes of attack on
+AI systems. Updating a dependency with a known vulnerability is not "when we get
+round to it" but work with a higher priority than new features. Several such
+updates have shipped the same day the vulnerability became public.
+
+**Everything that happened is visible.** Users' actions and the AI's actions are
+written to logs the business owner can read in the interface. Monitoring raises
+an alert into the on-call engineer's messenger, not into an inbox read once a
+week.
+
+---
+
+## 5.10. Our Position, Briefly
+
+1. **The client's data belongs to the client.** We do not sell it, do not pass it
+   to third parties and do not use it for anything except running their own
+   business.
+2. **We encrypt everything sensitive** with industrial-grade algorithms and rotate
+   the keys; access to the database does not grant access to passwords and keys.
+3. **The AI retains nothing** — zero-retention mode, and we verify it
+   automatically rather than taking it on trust.
+4. **The signing key is either on the client's computer or inside an isolated
+   environment** that the production server cannot read.
+5. **A human performs the irreversible.** Even a fully autonomous loop, in future,
+   will acquire that right only through the owner's explicit, bounded and
+   revocable permission.
+6. **We name our own weak points.** Everything marked as open in this document is
+   open. A product that hides what is inconvenient cannot be verified — and
+   therefore cannot be trusted.
+
+**One incident is enough to end this product. We work on exactly that
+assumption.**
+
+---
+
+*Back to the beginning: [ecosystem overview](README.md)*

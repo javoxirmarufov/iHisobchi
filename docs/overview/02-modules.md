@@ -32,7 +32,7 @@
 
 ## A. Document Flow and Digital Signature
 
-**The core of the product.** 73,098 documents have passed through it.
+**The core of the product.** 137,617 documents have passed through it.
 
 ### A.1. Document types ✅
 
@@ -118,7 +118,7 @@ the service mid-signature does not lose the operation.
 
 ### A.4. Incoming documents ✅
 
-- A mirror of everything incoming from Didox — **96,217 documents** in
+- A mirror of everything incoming from Didox — **119,539 documents** in
   production.
 - Accept or reject in one tap, with a role check (who are we in this document?).
 - **Bulk acceptance** — accept a batch of incoming documents in a single action.
@@ -245,7 +245,7 @@ detailed breakdown and comparison with the market is in
 
 ## B. Deals — the Open-Cycle Engine
 
-> ✅ In production · **85,869 deals** in the system
+> ✅ In production · **101,429 deals** in the system
 
 **This is what bookkeepers will love the product for.** The module answers a
 question that ordinary accounting can only settle by reconciling three systems
@@ -509,7 +509,7 @@ convenience.
 
 ## E. Banking and Payments
 
-> ✅ In production · **69,993 transactions** parsed
+> ✅ In production · **69,1,198 transactions** parsed
 
 ### E.1. Why a bank belongs inside an accounting system
 
@@ -687,7 +687,7 @@ a penalty under **Article 223 of the Tax Code of Uzbekistan**.
 - **IKPU search** is available to the user manually — inside the wizard and on a
   screen of its own.
 - **An IKPU suggestion queue** ✅ — a background pipeline works through the
-  catalogue and proposes codes in batches; **5,067 suggestions are already in
+  catalogue and proposes codes in batches; **5,585 suggestions are already in
   production**, waiting for human confirmation. Auto-application is gated behind
   a separate flag, on the principle "the AI proposes, a human publishes".
 - **Product marking (KIZ / DataMatrix)** — storage of the marking codes
@@ -802,12 +802,12 @@ In the interface this is drawn as two columns — "In the system · only you see
 this" ↔ "In the shop · buyers see this" — with a caption on the divider:
 **"nothing crosses on its own"**.
 
-### I.5. The honest state of things as of 14 August 2026
+### I.5. The honest state of things as of 24 August 2026
 
 The infrastructure is ready and the marketplace is filling up: 1 shop, 5
 published items, 1 order, 14 categories. There is, however, **no shortage of
-supply** — 33 businesses already hold products in the system, one of them with
-5,042 items; 5,067 IKPU codes have been matched by the AI and await
+supply** — 36 businesses already hold products in the system, one of them with
+5,042 items; 5,585 IKPU codes have been matched by the AI and await
 confirmation. The storefront is empty not because there is nothing to show, but
 because almost nobody has yet walked the path from "product" to "listing".
 
@@ -1255,7 +1255,7 @@ payment seam and a social layer, not a new platform:
 | [Contract and invoice from an order](#p-automatic-documents) | Documents on the seller's template, with a number that is not burned by a preview |
 | [Payment matching](#e-banking-and-payments) | A payment arriving in the account finds its own order in the statement |
 | [Catalogue and storefront](#i-umagshop--a-marketplace-with-documents) | Products, prices, photos, AI moderation and the "nothing crosses on its own" rule |
-| [E-documents and digital signature](#a-document-flow-and-digital-signature) | The Didox e-invoice and the signature — the loop 73,098 documents have passed through |
+| [E-documents and digital signature](#a-document-flow-and-digital-signature) | The Didox e-invoice and the signature — the loop 137,617 documents have passed through |
 | [The deals engine](#b-deals--the-open-cycle-engine) | An order from social media becomes a deal with a state and an answer to "whose move is it" |
 
 **What does not exist today and will have to be built:** online payment

@@ -43,17 +43,17 @@ valid under Uzbek law.
 
 | | |
 |---|---|
-| Lines of application code (Python) | **555,368** |
-| Lines of tests (Python) | **432,226** |
-| Lines of frontend code (TypeScript/React) | **253,235** |
+| Lines of application code (Python) | **580,018** |
+| Lines of tests (Python) | **509,771** |
+| Lines of frontend code (TypeScript/React) | **290,103** |
 | Automated tests | **18,496** pytest + **3,573** vitest |
-| Business-logic modules | **250** services, **103** Telegram routers |
-| Database migrations | **232** (Alembic) |
+| Business-logic modules | **263** services, **105** Telegram routers |
+| Database migrations | **256** (Alembic) |
 | Localisation keys | **2,484** in each of two languages — Russian and Uzbek |
-| Commits | **2,061** and **993** merged pull requests over 6 months of continuous development — [history and pace](ENGINEERING.md) |
+| Commits | **2,280** and **1,198** merged pull requests over 6 months of continuous development — [history and pace](ENGINEERING.md) |
 | Points of entry for a user | **18** (Telegram, Mini App, web app, MCP, REST API, a Chrome extension, a desktop signing agent…) |
 
-*Measured against `origin/main` on 14 August 2026.*
+*Measured against `origin/main` on 24 August 2026.*
 
 ---
 
@@ -82,8 +82,8 @@ secret scanner (`detect-secrets`) — no findings.
 
 That is why the commit counter here shows single digits rather than thousands.
 The real volume and pace of the work is in **[ENGINEERING.md](ENGINEERING.md)**:
-2,061 commits and 993 pull requests over six months, 145 active days out of 184,
-and a test base that grew from 12 files to 1,194.
+2,280 commits and 1,198 pull requests over six months, 155 active days out of 193,
+and a test base that grew from 12 files to 1,321.
 
 ---
 
@@ -102,7 +102,7 @@ and a test base that grew from 12 files to 1,194.
 | [07-signing.md](docs/overview/07-signing.md) | Four ways to sign, and why none of them will sign anything without the owner |
 | [08-with-and-without.md](docs/overview/08-with-and-without.md) | A map of the Uzbek market, and what the current assembly of 7–9 programs costs |
 | [09-business-model.md](docs/overview/09-business-model.md) | Eight revenue streams |
-| [pitch/investor-deck.html](docs/overview/pitch/investor-deck.html) | An 18-slide deck |
+| [pitch/deck.html](docs/overview/pitch/deck.html) | The full 47-slide deck: summary, the cost of the problem, real product screens, what clients say, every module, security, economics |
 
 ### Code fragments
 
@@ -162,7 +162,7 @@ E-IMZO Agent (Windows)  ─┘        operation queues                banking, t
   produce a double signature.
 - **Failure has to be visible.** Sentry, metrics, alerts into the on-call
   engineer's messenger.
-- **The database schema changes only through a migration.** 232 revisions,
+- **The database schema changes only through a migration.** 256 revisions,
   reversible and verified in CI.
 - **A human confirms.** No AI agent signs or sends a document without an explicit
   action by the owner.

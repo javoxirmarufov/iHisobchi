@@ -51,7 +51,7 @@ Right — a central AI brain with cyan spokes reaching out to the modules.
    human-in-the-loop safety.
 
 2. **The deals engine**  
-   85k+ deals, 73% closed. "Whose move is it right now?"
+   85k+ deals, 75% closed. "Whose move is it right now?"
 
 3. **Business Pulse**  
    An X-ray for the owner plus an anomaly detector (duplicate payments,
@@ -92,7 +92,7 @@ AI ORCHESTRATOR (Voice + Agent)
 ## 5. The Numbers (social proof)
 
 - **73,000+** documents  
-- **85,869** deals (73% closed)  
+- **101,429** deals (75% closed)  
 - **96,000+** incoming documents  
 - **70,000+** bank transactions  
 - **250+** modules  
@@ -145,4 +145,4 @@ App: [app.ihisobchi.uz](https://app.ihisobchi.uz)
 **Ready to copy into Notion / Figma / Canva / PowerPoint.**  
 Every fact comes from production code and docs/overview.
 
-If you need an HTML version in the investor-deck style, or any edits, just say.
+If you need an HTML version in the deck style, or any edits, just say.

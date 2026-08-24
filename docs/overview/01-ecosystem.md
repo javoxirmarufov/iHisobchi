@@ -100,7 +100,7 @@ involvement.
 |---|---|---|---|
 | 1 | **Telegram bot (Free)** | container `bot` | The free tier: documents, signing, incoming mail, reports. The way in for the whole market |
 | 2 | **Telegram bot — iHisobchi Pro** | container `bot-pro` | The full product: integrations, automatic documents, the AI agent, banking, deals |
-| 3 | **Telegram Mini App** | `app.ihisobchi.uz` inside Telegram | A complete application: 126 screens, authentication via Telegram's signed initData (HMAC-SHA256), live updates over SSE |
+| 3 | **Telegram Mini App** | `app.ihisobchi.uz` inside Telegram | A complete application: 142 screens, authentication via Telegram's signed initData (HMAC-SHA256), live updates over SSE |
 | 4 | **Web app in the browser** | `app.ihisobchi.uz` | The same SPA outside Telegram: sign in with phone + SMS OTP, or e-mail + password. Installs as an app (PWA manifest, standalone mode, icons, its own splash screen) — on a phone it is indistinguishable from a native one |
 | 5 | **Voice assistant** | the "Assistant" section | A live speech-to-speech conversation: you talk, it acts. Not "command recognition" — an actual conversation |
 | 6 | **Landing page** | `ihisobchi.uz` | The public product page and sign-up |
@@ -207,7 +207,7 @@ penalty under Article 223 of the Tax Code of Uzbekistan. So:
 | Language / runtime | Python 3.12, asyncio |
 | Telegram | aiogram 3.27 (long polling, two independent bots) |
 | HTTP / WebSocket | aiohttp 3.11 |
-| Database | PostgreSQL 16 (asyncpg), 194 tables, Alembic head 236 (232 revision files — the numbering has gaps) |
+| Database | PostgreSQL 16 (asyncpg), 194 tables, Alembic head 260 (232 revision files — the numbering has gaps) |
 | Containers | 16 services under Docker Compose |
 | Cache, queues, FSM, rate limits | Redis 7 |
 | Frontend | React + TypeScript, Vite (rolldown), TanStack Router, Zustand, Tailwind |
@@ -230,7 +230,7 @@ penalty under Article 223 of the Tax Code of Uzbekistan. So:
 - **Idempotent mutations.** Document signing always carries an idempotency key
   plus a reconciliation pass after a timeout: if the network drops, a retry
   cannot produce a second signature.
-- **Kill switches on risky and optional features.** 108 feature flags, some
+- **Kill switches on risky and optional features.** 117 feature flags, some
   stored in the database so that an emergency shutdown survives the loss of
   Redis: such a feature can be killed in a second without a deployment. Core
   paths — authentication, document creation — are deliberately not gated: a
@@ -290,15 +290,15 @@ up.
 
 **What has been built** — the size of the platform:
 
-252 business-logic modules, 103 Telegram routers, 126 Mini App screens, Alembic
-head 236, ~562,000 lines of Python and ~262,000 lines of TypeScript, ~439,000
+263 business-logic modules, 105 Telegram routers, 142 Mini App screens, Alembic
+head 236, ~580,000 lines of Python and ~290,000 lines of TypeScript, ~510,000
 lines of tests. This is the surface area a team of 40–60 engineers would usually
 build in a couple of years.
 
 **What has passed through the system** — cumulative throughput to date:
 
-73,057 documents, 85,869 deals (of which **62,802 are closed — 73%**), 96,217
-incoming documents, 70,094 bank transactions, 25 active signature keys. Some of
+137,617 documents, 101,429 deals (of which **76,353 are closed — 75%**), 119,539
+incoming documents, 59,354 bank transactions, 29 active signature keys. Some of
 these rows mirror what the business was doing in Didox anyway; they cannot be
 credited wholesale as value we created.
 
@@ -308,9 +308,9 @@ credited wholesale as value we created.
 |---|---|
 | Organisations in total | 80 |
 | Organisations that created documents | 57 |
-| Users who signed in (30 days / 7 days) | 76 / 19 |
-| Documents created | 4,044 |
-| AI agent actions | 313 (across 9 organisations) |
+| Users who signed in (30 days / 7 days) | 69 / 21 |
+| Documents created | 4,401 |
+| AI agent actions | 313 (across 16 organisations) |
 
 **The conclusion that follows.** The product is technically mature and
 functionally broad, but the audience is early and depth of use is uneven:

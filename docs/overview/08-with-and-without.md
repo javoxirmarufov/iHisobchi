@@ -113,7 +113,7 @@ lives in one loop from the outset.
 e-invoice, the act and the waybill become **one entity** with a state and an
 answer to "whose move is it". An integration between a warehouse and a bank does
 not give you that: it passes records, not meaning. Our engine holds 85 thousand
-deals, 73% of them closed automatically.
+deals, 75% of them closed automatically.
 
 **2. The owner sees the truth.** Business Pulse can look for duplicate payments,
 structured amounts and turnover without documents only because it sees money,

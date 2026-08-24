@@ -12,9 +12,9 @@
 
 | | |
 |---|---|
-| Current as of | **14 August 2026** |
-| Code state | `origin/main`, Alembic head **236** |
-| Production | metrics snapshot taken 14 August 2026 |
+| Current as of | **24 August 2026** |
+| Code state | `origin/main`, Alembic head **260** |
+| Production | metrics snapshot taken 24 August 2026 |
 | How it was assembled | From the source code and live production: service and router docstrings, actual feature flags from Redis and the `feature_flags` table, counters from the database. Not from the documentation — parts of it are out of date |
 | Drift check | `python3 scripts/overview_snapshot.py` re-measures every figure in the overview against the code and production. Figures drawn from the code are **verified automatically every night** in the nightly CI run; production counters are reviewed by hand |
 | Next review | On any major product change; production figures at least quarterly |
@@ -35,8 +35,8 @@
 | 8 | **[08-with-and-without.md](08-with-and-without.md)** | **With us and without us** — a map of the Uzbek market, what the current assembly of 7–9 programs costs, what nobody else has, official mass-mailing of proposals, and our position on support |
 | 9 | **[09-business-model.md](09-business-model.md)** | **How we make money** — eight revenue streams: subscriptions with prices, marketplace promotion, the corporate environment, warehousing and fulfilment, service exchanges, the accounting firm workspace, the business-activity certificate, implementation and partners |
 
-**Separately:** [pitch/investor-deck.html](pitch/investor-deck.html) — an
-18-slide investor deck assembled from these documents.
+**Separately:** [pitch/deck.html](pitch/deck.html) — the full 47-slide deck
+assembled from these documents, with real product screens and client feedback.
 
 ---
 
@@ -72,11 +72,11 @@ talks; the business works.
 
 | Indicator | Value |
 |---|---|
-| Business-logic modules | **252** |
+| Business-logic modules | **263** |
 | Telegram routers | **103** |
-| Mini App screens | **126** routes |
+| Mini App screens | **142** routes |
 | Capabilities available to the AI | **67** |
-| Database migrations | Alembic head **236** (195 tables in production) |
+| Database migrations | Alembic head **260** (206 tables in production) |
 | Lines of code | ~**562,000** Python (excluding tests) + ~**262,000** TypeScript/React |
 | Tests | ~**439,000** lines of test code |
 
@@ -85,22 +85,22 @@ Didox anyway; this is the system's throughput, not solely value we created):
 
 | Indicator | Value |
 |---|---|
-| Documents processed | **73,098** |
-| Deals in the cycle engine | **85,869**, of which **62,802 (73%)** are closed |
-| Incoming documents mirrored | **96,217** |
-| Bank transactions parsed | **70,094** |
-| Product records in catalogues | **5,699** |
-| Active signature keys | **25** |
+| Documents processed | **137,617** |
+| Deals in the cycle engine | **101,429**, of which **76,353 (75%)** are closed |
+| Incoming documents mirrored | **119,539** |
+| Bank transactions parsed | **59,354** |
+| Product records in catalogues | **6,310** |
+| Active signature keys | **29** |
 
 **What is being used right now — over 30 days:**
 
 | Indicator | Value |
 |---|---|
-| Organisations in total | **80** |
-| Organisations that created documents | **57** |
-| Users who signed in (30 days / 7 days) | **76 / 19** |
-| Documents created | **4,095** |
-| AI agent actions | **313** (across 9 organisations) |
+| Organisations in total | **86** |
+| Organisations that created documents | **63** |
+| Users who signed in (30 days / 7 days) | **69 / 21** |
+| Documents created | **4,401** |
+| AI agent actions | **349** (across 16 organisations) |
 
 > **How to read this.** The platform is broadly built and technically mature; the
 > audience is early and depth of use is uneven. The constraint today is not how

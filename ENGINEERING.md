@@ -15,11 +15,11 @@
 | | |
 |---|---|
 | First commit | **12 February 2026** |
-| Latest measurement | **14 August 2026** |
-| Calendar days | **184** |
-| Days with commits | **145** — 79% of all calendar days, weekends included |
-| Commits on `main` | **2,061** |
-| Merged pull requests | **993** |
+| Latest measurement | **24 August 2026** |
+| Calendar days | **193** |
+| Days with commits | **155** — 79% of all calendar days, weekends included |
+| Commits on `main` | **2,280** |
+| Merged pull requests | **1,198** |
 | Average on an active day | **14 commits** |
 
 Development has run continuously for six months. Not as a sprint towards a
@@ -57,7 +57,7 @@ Snapshots of the real tree on four dates:
 | 1 March 2026 | 175 | 12 |
 | 1 May 2026 | 412 | 106 |
 | 1 July 2026 | 1,575 | 586 |
-| 14 August 2026 | **2,877** | **1,194** |
+| 24 August 2026 | **3,188** | **1,321** |
 
 The number of test files grew **a hundredfold** in five months, and it grows
 faster than the product code: in March tests were 7% of files, in August 41%.
@@ -69,7 +69,7 @@ The suite today holds **18,496** Python tests and **3,573** TypeScript tests.
 
 ## Process, Not Only Volume
 
-- **993 merged pull requests** — work goes through branches and review; pushing
+- **1,198 merged pull requests** — work goes through branches and review; pushing
   directly to `main` is not practised.
 - **232 Alembic migrations** — the database schema changes only through a
   revision, each with a reversible `downgrade` and a CI check.
@@ -103,13 +103,13 @@ since:
 
 | | |
 |---|---|
-| Commits on `main` | **2,061** |
-| Merged pull requests | **993** |
-| Days with commits | **145 of 184** calendar days (79%) |
-| Python files | 175 → **2,877** (Mar → Aug 2026) |
-| Test files | 12 → **1,194** — a hundredfold increase |
+| Commits on `main` | **2,280** |
+| Merged pull requests | **1,198** |
+| Days with commits | **155 of 193** calendar days (79%) |
+| Python files | 175 → **3,188** (Mar → Aug 2026) |
+| Test files | 12 → **1,321** — a hundredfold increase |
 | Automated tests today | **18,496** Python · **3,573** TypeScript |
-| Database migrations | **232**, each reversible and CI-verified |
+| Database migrations | **256**, each reversible and CI-verified |
 
 Monthly commit volume: 160 · 43 · 248 · 387 · 266 · 475 · **482**. The final
 figure covers only the **first 14 days of August** — roughly 34 commits per day.

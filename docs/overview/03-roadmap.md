@@ -73,7 +73,7 @@ Every brick is already in production:
 
 | What is needed | State |
 |---|---|
-| Seeing the whole chain of a deal and its state | ✅ [The deals engine](02-modules.md#b-deals--the-open-cycle-engine), 85,869 deals |
+| Seeing the whole chain of a deal and its state | ✅ [The deals engine](02-modules.md#b-deals--the-open-cycle-engine), 101,429 deals |
 | Matching a payment to a contract | ✅ Payment scoring, the single money ledger |
 | Creating every document programmatically | ✅ [Automatic documents](02-modules.md#p-automatic-documents): an invoice from a power of attorney, an act from an invoice, a waybill from an invoice |
 | Signing without a human present | ✅ [The 24/7 signing server](02-modules.md#a3-digital-signature--four-modes-) |
@@ -501,7 +501,7 @@ hand — they pick the items and press "publish".
 
 | Surface | What it gives | Where it runs out |
 |---|---|---|
-| **The Telegram Mini App** | A complete application inside the messenger: 117 screens, live updates | Only works for someone who uses Telegram, and only inside its WebView |
+| **The Telegram Mini App** | A complete application inside the messenger: 142 screens, live updates | Only works for someone who uses Telegram, and only inside its WebView |
 | **The web app `app.ihisobchi.uz`** | The same interface in a browser, sign-in by phone + SMS or e-mail + password, installable to the home screen (PWA manifest, standalone mode, its own icons) | No offline mode, no push notifications of our own, no access to biometrics |
 
 In other words, **the client already has an app on their screen** — but it is a
@@ -837,8 +837,8 @@ its money and its documents to the system at all.
 
 ## 3.14. In Summary
 
-**What already exists:** 252 modules, 18 surfaces, 24 document types, 73,098
-documents processed, 85,869 deals, full coverage of Uzbekistan's e-document
+**What already exists:** 252 modules, 18 surfaces, 24 document types, 137,617
+documents processed, 101,429 deals, full coverage of Uzbekistan's e-document
 system, an AI agent, live voice, integrations with 1C, MoySklad, AmoCRM,
 Bitrix24, cash registers, a bank and the tax office, a marketplace with documents
 attached, and Business Pulse, which shows an owner the truth about their company.
